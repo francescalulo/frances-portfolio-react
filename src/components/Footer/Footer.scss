@@ -11,3 +11,20 @@
   font-size: 0.875rem;
   color: $color-muted;
 }
+
+.footer__social {
+  @include flex($gap: $space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__social-link {
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: $color-text;
+    text-decoration: underline;
+  }
+}
