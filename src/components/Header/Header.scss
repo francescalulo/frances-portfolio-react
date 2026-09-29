@@ -1,0 +1,51 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.header {
+  border-bottom: 1px solid $color-border;
+}
+
+.header__inner {
+  @include flex($justify: space-between);
+  min-height: 4.5rem;
+}
+
+.header__logo {
+  @include flex($gap: $space-sm);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.header__logo-mark {
+  width: 2.75rem; // 44px, as in the Figma header
+  height: 2.75rem;
+}
+
+.header__logo-text {
+  text-transform: uppercase;
+}
+
+.header__list {
+  @include flex($gap: $space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header__link {
+  @include flex($direction: column, $align: flex-end);
+  font-family: $font-mono;
+  font-size: 0.875rem;
+  color: $color-muted;
+  text-decoration: none;
+
+  // NavLink adds .active to the current page's link
+  &.active {
+    color: $color-text;
+    text-decoration: underline;
+  }
+}
+
+.header__number {
+  font-size: 0.625rem;
+}

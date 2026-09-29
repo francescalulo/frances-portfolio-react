@@ -1,0 +1,35 @@
+@use "variables" as *;
+
+// Mobile-first breakpoint helpers
+@mixin tablet {
+  @media (min-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+// Flexible flex layout, pass only what differs from the defaults
+@mixin flex($direction: row, $align: center, $justify: flex-start, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+// Horizontal page padding shared by header, footer and page sections
+@mixin page-gutter {
+  padding-inline: $gutter-mobile;
+
+  @include desktop {
+    padding-inline: $gutter-desktop;
+  }
+}
