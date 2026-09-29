@@ -1,0 +1,13 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.footer {
+  border-top: 1px solid $color-border;
+}
+
+.footer__inner {
+  @include flex($justify: space-between);
+  padding-block: $space-md;
+  font-size: 0.875rem;
+  color: $color-muted;
+}

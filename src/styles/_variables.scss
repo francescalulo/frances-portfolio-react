@@ -1,0 +1,30 @@
+// PLACEHOLDER ONLY
+
+// Colour (temporary dark palette until the Figma tokens are added)
+$color-bg: #0a0a0a; // near-black page background
+$color-text: #f5f5f5; // near-white body text
+$color-muted: #a3a3a3; // secondary text: nav, footer
+$color-border: #262626; // header and footer dividers
+
+// Typography
+$font-body:
+  system-ui,
+  -apple-system,
+  sans-serif;
+$font-mono: ui-monospace, "SF Mono", monospace;
+
+// Spacing
+$space-xs: 0.5rem;
+$space-sm: 1rem;
+$space-md: 2rem;
+$space-lg: 4rem;
+$space-xl: 6rem;
+
+// Layout (wireframe: 1440px frame, 80px side margins → 1280px content)
+$content-max-width: 90rem;
+$gutter-mobile: 1.25rem;
+$gutter-desktop: 5rem;
+
+// Breakpoints
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
