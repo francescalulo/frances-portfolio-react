@@ -1,3 +1,4 @@
+import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import "./HomePage.scss";
 
 function HomePage() {
@@ -7,6 +8,7 @@ function HomePage() {
       <section className="home content-width">
         <h1>TheLounge (Home)</h1>
       </section>
+      <ContactCTA />
     </>
   );
 }

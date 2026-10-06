@@ -11,6 +11,7 @@ $color-border: #4a1080; // all dividers (decorative)
 // Text
 $color-text: #f0fdf4; // Fresh White
 $color-text-white: #ffffff;
+$color-text-mint: #d1fae5; // Pale Mint: small labels (Quick Info)
 $color-muted: #8a8a8a; // Figma #626262 lightened to pass 4.5:1
 
 // Accents
@@ -62,6 +63,21 @@ $gradient-cta:
     rgba(6, 0, 15, 0)
   );
 
+// Split CTA (About / Work Detail): each half has its own glow
+$gradient-cta-aside: radial-gradient(
+  413% 248% at 0 92%,
+  rgba(85, 0, 187, 0.47),
+  rgba(46, 0, 101, 0.23) 50%,
+  rgba(6, 0, 15, 0)
+);
+$gradient-cta-split: radial-gradient(
+  178% 142% at 100% 0,
+  rgba(136, 0, 204, 0.73),
+  rgba(104, 0, 157, 0.55) 25%,
+  rgba(71, 0, 110, 0.37) 50%,
+  rgba(6, 0, 15, 0)
+);
+
 $shadow-card: 0 0 24px rgba(61, 0, 136, 0.4);
 
 // Typography
@@ -83,6 +99,7 @@ $fs-xs: 0.6875rem; // 11px eyebrows, badges
 $fs-sm: 0.875rem; // 14px nav, buttons, footer
 $fs-base: 1rem; // 16px
 $fs-lg: 1.25rem; // 20px CTA subtext
+$fs-h1: clamp(2.5rem, 1rem + 4vw, 4rem); // 64px "QUICK INFO"
 $fs-h2: clamp(2rem, 1rem + 3vw, 3.25rem); // 52px "Show and Tell"
 $fs-display: clamp(2.5rem, 1rem + 5vw, 4.5rem); // 72px hero / about headlines
 
