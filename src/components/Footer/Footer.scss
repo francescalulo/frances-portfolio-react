@@ -2,6 +2,7 @@
 @use "../../styles/mixins" as *;
 
 .footer {
+  @include rails;
   background-color: $color-footer;
   border-top: 1px solid $color-border;
 }

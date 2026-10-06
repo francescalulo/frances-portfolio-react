@@ -33,3 +33,55 @@
     padding-inline: $gutter-desktop;
   }
 }
+
+// Decorative vertical rails with tick marks at the section's top and bottom edges.
+// Desktop only (the mobile gutter is too narrow). Pure decoration: no markup, ignored by screen readers.
+@mixin rails {
+  position: relative;
+
+  // Rails sit 42px inside the 1440px frame, even on wider screens
+  $inset: max(
+    #{$rail-offset},
+    calc((100% - #{$content-max-width}) / 2 + #{$rail-offset})
+  );
+
+  @include desktop {
+    // The two vertical lines
+    &::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline: $inset;
+      border-inline: 1px solid $color-rail;
+      pointer-events: none;
+    }
+
+    // The + markers: a horizontal tick plus a short vertical arm, centred on each rail
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline: calc(#{$inset} - 8px);
+      pointer-events: none;
+      background:
+        // horizontal ticks
+        linear-gradient($color-rail-marker, $color-rail-marker) left top /
+          #{$rail-tick} 1px no-repeat,
+        linear-gradient($color-rail-marker, $color-rail-marker) right top /
+          #{$rail-tick} 1px no-repeat,
+        linear-gradient($color-rail-marker, $color-rail-marker) left bottom /
+          #{$rail-tick} 1px no-repeat,
+        linear-gradient($color-rail-marker, $color-rail-marker) right bottom /
+          #{$rail-tick} 1px no-repeat,
+        // vertical arms, sitting on top of each rail
+        linear-gradient($color-rail-marker, $color-rail-marker) left 8px top /
+          1px #{$rail-arm} no-repeat,
+        linear-gradient($color-rail-marker, $color-rail-marker) right 8px top /
+          1px #{$rail-arm} no-repeat,
+        linear-gradient($color-rail-marker, $color-rail-marker) left 8px
+          bottom / 1px #{$rail-arm} no-repeat,
+        linear-gradient($color-rail-marker, $color-rail-marker) right 8px
+          bottom / 1px #{$rail-arm} no-repeat;
+    }
+  }
+}

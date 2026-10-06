@@ -2,6 +2,7 @@
 @use "../../styles/mixins" as *;
 
 .header {
+  @include rails;
   background-color: $color-canvas;
   border-bottom: 1px solid $color-border;
 }
