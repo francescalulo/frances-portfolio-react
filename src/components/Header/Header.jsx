@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import { scrollToSection } from "../../utilities/Utilities";
 import logo from "../../assets/frances-logo.svg";
 import "./Header.scss";
 
@@ -9,19 +10,10 @@ const navItems = [
 ];
 
 function Header() {
-  // Contact isn't a route: it scrolls to the ContactCTA (id="contact") and moves focus there,
-  // so keyboard and screen reader users land in the right place too.
+  // Contact isn't a route: it jumps to the ContactCTA (id="contact") on the current page.
   function scrollToContact(event) {
     event.preventDefault();
-    const contact = document.getElementById("contact");
-    if (!contact) return;
-
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    contact.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
-    contact.focus({ preventScroll: true });
+    scrollToSection("contact");
   }
 
   return (

@@ -1,4 +1,5 @@
 @use "variables" as *;
+@use "sass:list";
 
 // Mobile-first breakpoint helpers
 @mixin tablet {
@@ -34,9 +35,10 @@
   }
 }
 
-// Decorative vertical rails with tick marks at the section's top and bottom edges.
-// Desktop only (the mobile gutter is too narrow). Pure decoration: no markup, ignored by screen readers.
-@mixin rails {
+// Decorative vertical rails, desktop only. Pure decoration: no markup, ignored by screen readers.
+// $top-marker: a full "+" centred on the section's top edge (on by default).
+// $bottom-marker: a "⊥" on the bottom edge, only when the next section has no rails.
+@mixin rails($top-marker: true, $bottom-marker: false) {
   position: relative;
 
   // Rails sit 42px inside the 1440px frame, even on wider screens
@@ -44,6 +46,53 @@
     #{$rail-offset},
     calc((100% - #{$content-max-width}) / 2 + #{$rail-offset})
   );
+  $line: linear-gradient($color-rail-marker, $color-rail-marker);
+  $images: ();
+  $positions: ();
+  $sizes: ();
+
+  @if $top-marker {
+    $images: list.join($images, ($line, $line, $line, $line), comma);
+    $positions: list.join(
+      $positions,
+      (
+        left 0 top $rail-arm,
+        right 0 top $rail-arm,
+        left 8px top 0,
+        right 8px top 0
+      ),
+      comma
+    );
+    $sizes: list.join(
+      $sizes,
+      (
+        $rail-tick 1px,
+        $rail-tick 1px,
+        1px ($rail-arm * 2 + 1px),
+        1px ($rail-arm * 2 + 1px)
+      ),
+      comma
+    );
+  }
+
+  @if $bottom-marker {
+    $images: list.join($images, ($line, $line, $line, $line), comma);
+    $positions: list.join(
+      $positions,
+      (
+        left 0 bottom 0,
+        right 0 bottom 0,
+        left 8px bottom 0,
+        right 8px bottom 0
+      ),
+      comma
+    );
+    $sizes: list.join(
+      $sizes,
+      ($rail-tick 1px, $rail-tick 1px, 1px $rail-arm, 1px $rail-arm),
+      comma
+    );
+  }
 
   @include desktop {
     // The two vertical lines
@@ -53,37 +102,25 @@
       inset-block: 0;
       inset-inline: $inset;
       border-inline: 1px solid $color-rail;
-      pointer-events: none;
       z-index: 1;
+      pointer-events: none;
     }
 
-    // The + markers: a horizontal tick plus a short vertical arm, centred on each rail
-    &::after {
-      content: "";
-      position: absolute;
-      inset-block: 0;
-      inset-inline: calc(#{$inset} - 8px);
-      pointer-events: none;
-      z-index: 1;
-      background:
-        // horizontal ticks
-        linear-gradient($color-rail-marker, $color-rail-marker) left top /
-          #{$rail-tick} 1px no-repeat,
-        linear-gradient($color-rail-marker, $color-rail-marker) right top /
-          #{$rail-tick} 1px no-repeat,
-        linear-gradient($color-rail-marker, $color-rail-marker) left bottom /
-          #{$rail-tick} 1px no-repeat,
-        linear-gradient($color-rail-marker, $color-rail-marker) right bottom /
-          #{$rail-tick} 1px no-repeat,
-        // vertical arms, sitting on top of each rail
-        linear-gradient($color-rail-marker, $color-rail-marker) left 8px top /
-          1px #{$rail-arm} no-repeat,
-        linear-gradient($color-rail-marker, $color-rail-marker) right 8px top /
-          1px #{$rail-arm} no-repeat,
-        linear-gradient($color-rail-marker, $color-rail-marker) left 8px
-          bottom / 1px #{$rail-arm} no-repeat,
-        linear-gradient($color-rail-marker, $color-rail-marker) right 8px
-          bottom / 1px #{$rail-arm} no-repeat;
+    // The markers, centred on each rail. The box starts 9px higher so the "+" sits on the border above.
+    @if list.length($images) > 0 {
+      &::after {
+        content: "";
+        position: absolute;
+        top: -$rail-arm;
+        bottom: 0;
+        inset-inline: calc(#{$inset} - 8px);
+        z-index: 1;
+        pointer-events: none;
+        background-image: $images;
+        background-position: $positions;
+        background-size: $sizes;
+        background-repeat: no-repeat;
+      }
     }
   }
 }
@@ -111,5 +148,17 @@
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+  }
+}
+
+// Outlined green button (Hero "Payroll Please")
+@mixin button-outline {
+  @include button-primary;
+  border: 1px solid $color-accent;
+  background-color: $color-surface-code;
+  color: $color-accent;
+
+  &:hover {
+    background-color: rgba(74, 222, 128, 0.12);
   }
 }
