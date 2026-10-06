@@ -1,0 +1,136 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.contact-cta {
+  @include rails;
+  overflow: hidden; // stops the big logo from causing sideways scroll
+  border-top: 1px solid $color-border;
+  background-color: $color-canvas;
+  background-image: $gradient-cta;
+
+  // Focus lands here from the header link; the section itself isn't a control
+  &:focus {
+    outline: none;
+  }
+}
+
+.contact-cta__mark {
+  display: none;
+
+  @include desktop {
+    display: block;
+    position: absolute;
+    top: 2.5625rem; // 41px: Figma frame at -35px + logo 76px inside it
+    right: max(1.6875rem, calc((100% - #{$content-max-width}) / 2 + 1.6875rem));
+    width: 38rem; // 608px
+    aspect-ratio: 609 / 443;
+    mix-blend-mode: plus-lighter; // Figma blend mode: glows against the purple
+    pointer-events: none;
+  }
+}
+
+.contact-cta__mark-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// Sharp copy: fully visible top-left, fading out toward the bottom-right
+.contact-cta__mark-layer--sharp {
+  -webkit-mask-image: linear-gradient(145deg, #000 33%, transparent 60%);
+  mask-image: linear-gradient(145deg, #000 33%, transparent 60%);
+}
+
+// Blurred copy: fades in where the sharp one fades out (Figma: progressive blur 0 → 15)
+.contact-cta__mark-layer--blur {
+  filter: blur(7.5px); // Figma blur 15 ≈ CSS blur 7.5px
+  -webkit-mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
+  mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
+}
+
+.contact-cta__inner {
+  @include flex($direction: column, $align: flex-start, $gap: $space-sm);
+  position: relative; // keeps the content above the faded logo
+  padding-block: 3rem;
+
+  @include desktop {
+    padding-block: $space-xl; // 80px
+  }
+}
+
+.contact-cta__heading {
+  margin: 0;
+  font-size: $fs-display;
+  font-weight: $fw-light;
+  line-height: 0.95;
+  letter-spacing: -0.055em; // -4px at 72px
+  color: $color-accent;
+}
+
+.contact-cta__line {
+  display: block;
+}
+
+.contact-cta__emphasis {
+  font-weight: $fw-bold;
+  color: $color-accent-soft;
+}
+
+.contact-cta__text {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-lg;
+  font-weight: $fw-medium;
+  line-height: 1.05;
+  color: $color-syntax-pink;
+}
+
+.contact-cta__button {
+  @include button-primary;
+  margin-top: $space-sm;
+}
+
+// ---------- Split version (About, Work Detail) ----------
+.contact-cta--about {
+  background-image: none; // each column has its own glow
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-cta__aside {
+    @include page-gutter;
+    padding-block: 3rem;
+    background-image: $gradient-cta-aside;
+    border-bottom: 1px solid $color-border;
+
+    @include desktop {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-block: $space-xl;
+      border-bottom: 0;
+      border-right: 1px solid $color-border;
+    }
+  }
+
+  .contact-cta__inner {
+    @include page-gutter;
+    justify-content: center;
+    background-image: $gradient-cta-split;
+
+    @include desktop {
+      min-height: 25rem; // 400px
+    }
+  }
+
+  .contact-cta__heading {
+    letter-spacing: -0.042em; // -3px at 72px
+  }
+
+  .contact-cta__emphasis {
+    text-shadow: 0 0 40px rgba(69, 196, 112, 0.4); // soft green glow on "more?"
+  }
+}

@@ -9,10 +9,19 @@ const navItems = [
 ];
 
 function Header() {
-  // Contact isn't a route: it scrolls to the ContactCTA (id="contact") on the current page.
+  // Contact isn't a route: it scrolls to the ContactCTA (id="contact") and moves focus there,
+  // so keyboard and screen reader users land in the right place too.
   function scrollToContact(event) {
     event.preventDefault();
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    const contact = document.getElementById("contact");
+    if (!contact) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    contact.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+    contact.focus({ preventScroll: true });
   }
 
   return (

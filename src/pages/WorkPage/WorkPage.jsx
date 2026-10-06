@@ -1,3 +1,4 @@
+import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import "./WorkPage.scss";
 
 function WorkPage() {
@@ -7,6 +8,7 @@ function WorkPage() {
       <section className="work content-width">
         <h1>The Build (Work Archive)</h1>
       </section>
+      <ContactCTA />
     </>
   );
 }

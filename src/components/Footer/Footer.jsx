@@ -1,11 +1,6 @@
 import useSiteSettings from "../../hooks/useSiteSettings";
+import { PLATFORM_LABELS } from "../../utilities/Utilities";
 import "./Footer.scss";
-
-// ACF returns the platform value ("linkedin", "github"); this maps it to a label.
-const PLATFORM_LABELS = {
-  linkedin: "LinkedIn",
-  github: "GitHub",
-};
 
 function Footer() {
   const { settings } = useSiteSettings();

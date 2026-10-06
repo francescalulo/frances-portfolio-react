@@ -1,3 +1,5 @@
+import ContactCTA from "../../components/ContactCTA/ContactCTA";
+import QuickInfo from "../../components/QuickInfo/QuickInfo";
 import "./AboutPage.scss";
 
 function AboutPage() {
@@ -7,6 +9,7 @@ function AboutPage() {
       <section className="about content-width">
         <h1>TheHuman (About)</h1>
       </section>
+      <ContactCTA variant="about" aside={<QuickInfo />} />
     </>
   );
 }
