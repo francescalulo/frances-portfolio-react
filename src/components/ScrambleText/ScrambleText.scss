@@ -1,0 +1,19 @@
+// Both copies stack in the same grid cell; only the real text decides the width
+.scramble {
+  display: inline-grid;
+}
+
+.scramble__sizer,
+.scramble__display {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+}
+
+.scramble__sizer {
+  visibility: hidden;
+}
+
+.scramble__display {
+  width: 0; // doesn't push the width when symbols are wider than letters
+  min-width: 100%;
+}
