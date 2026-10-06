@@ -1,0 +1,109 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.hero {
+  @include rails;
+  background-color: $color-canvas;
+  background-image: $gradient-hero;
+  border-bottom: 1px solid $color-border;
+}
+
+.hero__inner {
+  padding-block: 3rem;
+
+  @include desktop {
+    padding-block: $space-xl; // 80px
+  }
+}
+
+// "• CURRENTLY EMPLOYABLE" pill
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0.375rem 1rem;
+  border: 1px solid $color-accent;
+  border-radius: $radius-pill;
+  background-color: $color-surface-code;
+  box-shadow: 0 0 6px rgba(8, 13, 10, 0.35);
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-text-white;
+}
+
+.hero__badge-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: $color-accent;
+}
+
+.hero__code {
+  padding-top: 2rem;
+  padding-bottom: 1.0625rem;
+  font-family: $font-display;
+  line-height: $lh-tight;
+}
+
+.hero__code-line {
+  margin: 0;
+  font-size: $fs-base;
+  font-weight: $fw-medium;
+}
+
+.hero__code-line--superpower {
+  margin-top: 1.25rem; // 20px
+  padding-left: 0.25em;
+}
+
+.hero__headline {
+  margin: 0;
+  padding-left: 0.25em; // the indent inside "const me = {"
+  font-size: $fs-display;
+  font-weight: $fw-light;
+  letter-spacing: $tracking-tight;
+}
+
+.hero__headline-line {
+  display: block;
+}
+
+// Syntax colours
+.hero__keyword {
+  color: $color-syntax-yellow;
+}
+
+.hero__string {
+  color: $color-syntax-pink;
+}
+
+.hero__key {
+  color: $color-accent;
+}
+
+.hero__value {
+  font-weight: $fw-bold;
+  color: $color-text;
+}
+
+// Buttons
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 2.25rem; // 36px
+}
+
+.hero__button--primary {
+  @include button-primary;
+  font-weight: $fw-bold;
+  letter-spacing: 0;
+}
+
+.hero__button--outline {
+  @include button-outline;
+  letter-spacing: 0;
+}

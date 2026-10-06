@@ -3,7 +3,6 @@
 
 .contact-cta {
   @include rails;
-  overflow: hidden; // stops the big logo from causing sideways scroll
   border-top: 1px solid $color-border;
   background-color: $color-canvas;
   background-image: $gradient-cta;
@@ -14,26 +13,27 @@
   }
 }
 
+// Covers the whole CTA and clips only the logo, so the section itself never needs overflow/clip
 .contact-cta__mark {
   display: none;
 
   @include desktop {
     display: block;
     position: absolute;
-    top: 2.5625rem; // 41px: Figma frame at -35px + logo 76px inside it
-    right: max(1.6875rem, calc((100% - #{$content-max-width}) / 2 + 1.6875rem));
-    width: 38rem; // 608px
-    aspect-ratio: 609 / 443;
+    inset: 0;
+    overflow: hidden;
     mix-blend-mode: plus-lighter; // Figma blend mode: glows against the purple
     pointer-events: none;
   }
 }
 
+// Both logo copies sit in the same spot; the masks blend them into the progressive blur
 .contact-cta__mark-layer {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 2.5625rem; // 41px: Figma frame at -35px + logo 76px inside it
+  right: max(1.6875rem, calc((100% - #{$content-max-width}) / 2 + 1.6875rem));
+  width: 38rem; // 608px
+  height: auto;
 }
 
 // Sharp copy: fully visible top-left, fading out toward the bottom-right
