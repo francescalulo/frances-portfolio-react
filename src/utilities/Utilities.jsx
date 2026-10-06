@@ -24,3 +24,6 @@ export function scrollToSection(id) {
   section.focus({ preventScroll: true });
   return true;
 }
+
+// Same as $breakpoint-desktop in _variables.scss (64em = 1024px). Keep the two in sync.
+export const DESKTOP_QUERY = "(min-width: 64em)";

@@ -1,0 +1,123 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.about-snippet {
+  @include rails;
+  background-color: $color-canvas-deep;
+  background-image: $gradient-about;
+
+  // Focus lands here from the hero's "Fair Warning"; the section itself isn't a control
+  &:focus {
+    outline: none;
+  }
+}
+
+.about-snippet__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.5rem; // 40px on phones
+  padding-block: 4rem;
+
+  @include desktop {
+    gap: 3.75rem; // 60px
+    padding-block: 6.25rem; // 100px
+  }
+}
+
+.about-snippet__block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+
+  @include desktop {
+    gap: 1.5rem; // 24px
+  }
+}
+
+.about-snippet__block--chapters {
+  gap: 1rem; // 16px
+}
+
+// "// QUICK DISCLAIMER:" style labels
+.about-snippet__label {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-syntax-blue;
+}
+
+.about-snippet__label--bold {
+  font-weight: $fw-bold;
+}
+
+.about-snippet__label-note {
+  color: $color-syntax-yellow;
+}
+
+// The two large statements
+.about-snippet__statement {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-display;
+  font-weight: $fw-bold;
+  line-height: 1.2; // 34px at 28px on phones (lo-fi mobile)
+  letter-spacing: $tracking-tight;
+  color: $color-text-white;
+
+  @include tablet {
+    padding-left: 1.25rem; // 20px indent once there's room
+  }
+
+  @include desktop {
+    line-height: $lh-tight; // 1.05, as in the hi-fi
+  }
+}
+
+.about-snippet__statement--twist {
+  color: $color-text;
+}
+
+.about-snippet__line {
+  display: block;
+}
+
+.about-snippet__chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-snippet__status {
+  margin: 0;
+  color: $color-muted;
+}
+
+// "FULL DISCLOSURE →" pill, bottom right
+.about-snippet__more {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 1.625rem; // 26px, above the 24px minimum target size
+  padding: 0.3125rem 0.625rem;
+  border: 1px solid $color-accent;
+  border-radius: $radius-pill;
+  background-color: $color-surface-code;
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $color-text-white;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
