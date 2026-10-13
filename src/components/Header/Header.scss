@@ -20,8 +20,13 @@
 }
 
 .header__logo-mark {
-  width: 2.75rem; // 44px
-  height: 2.75rem;
+  width: 2.375rem; // 38px on phones (lo-fi mobile)
+  height: 2.375rem;
+
+  @include desktop {
+    width: 2.75rem; // 44px
+    height: 2.75rem;
+  }
 }
 
 .header__logo-text {

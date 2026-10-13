@@ -63,9 +63,13 @@
   margin: 0;
   font-size: $fs-display;
   font-weight: $fw-light;
-  line-height: 0.95;
+  line-height: 1.1; // roomier at 28px on phones
   letter-spacing: -0.055em; // -4px at 72px
   color: $color-accent;
+
+  @include desktop {
+    line-height: 0.95; // as in the hi-fi
+  }
 }
 
 .contact-cta__line {
