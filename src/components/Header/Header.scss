@@ -80,3 +80,30 @@
   font-size: $fs-2xs;
   color: $color-accent; // stays green even on the active link
 }
+
+// Round menu / close button (phones only), like the lo-fi mobile header
+.header__menu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem; // 44px tap target (wireframe circle is 32px)
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: 50%;
+  background-color: $color-surface-code;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $color-accent;
+  }
+}
+
+.header__menu-icon {
+  width: 1rem; // 16px lines, close to the wireframe's 14px icon
+  height: 1rem;
+  fill: none;
+  stroke: $color-accent;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+}

@@ -1,6 +1,11 @@
 @use "variables" as *;
 @use "mixins" as *;
 
+// Always reserve the scrollbar's space, so nothing shifts when the mobile menu locks scrolling
+html {
+  scrollbar-gutter: stable;
+}
+
 *,
 *::before,
 *::after {
