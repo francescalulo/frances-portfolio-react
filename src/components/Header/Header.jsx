@@ -1,8 +1,11 @@
+import { useCallback, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/frances-logo.svg";
 import useScramble from "../../hooks/useScramble";
+import useMediaQuery from "../../hooks/useMediaQuery";
 import ScrambleText from "../ScrambleText/ScrambleText";
-import { scrollToSection } from "../../utilities/Utilities";
+import MobileMenu from "../MobileMenu/MobileMenu";
+import { scrollToSection, TABLET_QUERY } from "../../utilities/Utilities";
 import "./Header.scss";
 
 const navItems = [
@@ -21,7 +24,7 @@ const navItems = [
   },
 ];
 
-// One nav link with the scramble effect on hover and keyboard focus.
+// One nav link with the scramble effect on hover and keyboard focus (tablet and up).
 // With `to` it's a route (NavLink); without it, it's the in-page Contact jump.
 function NavItem({ number, label, srLabel, to, onClick }) {
   const { display, scramble } = useScramble(label);
@@ -63,10 +66,29 @@ function NavItem({ number, label, srLabel, to, onClick }) {
 }
 
 function Header() {
+  const isTablet = useMediaQuery(TABLET_QUERY);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef(null);
+
+  // Closing with Escape or close() sends focus back to the menu() button
+  const closeMenu = useCallback(({ returnFocus = true } = {}) => {
+    setIsMenuOpen(false);
+    if (returnFocus) {
+      requestAnimationFrame(() => menuButtonRef.current?.focus());
+    }
+  }, []);
+
   // Contact isn't a route: it jumps to the ContactCTA (id="contact") on the current page.
   function scrollToContact(event) {
     event.preventDefault();
     scrollToSection("contact");
+  }
+
+  // From the mobile menu: close it first, then jump to the CTA
+  function menuToContact(event) {
+    event.preventDefault();
+    closeMenu({ returnFocus: false });
+    requestAnimationFrame(() => scrollToSection("contact"));
   }
 
   return (
@@ -83,23 +105,55 @@ function Header() {
           <span className="header__logo-text">Frances Calulo</span>
         </Link>
 
-        <nav className="header__nav" aria-label="Primary">
-          <ul className="header__list">
-            {navItems.map((item) => (
-              <li key={item.to} className="header__item">
-                <NavItem {...item} />
+        {isTablet ? (
+          <nav className="header__nav" aria-label="Primary">
+            <ul className="header__list">
+              {navItems.map((item) => (
+                <li key={item.to} className="header__item">
+                  <NavItem {...item} />
+                </li>
+              ))}
+              <li className="header__item">
+                <NavItem
+                  number="04"
+                  label="<Contact/>"
+                  srLabel="Contact"
+                  onClick={scrollToContact}
+                />
               </li>
-            ))}
-            <li className="header__item">
-              <NavItem
-                number="04"
-                label="<Contact/>"
-                srLabel="Contact"
-                onClick={scrollToContact}
+            </ul>
+          </nav>
+        ) : (
+          <>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              className="header__menu-button"
+              aria-label="Menu"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              <svg
+                className="header__menu-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path d="M5 7h14M5 12h14M5 17h14" />
+              </svg>
+            </button>
+
+            {isMenuOpen && (
+              <MobileMenu
+                id="mobile-menu"
+                items={navItems}
+                onClose={closeMenu}
+                onContact={menuToContact}
               />
-            </li>
-          </ul>
-        </nav>
+            )}
+          </>
+        )}
       </div>
     </header>
   );

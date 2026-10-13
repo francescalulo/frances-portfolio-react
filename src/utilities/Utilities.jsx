@@ -27,3 +27,6 @@ export function scrollToSection(id) {
 
 // Same as $breakpoint-desktop in _variables.scss (64em = 1024px). Keep the two in sync.
 export const DESKTOP_QUERY = "(min-width: 64em)";
+
+// Same as $breakpoint-tablet in _variables.scss (48em = 768px). Keep the two in sync.
+export const TABLET_QUERY = "(min-width: 48em)";

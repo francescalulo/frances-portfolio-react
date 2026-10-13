@@ -46,9 +46,12 @@
 
 .hero__code {
   padding-top: 2rem;
-  padding-bottom: 1.0625rem;
   font-family: $font-display;
   line-height: $lh-tight;
+
+  @include desktop {
+    padding-bottom: 1.0625rem; // the empty line after "};" in the hi-fi (17px)
+  }
 }
 
 .hero__code-line {
@@ -103,7 +106,11 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   max-width: 22.375rem; // 358px
-  padding-top: 2.25rem; // 36px
+  padding-top: 1.5rem; // 24px on phones
+
+  @include desktop {
+    padding-top: 2.25rem; // 36px
+  }
 
   @include tablet {
     max-width: none; // natural-width buttons from tablet up
