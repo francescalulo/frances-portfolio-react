@@ -1,11 +1,16 @@
 @use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 
 .quick-info {
   display: flex;
   flex-direction: column;
-  gap: 2.625rem; // 42px
+  gap: 1.25rem; // 20px on phones (lo-fi mobile)
   padding-top: 1.5rem; // 24px
   border-top: 1px solid $color-border;
+
+  @include desktop {
+    gap: 2.625rem; // 42px
+  }
 }
 
 .quick-info__title {

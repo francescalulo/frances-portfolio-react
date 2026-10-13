@@ -8,15 +8,14 @@
 }
 
 .footer__inner {
-  @include flex($direction: column, $align: flex-start, $gap: $space-sm);
-  padding-block: 3rem; // 48px
-  font-size: $fs-sm;
+  @include flex($justify: space-between, $gap: $space-sm);
+  padding-block: 1.5rem; // 24px on phones
+  font-size: 0.75rem; // 12px on phones
   color: $color-text-white;
 
   @include tablet {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    padding-block: 3rem; // 48px
+    font-size: $fs-sm;
   }
 }
 
@@ -26,6 +25,7 @@
 
 .footer__social {
   @include flex($gap: 1.5rem); // 24px
+  flex-shrink: 0; // keeps LinkedIn / GitHub on one line; the copyright wraps instead
   margin: 0;
   padding: 0;
   list-style: none;

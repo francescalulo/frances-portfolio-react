@@ -126,21 +126,28 @@
 }
 
 // Solid green button (CTA "Payroll Please", Hero "Fair Warning")
+// Phones: compact like the lo-fi mobile (40px); tablet up: hi-fi size (46px)
 @mixin button-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  min-height: 2.875rem; // 46px, above the 44px minimum touch target
-  padding: 0.875rem 1.75rem; // 14px 28px
+  min-height: 2.5rem; // 40px on phones
+  padding: 0.625rem 1.25rem; // 10px 20px
   border-radius: $radius-button;
   background-color: $color-accent;
   color: $color-on-accent;
   font-family: $font-display;
-  font-size: $fs-sm;
+  font-size: 0.8125rem; // 13px on phones
   font-weight: $fw-medium;
   letter-spacing: 0.035em;
   text-decoration: none;
   transition: background-color 0.2s ease;
+
+  @include tablet {
+    min-height: 2.875rem; // 46px
+    padding: 0.875rem 1.75rem; // 14px 28px
+    font-size: $fs-sm; // 14px
+  }
 
   &:hover {
     background-color: $color-accent-soft;

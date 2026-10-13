@@ -9,13 +9,16 @@
 }
 
 .hero__inner {
-  padding-block: 3rem;
+  padding-block: 2rem; // 32px on phones
+
+  @include tablet {
+    padding-block: 3rem;
+  }
 
   @include desktop {
     padding-block: $space-xl; // 80px
   }
 }
-
 // "• CURRENTLY EMPLOYABLE" pill
 .hero__badge {
   display: inline-flex;
@@ -64,7 +67,12 @@
   padding-left: 0.25em; // the indent inside "const me = {"
   font-size: $fs-display;
   font-weight: $fw-light;
+  line-height: 1.2; // roomier at 28px on phones
   letter-spacing: $tracking-tight;
+
+  @include desktop {
+    line-height: $lh-tight; // 1.05, as in the hi-fi
+  }
 }
 
 .hero__headline-line {
@@ -89,21 +97,39 @@
   color: $color-text;
 }
 
-// Buttons
+// Phones: two equal buttons, but the pair never grows wider than the lo-fi mobile (358px)
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+  max-width: 22.375rem; // 358px
   padding-top: 2.25rem; // 36px
+
+  @include tablet {
+    max-width: none; // natural-width buttons from tablet up
+  }
 }
 
+// Phones: two equal-width buttons side by side (lo-fi mobile); natural width from tablet up
 .hero__button--primary {
   @include button-primary;
+  flex: 1;
+  justify-content: center;
   font-weight: $fw-bold;
   letter-spacing: 0;
+
+  @include tablet {
+    flex: none;
+  }
 }
 
 .hero__button--outline {
   @include button-outline;
+  flex: 1;
+  justify-content: center;
   letter-spacing: 0;
+
+  @include tablet {
+    flex: none;
+  }
 }
