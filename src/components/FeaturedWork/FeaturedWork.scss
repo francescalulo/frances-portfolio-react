@@ -1,0 +1,159 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// No rails here: the hi-fi breaks the rail lines between the hero and the About teaser.
+// The bottom border is the horizontal line the About teaser's "T" markers sit on.
+.featured-work {
+  border-bottom: 1px solid $color-border;
+  background-color: $color-canvas;
+
+  // Focus can land here (scroll-down button later); the section itself isn't a control
+  &:focus {
+    outline: none;
+  }
+}
+
+// Phones/tablets: one column: heading → featured card → one more project → "View all works".
+// Desktop: two columns. The left one (heading + featured card) is one screen tall and
+// sticks while the page scrolls the right column past it; when the last card is up,
+// the section scrolls away. Plain page scrolling, so keyboard and screen readers just work.
+.featured-work__inner {
+  --panel-height: clamp(
+    40rem,
+    100svh,
+    60rem
+  ); // one screen, never cramped or huge
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; // 20px
+  padding-block: 2rem; // 32px on phones
+
+  @include tablet {
+    gap: 2rem;
+    padding-block: 4rem;
+  }
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); // 800 : 432 in the hi-fi
+    align-items: start;
+    gap: 3rem; // 48px
+    padding-block: 0; // each column has its own padding on desktop
+  }
+}
+
+// Left column: heading → featured card
+.featured-work__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; // 20px
+
+  @include tablet {
+    gap: 2rem;
+  }
+
+  @include desktop {
+    position: sticky;
+    top: 0;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 3rem; // 48px
+    height: var(--panel-height);
+    padding-block: $space-xl; // 80px
+  }
+}
+
+.featured-work__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; // 4px on phones
+
+  @include desktop {
+    gap: 0.625rem; // 10px
+  }
+}
+
+// "// FEATURED WORK": same size as the About snippet labels
+.featured-work__label {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-sm; // 14px
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-syntax-blue;
+}
+
+// "Show and Tell"
+.featured-work__title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-h2; // 32px → 52px
+  font-weight: $fw-bold;
+  line-height: 1.1;
+  letter-spacing: $tracking-tighter;
+  color: $color-text;
+}
+
+.featured-work__featured {
+  @include desktop {
+    min-height: 0;
+  }
+}
+
+.featured-work__status {
+  margin: 0;
+  font-family: $font-body;
+  color: $color-muted;
+}
+
+// The other projects. Phones/tablets: just the first one, under the featured card.
+// Desktop: the right column, two cards per screen. Same top and bottom padding as the
+// left column, so the first card lines up with the heading and the last card finishes
+// level with the featured card.
+.featured-work__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; // 16px
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li:nth-child(n + 2) {
+    display: none; // phones/tablets: one extra project
+  }
+
+  @include desktop {
+    padding-block: $space-xl;
+
+    li {
+      height: calc((var(--panel-height) - #{$space-xl * 2} - 1rem) / 2);
+    }
+
+    li:nth-child(n + 2) {
+      display: block;
+    }
+
+    // The image takes the card's spare height (instead of a fixed shape)
+    .work-card__media {
+      aspect-ratio: auto;
+      flex: 1;
+      min-height: 5rem;
+    }
+
+    .work-card__body {
+      flex: none;
+    }
+  }
+}
+
+// Phones/tablets only: centred under the cards. Desktop already shows every project.
+.featured-work__more {
+  @include pill-link;
+  align-self: center;
+
+  @include desktop {
+    display: none;
+  }
+}

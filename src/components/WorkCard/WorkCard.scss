@@ -1,0 +1,224 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// Phones first: compact card (lo-fi mobile). The featured card grows on desktop (hi-fi).
+// The visible frame is drawn on ::after, on top of the image area, so the image can never
+// cover an edge; the corner brackets (::before, from the mixin) sit on top of the frame.
+// The card's own border is transparent and just keeps the 1px space.
+.work-card {
+  @include corner-brackets;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid transparent;
+  background-color: $color-surface-raised;
+
+  &::before {
+    z-index: 2;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -1px; // on the card's border line
+    z-index: 1;
+    border: 1px solid $color-border;
+    pointer-events: none;
+    transition: border-color 0.2s ease;
+  }
+
+  &:hover::after {
+    border-color: $color-rail-marker;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition: none;
+    }
+  }
+}
+
+.work-card--featured {
+  box-shadow: $shadow-card;
+}
+
+// Image box: fixed shape so cards line up before (and without) images
+.work-card__media {
+  aspect-ratio: 12 / 5; // 432 × 180 in the hi-fi
+  overflow: hidden;
+  border-bottom: 1px solid $color-border;
+  background-color: $color-surface;
+
+  .work-card--featured & {
+    aspect-ratio: 9 / 4; // 358 × 160 on phones (lo-fi)
+
+    // Desktop: fills whatever height the full-screen section leaves (see FeaturedWork)
+    @include desktop {
+      aspect-ratio: auto;
+      flex: 1;
+      min-height: 10rem;
+    }
+  }
+}
+
+.work-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+
+  .work-card:hover & {
+    transform: scale(1.03);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    .work-card:hover & {
+      transform: none;
+    }
+  }
+}
+
+// Until the project has a featured image
+.work-card__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 100%;
+  font-family: $font-body;
+  font-size: 0.75rem; // 12px
+  text-transform: uppercase;
+  color: $color-muted;
+}
+
+.work-card__placeholder-icon {
+  width: 2rem; // 32px
+  height: 2rem;
+}
+
+.work-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.625rem; // 10px
+  padding: 1rem;
+
+  .work-card--featured & {
+    @include desktop {
+      flex: none; // the image takes the spare height instead
+      gap: 0.75rem; // 12px
+      padding: 1.25rem; // 20px
+    }
+  }
+}
+
+.work-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.work-card__title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 0.8125rem; // 13px
+  font-weight: $fw-bold;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: $color-syntax-yellow;
+
+  .work-card--featured & {
+    font-size: 0.875rem; // 14px on phones
+
+    @include desktop {
+      font-size: $fs-base; // 16px
+    }
+  }
+}
+
+// The title link covers the whole card, so anywhere on the card opens the project
+.work-card__link {
+  color: inherit;
+  text-decoration: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+}
+
+// Keyboard focus: ring around the whole card instead of just the title
+@supports selector(:has(*)) {
+  .work-card:has(.work-card__link:focus-visible) {
+    outline: 2px solid $color-accent;
+    outline-offset: 4px;
+  }
+
+  .work-card__link:focus-visible {
+    outline: none;
+  }
+}
+
+// "INTERACTION DESIGN" label (ACF project_type)
+.work-card__type {
+  flex-shrink: 0;
+  margin: 0;
+  padding-top: 0.125rem;
+  font-family: $font-display;
+  font-size: $fs-xs; // 11px (hi-fi 10px, nudged up for legibility)
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-syntax-pink;
+}
+
+.work-card__excerpt {
+  font-family: $font-body;
+  font-size: 0.8125rem; // 13px
+  line-height: $lh-body;
+  color: $color-text-white;
+
+  p {
+    margin: 0;
+  }
+}
+
+// "VIEW PROJECT →": pushed to the bottom so cards in a row line up
+.work-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: auto 0 0;
+  font-family: $font-display;
+  font-size: $fs-xs; // 11px
+  font-weight: $fw-bold;
+  text-transform: uppercase;
+  color: $color-accent;
+
+  .work-card--featured & {
+    @include desktop {
+      font-size: 0.75rem; // 12px
+    }
+  }
+}
+
+.work-card__arrow {
+  transition: transform 0.2s ease;
+
+  .work-card:hover & {
+    transform: translateX(0.25rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    .work-card:hover & {
+      transform: none;
+    }
+  }
+}

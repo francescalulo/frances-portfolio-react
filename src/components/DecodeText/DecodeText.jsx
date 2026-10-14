@@ -2,16 +2,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import "./DecodeText.scss";
 
-const SHUFFLE_TIME = 900; // ms for the shuffle band to sweep across the text (like the nav)
+const SHUFFLE_TIME = 1200; // ms for the shuffle band to sweep across the text (like the nav)
 const SHUFFLE_FRAME = 60; // ms between shuffle frames (same as the nav)
 const SHUFFLE_BAND = 8; // letters shuffling at once (wider than the nav's 3: this text is longer)
 const SETTLE_BAND = 2; // while typing, the newest letters flicker before they settle
 const RIPPLE_REACH = 2; // desktop: letters either side of the mouse that shuffle on the code
 const RIPPLE_TIME = 150; // ms the ripple letters stay shuffled after the mouse moves
-const ERASE_TIME = 800; // ms to backspace the current text (the last letters shuffle as they go)
-const PAUSE = 300; // ms the cursor blinks before typing starts
-const TYPE_MIN = 30; // ms per letter for the message (random between MIN and MAX)
-const TYPE_MAX = 70;
+const ERASE_TIME = 1000; // ms to backspace the current text (the last letters shuffle as they go)
+const PAUSE = 400; // ms the cursor blinks before typing starts
+const TYPE_MIN = 45; // ms per letter for the message (random between MIN and MAX)
+const TYPE_MAX = 95;
 const RETURN_MIN = 15; // ms per letter when typing the code back
 const RETURN_MAX = 30;
 const THINK_MIN = 180; // extra pause after . , ; ! ?
@@ -49,6 +49,7 @@ function scrambleText(text, from, to) {
 
 // Finds which character of the text is under the mouse (for the hover ripple).
 // Each segment <span> carries data-start: where it begins in the whole text.
+// Shuffled letters are wrapped in their own span, so count them as one letter each.
 function indexAtPoint(x, y) {
   let node = null;
   let offset = 0;
@@ -61,15 +62,57 @@ function indexAtPoint(x, y) {
     if (range) ({ startContainer: node, startOffset: offset } = range);
   }
 
-  const start = node?.parentElement?.dataset.start;
-  return start === undefined ? null : Number(start) + offset;
+  const segment = node?.parentElement?.closest("[data-start]");
+  if (!segment) return null;
+
+  let count = 0;
+  for (const child of segment.childNodes) {
+    if (child === node) {
+      count += offset;
+      break;
+    }
+    if (child.contains(node)) break; // inside a shuffled letter: that letter
+    if (child.nodeType === Node.TEXT_NODE) count += child.length;
+    else if (child.classList.contains("decode__glyph")) count += 1;
+  }
+
+  return Number(segment.dataset.start) + count;
+}
+
+// Draws `real` text, but any letter that's currently shuffled shows its stand-in on top
+// of the real (invisible) letter. Each letter keeps its real width, so nothing reflows.
+function renderChars(real, fake) {
+  if (!fake || fake === real) return real;
+
+  const parts = [];
+  let run = "";
+
+  for (let i = 0; i < real.length; i += 1) {
+    if (fake[i] === real[i]) {
+      run += real[i];
+      continue;
+    }
+    if (run) {
+      parts.push(run);
+      run = "";
+    }
+    parts.push(
+      <span key={i} className="decode__glyph">
+        <span className="decode__glyph-real">{real[i]}</span>
+        <span className="decode__glyph-fake">{fake[i]}</span>
+      </span>,
+    );
+  }
+  if (run) parts.push(run);
+
+  return parts;
 }
 
 // Draws one version. The first `shown` characters are visible, the rest keep their space
 // invisibly (no jumping). Any typo letters and the cursor sit right after the last
-// visible character. `shown === null` means everything is visible.
-// `scrambled` (optional) is the whole text with some letters shuffled, drawn in place
-// of the real letters so the colours and line breaks stay the same.
+// visible character, in a zero-width box so they never push the text either.
+// `shown === null` means everything is visible.
+// `scrambled` (optional) is the whole text with some letters shuffled.
 function renderLines(lines, shown, showCaret, typo, scrambled) {
   let index = 0;
   const total = flatten(lines).length;
@@ -81,9 +124,6 @@ function renderLines(lines, shown, showCaret, typo, scrambled) {
       {line.segments.map((segment, segmentIndex) => {
         const start = index;
         const length = segment.text.length;
-        const text = scrambled
-          ? scrambled.slice(index, index + length)
-          : segment.text;
         const visibleCount =
           shown === null
             ? length
@@ -96,6 +136,10 @@ function renderLines(lines, shown, showCaret, typo, scrambled) {
         if (caretHere) caretPlaced = true;
         index += length;
 
+        const visible = segment.text.slice(0, visibleCount);
+        const fake = scrambled
+          ? scrambled.slice(start, start + visibleCount)
+          : null;
         const pending = segment.text.slice(visibleCount);
 
         return (
@@ -104,9 +148,13 @@ function renderLines(lines, shown, showCaret, typo, scrambled) {
             className={segment.className}
             data-start={start}
           >
-            {text.slice(0, visibleCount)}
-            {caretHere && typo && <span className="decode__typo">{typo}</span>}
-            {caretHere && <span className="decode__caret" />}
+            {renderChars(visible, fake)}
+            {caretHere && (
+              <span className="decode__cursor">
+                {typo && <span className="decode__typo">{typo}</span>}
+                <span className="decode__caret" />
+              </span>
+            )}
             {pending && <span className="decode__pending">{pending}</span>}
           </span>
         );

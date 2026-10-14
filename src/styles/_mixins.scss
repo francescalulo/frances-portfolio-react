@@ -36,7 +36,9 @@
 }
 
 // Decorative vertical rails, desktop only. Pure decoration: no markup, ignored by screen readers.
-// $top-marker: a full "+" centred on the section's top edge (on by default).
+// $top-marker: true = a full "+" centred on the section's top edge (default, rails continue above);
+//              "tee" = a "T" on the top edge (the rails start here, nothing above);
+//              false = no top marker.
 // $bottom-marker: a "⊥" on the bottom edge, only when the next section has no rails.
 @mixin rails($top-marker: true, $bottom-marker: false) {
   position: relative;
@@ -51,7 +53,25 @@
   $positions: ();
   $sizes: ();
 
-  @if $top-marker {
+  @if $top-marker == "tee" {
+    // "T": arm along the top edge, stem pointing down
+    $images: list.join($images, ($line, $line, $line, $line), comma);
+    $positions: list.join(
+      $positions,
+      (
+        left 0 top $rail-arm,
+        right 0 top $rail-arm,
+        left 8px top $rail-arm,
+        right 8px top $rail-arm
+      ),
+      comma
+    );
+    $sizes: list.join(
+      $sizes,
+      ($rail-tick 1px, $rail-tick 1px, 1px $rail-arm, 1px $rail-arm),
+      comma
+    );
+  } @else if $top-marker {
     $images: list.join($images, ($line, $line, $line, $line), comma);
     $positions: list.join(
       $positions,
@@ -167,5 +187,62 @@
 
   &:hover {
     background-color: rgba(74, 222, 128, 0.12);
+  }
+}
+
+// Small L-shaped brackets on a card's four corners (hi-fi "Frame Highlights").
+// Uses ::before, so don't put another ::before on the same element.
+@mixin corner-brackets($size: 0.625rem, $color: $color-rail-marker) {
+  position: relative;
+
+  &::before {
+    $line: linear-gradient($color, $color);
+
+    content: "";
+    position: absolute;
+    inset: -1px; // sit on top of the card's 1px border
+    pointer-events: none;
+    background-image: $line, $line, $line, $line, $line, $line, $line, $line;
+    background-position:
+      top left,
+      top left,
+      top right,
+      top right,
+      bottom left,
+      bottom left,
+      bottom right,
+      bottom right;
+    background-size:
+      $size 1px,
+      1px $size,
+      $size 1px,
+      1px $size,
+      $size 1px,
+      1px $size,
+      $size 1px,
+      1px $size;
+    background-repeat: no-repeat;
+  }
+}
+
+// Small outlined pill link ("Full disclosure →", "View all works →")
+@mixin pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 1.625rem; // 26px, above the 24px minimum target size
+  padding: 0.3125rem 0.625rem;
+  border: 1px solid $color-accent;
+  border-radius: $radius-pill;
+  background-color: $color-surface-code;
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $color-text-white;
+
+  &:hover {
+    color: $color-accent;
   }
 }

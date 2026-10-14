@@ -2,7 +2,7 @@
 @use "../../styles/mixins" as *;
 
 .about-snippet {
-  @include rails;
+  @include rails($top-marker: "tee"); // "T" where the rails start again
   background-color: $color-canvas-deep;
   background-image: $gradient-about;
 
@@ -105,23 +105,6 @@
 
 // "FULL DISCLOSURE →" pill, bottom right
 .about-snippet__more {
+  @include pill-link;
   align-self: flex-end;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  min-height: 1.625rem; // 26px, above the 24px minimum target size
-  padding: 0.3125rem 0.625rem;
-  border: 1px solid $color-accent;
-  border-radius: $radius-pill;
-  background-color: $color-surface-code;
-  font-family: $font-display;
-  font-size: $fs-xs;
-  font-weight: $fw-medium;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: $color-text-white;
-
-  &:hover {
-    color: $color-accent;
-  }
 }
