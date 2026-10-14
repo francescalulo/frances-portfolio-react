@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
+import ScrollCue from "../components/ScrollCue/ScrollCue";
 import ScrollToTop from "../utilities/ScrollToTop";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
@@ -24,6 +25,7 @@ function AppRouter() {
         </Routes>
       </main>
       <Footer />
+      <ScrollCue />
     </div>
   );
 }
