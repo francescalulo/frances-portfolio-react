@@ -47,6 +47,12 @@ a {
   outline-offset: 3px;
 }
 
+// Sections that receive focus from the scroll cue / in-page links aren't controls,
+// so they don't need a focus ring (focus just moves there for keyboard users)
+main section[tabindex="-1"]:focus {
+  outline: none;
+}
+
 ::selection {
   background-color: $color-accent;
   color: $color-on-accent;

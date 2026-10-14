@@ -51,6 +51,7 @@ function FeaturedWork() {
       className="featured-work"
       aria-labelledby="featured-work-heading"
       tabIndex={-1}
+      data-rails="false"
     >
       <div className="featured-work__inner content-width">
         {/* Left column: sticks on desktop while the other projects scroll past */}
