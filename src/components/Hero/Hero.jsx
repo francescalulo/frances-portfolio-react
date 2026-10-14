@@ -66,7 +66,10 @@ const DECODED = [
   },
   {
     className: "hero__decoded-tagline",
-    segments: [{ text: "Turns coffee into pixels and pixels into code." }],
+    segments: [
+      { text: "Turns coffee into pixels and " },
+      { text: "pixels into code.", className: "hero__tagline-end" },
+    ],
   },
 ];
 

@@ -20,9 +20,34 @@
   visibility: hidden;
 }
 
+// Typo letters + cursor: a zero-width box, so they overlap the space the next letters
+// will fill instead of pushing the line (which made words hop between lines)
+.decode__cursor {
+  display: inline-block;
+  width: 0;
+  white-space: nowrap;
+}
+
 // Wrong letters before they're backspaced (same colour as the word being typed)
 .decode__typo {
   opacity: 0.85;
+}
+
+// A shuffled letter: the real letter keeps its width (invisible), the stand-in sits on top
+.decode__glyph {
+  position: relative;
+}
+
+.decode__glyph-real {
+  visibility: hidden;
+}
+
+.decode__glyph-fake {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  line-height: normal; // same box as the real letter, so the stand-in sits on the same baseline
+  transform: translateX(-50%);
 }
 
 // Blinking cursor: zero width so it never pushes text; sized to the line it's on
