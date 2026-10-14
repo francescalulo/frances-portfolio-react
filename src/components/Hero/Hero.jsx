@@ -1,5 +1,74 @@
+import DecodeText from "../DecodeText/DecodeText";
 import { scrollToSection } from "../../utilities/Utilities";
 import "./Hero.scss";
+
+// Each line is a <p> with a class; each segment is a coloured <span>
+const CODED = [
+  {
+    className: "hero__code-line",
+    segments: [
+      { text: "const", className: "hero__keyword" },
+      { text: " " },
+      { text: "me", className: "hero__string" },
+      { text: " " },
+      { text: "= {", className: "hero__keyword" },
+    ],
+  },
+  {
+    className: "hero__headline",
+    segments: [
+      { text: "name: '", className: "hero__key" },
+      { text: "Frances", className: "hero__value" },
+      { text: "',", className: "hero__key" },
+    ],
+  },
+  {
+    className: "hero__headline",
+    segments: [
+      { text: "roles: ['", className: "hero__key" },
+      { text: "designer", className: "hero__value" },
+      { text: "', '", className: "hero__key" },
+      { text: "developer", className: "hero__value" },
+      { text: "'],", className: "hero__key" },
+    ],
+  },
+  {
+    className: "hero__code-line hero__code-line--superpower",
+    segments: [
+      { text: "superpower: ( ) =>", className: "hero__keyword" },
+      { text: " " },
+      {
+        text: '"turns coffee into pixels and pixels into code"',
+        className: "hero__string",
+      },
+      { text: ",", className: "hero__key" },
+    ],
+  },
+  {
+    className: "hero__code-line",
+    segments: [{ text: "};", className: "hero__keyword" }],
+  },
+];
+
+// The decoded version from the Figma ("Frame 39")
+const DECODED = [
+  {
+    className: "hero__decoded-title",
+    segments: [{ text: "Hey I’m Frances." }],
+  },
+  {
+    className: "hero__decoded-title",
+    segments: [
+      { text: "Designer", className: "hero__designer" },
+      { text: " & " },
+      { text: "Developer", className: "hero__developer" },
+    ],
+  },
+  {
+    className: "hero__decoded-tagline",
+    segments: [{ text: "Turns coffee into pixels and pixels into code." }],
+  },
+];
 
 function Hero() {
   // Anchor links still work without JS; with JS we scroll smoothly and move focus.
@@ -15,46 +84,18 @@ function Hero() {
           Currently employable
         </p>
 
-        {/* Screen readers get a plain-language heading; the code-style version below is visual only */}
+        {/* Screen readers get the plain decoded message; DecodeText is visual only */}
         <h1 id="hero-heading" className="visually-hidden">
-          Frances Calulo, designer and developer. Superpower: turns coffee into
-          pixels and pixels into code.
+          Hey, I’m Frances, designer and developer. Turns coffee into pixels and
+          pixels into code.
         </h1>
 
-        <div className="hero__code" aria-hidden="true">
-          <p className="hero__code-line">
-            <span className="hero__keyword">const</span>{" "}
-            <span className="hero__string">me</span>{" "}
-            <span className="hero__keyword">{"= {"}</span>
-          </p>
-
-          <p className="hero__headline">
-            <span className="hero__headline-line">
-              <span className="hero__key">{"name: '"}</span>
-              <span className="hero__value">Frances</span>
-              <span className="hero__key">{"',"}</span>
-            </span>
-            <span className="hero__headline-line">
-              <span className="hero__key">{"roles: ['"}</span>
-              <span className="hero__value">designer</span>
-              <span className="hero__key">{"', '"}</span>
-              <span className="hero__value">developer</span>
-              <span className="hero__key">{"'],"}</span>
-            </span>
-          </p>
-
-          <p className="hero__code-line hero__code-line--superpower">
-            <span className="hero__keyword">{"superpower: ( ) =>"}</span>{" "}
-            <span className="hero__string">
-              {'"turns coffee into pixels and pixels into code"'}
-            </span>
-            <span className="hero__key">,</span>
-          </p>
-
-          <p className="hero__code-line">
-            <span className="hero__keyword">{"};"}</span>
-          </p>
-        </div>
+        <DecodeText
+          className="hero__code"
+          coded={CODED}
+          decoded={DECODED}
+          toggle
+        />
 
         <div className="hero__actions">
           <a

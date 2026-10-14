@@ -8,7 +8,18 @@
   border-bottom: 1px solid $color-border;
 }
 
+// The hero fills the first screen (minus the header) with the content centred, at every size.
+// svh = the visible screen height, so the mobile address bar doesn't cut off the bottom.
+// Capped at 56rem (896px) so very tall screens don't get a huge empty hero.
 .hero__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; // stops the badge and buttons stretching full width
+  min-height: min(
+    calc(100svh - 4.5rem - 2px),
+    56rem
+  ); // header height + header and hero borders
   padding-block: 2rem; // 32px on phones
 
   @include tablet {
@@ -19,6 +30,7 @@
     padding-block: $space-xl; // 80px
   }
 }
+
 // "• CURRENTLY EMPLOYABLE" pill
 .hero__badge {
   display: inline-flex;
@@ -45,6 +57,7 @@
 }
 
 .hero__code {
+  width: 100%; // stay full width inside the flex column (phones)
   padding-top: 2rem;
   font-family: $font-display;
   line-height: $lh-tight;
@@ -58,6 +71,7 @@
   margin: 0;
   font-size: $fs-base;
   font-weight: $fw-medium;
+  line-height: 1.5; // room between wrapped lines on phones ("superpower…" wraps)
 }
 
 .hero__code-line--superpower {
@@ -68,18 +82,59 @@
 .hero__headline {
   margin: 0;
   padding-left: 0.25em; // the indent inside "const me = {"
-  font-size: $fs-display;
+  // Phones: grows with the screen so the widest line ("roles: ['designer',") nearly fills the width.
+  // About 34px at 320px and 41px at 375px, capped at 44px.
+  font-size: clamp(1.75rem, 12vw - 0.25rem, 2.75rem);
   font-weight: $fw-light;
-  line-height: 1.2; // roomier at 28px on phones
+  line-height: 1.15;
   letter-spacing: $tracking-tight;
+
+  @include tablet {
+    font-size: $fs-display; // back to the shared display size (about 43px at 768px, 72px max)
+  }
 
   @include desktop {
     line-height: $lh-tight; // 1.05, as in the hi-fi
   }
 }
 
-.hero__headline-line {
-  display: block;
+// Decoded version ("Hey I'm Frances. / Designer & Developer")
+.hero__decoded-title {
+  margin: 0;
+  font-size: clamp(
+    2rem,
+    0.75rem + 6vw,
+    2.75rem
+  ); // 32px at 320 → 44px; bigger than the coded text on phones
+  font-weight: $fw-bold;
+  line-height: 1.1;
+
+  @include tablet {
+    font-size: $fs-display;
+  }
+
+  @include desktop {
+    line-height: $lh-tight; // 1.05, as in the hi-fi
+  }
+}
+
+.hero__designer {
+  color: $color-syntax-pink; // same pink as the coded "turns coffee…" string
+}
+
+.hero__developer {
+  color: $color-accent;
+}
+
+.hero__decoded-tagline {
+  margin: 1.25rem 0 0; // 20px, as in the hi-fi
+  font-size: 1.125rem; // 18px on phones, to match the bigger title
+  font-weight: $fw-medium;
+  color: $color-syntax-yellow; // same yellow as the coded "superpower: ( ) =>"
+
+  @include tablet {
+    font-size: $fs-base;
+  }
 }
 
 // Syntax colours
@@ -105,6 +160,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+  width: 100%; // stay full width inside the flex column (phones), max-width still caps it at 358px
   max-width: 22.375rem; // 358px
   padding-top: 1.5rem; // 24px on phones
 
