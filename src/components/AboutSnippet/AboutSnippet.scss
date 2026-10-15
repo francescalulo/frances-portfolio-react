@@ -85,8 +85,87 @@
   color: $color-text;
 }
 
-.about-snippet__line {
-  display: block;
+// Statement DecodeText: both versions sit at the top, so the statement stays where it was
+.about-snippet__decode .decode__layer {
+  align-self: start;
+}
+
+// Code version of the statement (small framing lines + large meaning lines, like the hero).
+// Hanging indent: if a line has to wrap on a phone, the rest of it sits 1em further in
+// (like soft wrap in a code editor), so it reads as one line of code, not a new one.
+.about-snippet__code-line,
+.about-snippet__code-big {
+  margin: 0;
+  padding-left: 1em;
+  text-indent: -1em;
+  font-family: $font-display;
+}
+
+.about-snippet__code-line {
+  font-size: 0.8125rem; // 13px on phones
+  font-weight: $fw-medium;
+  line-height: 1.5;
+  color: $color-text;
+
+  @include tablet {
+    font-size: $fs-base; // 16px, same as the hero's small code lines
+  }
+}
+
+.about-snippet__code-big {
+  font-size: clamp(
+    1.25rem,
+    0.5rem + 3.2vw,
+    3.25rem
+  ); // 20px on phones → 52px, same as "Show and Tell"
+  font-weight: $fw-bold;
+  line-height: 1.2;
+  letter-spacing: $tracking-tight;
+  color: $color-text;
+
+  @include desktop {
+    line-height: $lh-tight; // 1.05, like the statement
+  }
+}
+
+// Code indents (class body, constructor parameters); + 1em makes room for the hanging indent
+.about-snippet__indent-1 {
+  padding-left: calc(1rem + 1em);
+
+  @include tablet {
+    padding-left: calc(1.5rem + 1em);
+  }
+}
+
+.about-snippet__indent-2 {
+  padding-left: calc(2rem + 1em);
+
+  @include tablet {
+    padding-left: calc(3rem + 1em);
+  }
+}
+
+// Syntax colours: the same roles and tokens as the hero (keyword, identifier, key, value),
+// plus the syntax blue for the comment
+.about-snippet__kw {
+  color: $color-syntax-yellow; // like the hero's "const", "= {", "};"
+}
+
+.about-snippet__id {
+  color: $color-syntax-pink; // like the hero's "me"
+}
+
+.about-snippet__key {
+  color: $color-accent; // like the hero's "name: '"
+}
+
+.about-snippet__value {
+  font-weight: $fw-bold;
+  color: $color-text; // like the hero's "Frances"
+}
+
+.about-snippet__comment {
+  color: $color-syntax-blue;
 }
 
 .about-snippet__chapters {

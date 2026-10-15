@@ -74,7 +74,7 @@ function FeaturedWork() {
 
           {isLoaded && hasError && (
             <p className="featured-work__status">
-              Work couldn't load right now. Please try again later.
+              Work couldn’t load right now. Please try again later.
             </p>
           )}
 
