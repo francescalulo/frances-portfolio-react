@@ -80,6 +80,9 @@ main section[tabindex="-1"]:focus {
 
 .wrapper main {
   flex: 1;
+  // Safety net: nothing inside main (animations included) can make the page scroll sideways.
+  // clip, not hidden, so position: sticky inside still works
+  overflow-x: clip;
 }
 
 // Caps and centers content on wide screens, with the page gutter built in

@@ -35,7 +35,7 @@ const CODED = [
   {
     className: "hero__code-line hero__code-line--superpower",
     segments: [
-      { text: "superpower: ( ) =>", className: "hero__keyword" },
+      { text: "superpower: (\u00A0) =>", className: "hero__keyword" },
       { text: " " },
       {
         text: '"turns coffee into pixels and pixels into code"',

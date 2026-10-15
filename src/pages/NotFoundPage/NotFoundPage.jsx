@@ -6,7 +6,7 @@ function NotFoundPage() {
     <>
       <title>Page Not Found | Frances Calulo</title>
       <section className="not-found content-width">
-        <h1>404: This page didn't render.</h1>
+        <h1>404: This page didn’t render.</h1>
         <Link to="/">Back to TheLounge →</Link>
       </section>
     </>
