@@ -270,6 +270,7 @@ function DecodeText({
   const shownRef = useRef(null);
   const isManual = useRef(false); // true once the visitor uses the toggle
   const isHovering = useRef(false); // desktop: is the mouse over the text right now
+  const playRef = useRef(null); // the latest play(), for timers started inside play itself
 
   const linesFor = useCallback(
     (state) => (state === "decoded" ? decoded : coded),
@@ -543,7 +544,7 @@ function DecodeText({
 
           if (delay !== null) {
             holdTimer.current = setTimeout(
-              () => play(restingState, { fast: true }),
+              () => playRef.current(restingState, { fast: true }),
               delay,
             );
           }
@@ -559,6 +560,11 @@ function DecodeText({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [canHover, colorShuffle, linesFor, startDecoded],
   );
+
+  // Timers started inside play() call the latest play() through this ref
+  useEffect(() => {
+    playRef.current = play;
+  }, [play]);
 
   // Desktop: the letters near the mouse ripple (shuffle briefly) on the resting code
   function ripple(event) {
