@@ -39,7 +39,7 @@ function focusSection(section) {
 
 // Fixed "next section" control, on every page.
 // Desktop + a section with rails: a mouse with a vertical "SCROLL" label sitting on the
-// left rail (inspired by yasio.dev). Sections marked data-rails="false" (Featured Work)
+// right rail
 // and all phones/tablets: a simple round arrow. At the last section it becomes
 // "Back to top". It rides up above the footer so it never covers the footer links.
 // Reduced motion: no wheel animation or fades, and the page jumps instead of gliding.
@@ -89,11 +89,22 @@ function ScrollCue() {
       });
     };
 
-    update();
+    // Re-measure whenever the page changes size (e.g. Featured Work finishes loading and
+    // the page grows). It also fires once as soon as it starts, for the first measurement.
+    const resizeObserver = new ResizeObserver(() => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = null;
+        update();
+      });
+    });
+    resizeObserver.observe(document.body);
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
 
     return () => {
+      resizeObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(frame);
