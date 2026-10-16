@@ -30,3 +30,17 @@ export const DESKTOP_QUERY = "(min-width: 64em)";
 
 // Same as $breakpoint-tablet in _variables.scss (48em = 768px). Keep the two in sync.
 export const TABLET_QUERY = "(min-width: 48em)";
+
+// A project's terms for one taxonomy ("build", "work-category"…), from the ?_embed=wp:term data
+export function getTerms(project, taxonomy) {
+  return (project._embedded?.["wp:term"] ?? [])
+    .flat()
+    .filter((term) => term.taxonomy === taxonomy);
+}
+
+// WordPress sends titles and term names with HTML entities (&amp;, &#8217;).
+// This turns them into plain text, so React can show them safely as text.
+export function decodeHtml(html = "") {
+  return new DOMParser().parseFromString(html, "text/html").documentElement
+    .textContent;
+}

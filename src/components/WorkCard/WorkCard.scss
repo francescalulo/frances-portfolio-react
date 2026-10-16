@@ -42,12 +42,10 @@
   box-shadow: $shadow-card;
 }
 
-// Image box: fixed shape so cards line up before (and without) images
+// Image box (ProjectImage): fixed shape so cards line up before (and without) images
 .work-card__media {
   aspect-ratio: 12 / 5; // 432 × 180 in the hi-fi
-  overflow: hidden;
   border-bottom: 1px solid $color-border;
-  background-color: $color-surface;
 
   .work-card--featured & {
     aspect-ratio: 9 / 4; // 358 × 160 on phones (lo-fi)
@@ -61,43 +59,13 @@
   }
 }
 
-.work-card__image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-
-  .work-card:hover & {
-    transform: scale(1.03);
-  }
+// Image zooms in a little on hover (the image itself comes from ProjectImage)
+.work-card:hover .project-image__img {
+  transform: scale(1.03);
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
-
-    .work-card:hover & {
-      transform: none;
-    }
+    transform: none;
   }
-}
-
-// Until the project has a featured image
-.work-card__placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 100%;
-  font-family: $font-body;
-  font-size: 0.75rem; // 12px
-  text-transform: uppercase;
-  color: $color-muted;
-}
-
-.work-card__placeholder-icon {
-  width: 2rem; // 32px
-  height: 2rem;
 }
 
 .work-card__body {

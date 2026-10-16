@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { restBase } from "../../utilities/Utilities";
+import useProjects from "../../hooks/useProjects";
 import WorkCard from "../WorkCard/WorkCard";
 import "./FeaturedWork.scss";
 
@@ -9,36 +8,7 @@ import "./FeaturedWork.scss";
 // one screen while the page scrolls the other projects past it.
 // Phones/tablets show the featured project plus one more, then "View all works".
 function FeaturedWork() {
-  const [projects, setProjects] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    let isActive = true; // ignore the result if the page changes first
-
-    fetch(
-      `${restBase}portfolio-project?_embed&acf_format=standard&orderby=menu_order&order=asc&per_page=20`,
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Work request failed (${response.status})`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (isActive) setProjects(data);
-      })
-      .catch(() => {
-        if (isActive) setHasError(true);
-      })
-      .finally(() => {
-        if (isActive) setIsLoaded(true);
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, []);
+  const { projects, isLoaded, hasError } = useProjects(); // shared with the Work archive
 
   // No project ticked? Fall back to the first one so the panel is never empty.
   const featured =
