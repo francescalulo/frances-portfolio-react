@@ -4,7 +4,7 @@ import { restBase } from "../../utilities/Utilities";
 import WorkCard from "../WorkCard/WorkCard";
 import "./FeaturedWork.scss";
 
-// Home's Work preview ("Show and Tell"). The project ticked "Home Featured" in WordPress
+// Home's Work preview. The project ticked "Home Featured" in WordPress
 // gets the big panel; the rest go in the right column. Desktop: the left column sticks for
 // one screen while the page scrolls the other projects past it.
 // Phones/tablets show the featured project plus one more, then "View all works".
@@ -62,7 +62,7 @@ function FeaturedWork() {
               Featured Work
             </p>
             <h2 id="featured-work-heading" className="featured-work__title">
-              Show and Tell
+              The Receipts
             </h2>
           </div>
 

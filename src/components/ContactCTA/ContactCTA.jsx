@@ -23,7 +23,8 @@ const HEADINGS = {
   ),
 };
 
-function ContactCTA({ variant = "primary", aside = null }) {
+// fullScreen (Home): fills one screen with the content centred, like the hero and Featured Work
+function ContactCTA({ variant = "primary", aside = null, fullScreen = false }) {
   const { settings } = useSiteSettings();
   const email = settings?.contact_email;
   const ctaText = settings?.cta_text;
@@ -33,7 +34,7 @@ function ContactCTA({ variant = "primary", aside = null }) {
     // tabIndex -1: the header's <Contact/> link can move focus here, but it's not a Tab stop
     <section
       id="contact"
-      className={`contact-cta contact-cta--${variant}`}
+      className={`contact-cta contact-cta--${variant}${fullScreen ? " contact-cta--full" : ""}`}
       aria-labelledby="contact-heading"
       tabIndex={-1}
     >

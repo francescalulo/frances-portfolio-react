@@ -22,10 +22,9 @@
     calc(100svh - 4.5rem - 2px),
     56rem
   ); // header height + header and hero borders
-  padding-block: 2rem; // 32px on phones
-
+  padding-block: 2rem 4.5rem; // 32px on phones; bottom keeps room for the "Scroll" cue
   @include tablet {
-    padding-block: 3rem;
+    padding-block: 3rem 4.5rem;
   }
 
   @include desktop {
