@@ -1,7 +1,7 @@
 @use "../../styles/variables" as *;
 @use "../../styles/mixins" as *;
 
-// Phones: a card like the lo-fi mobile (image, number + tags, title, excerpt, meta, Live Site).
+// Phones: a card (image, number + tags, title, excerpt, meta, Live Site).
 // Tablet up: a full-width row with a divider (hi-fi); desktop: three columns.
 .work-row {
   padding-block: 0.5rem; // gap between the phone cards
@@ -101,7 +101,7 @@
   border-radius: $radius-tag;
   background-color: $color-surface-code;
   font-family: $font-body;
-  font-size: $fs-xs; // 11px (hi-fi 10px, nudged up for legibility)
+  font-size: $fs-xs; // 11px (nudged up for legibility)
   line-height: normal;
   color: $color-accent;
 }
@@ -209,7 +209,7 @@
 
 .work-row__image {
   order: -1;
-  aspect-ratio: 9 / 4; // 358 × 160 on phones (lo-fi)
+  aspect-ratio: 9 / 4; // 358 × 160 on phones
   border-bottom: 1px solid $color-border;
 
   // Tablet up: its own framed box with corner brackets, like the Home cards.
@@ -219,7 +219,7 @@
     @include corner-brackets;
     order: 0;
     width: 100%;
-    aspect-ratio: 21 / 16; // 420 × 320 in the hi-fi
+    aspect-ratio: 21 / 16;
     border-bottom: 0;
 
     &::before {

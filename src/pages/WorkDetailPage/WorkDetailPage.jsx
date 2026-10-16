@@ -7,7 +7,7 @@ function WorkDetailPage() {
 
   return (
     <>
-      <title>{`${slug} | Frances Calulo`}</title>
+      <title>{slug + " | Frances Calulo"}</title>
       <section className="work-detail content-width">
         <h1>Work Detail: {slug}</h1>
       </section>

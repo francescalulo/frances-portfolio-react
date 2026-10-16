@@ -4,12 +4,12 @@
 .quick-info {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; // 20px on phones (lo-fi mobile)
-  padding-top: 1.5rem; // 24px
+  gap: 1.25rem; // 20px on phones
+  padding-top: 1.5rem;
   border-top: 1px solid $color-border;
 
   @include desktop {
-    gap: 2.625rem; // 42px
+    gap: 2.625rem;
   }
 }
 
@@ -39,14 +39,14 @@
 }
 
 .quick-info__label {
-  font-size: 0.75rem; // 12px
+  font-size: 0.75rem;
   color: $color-text-mint;
 }
 
 .quick-info__value {
   margin: 0;
   font-family: $font-display;
-  font-size: 0.9375rem; // 15px
+  font-size: 0.9375rem;
   font-weight: $fw-medium;
   color: $color-text;
 }

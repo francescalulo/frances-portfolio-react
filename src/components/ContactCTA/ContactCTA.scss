@@ -19,7 +19,7 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  mix-blend-mode: plus-lighter; // Figma blend mode: glows against the purple
+  mix-blend-mode: plus-lighter; // glows against the purple
   pointer-events: none;
 }
 
@@ -45,9 +45,9 @@
   mask-image: linear-gradient(145deg, #000 33%, transparent 60%);
 }
 
-// Blurred copy: fades in where the sharp one fades out (Figma: progressive blur 0 → 15)
+// Blurred copy: fades in where the sharp one fades out
 .contact-cta__mark-layer--blur {
-  filter: blur(7.5px); // Figma blur 15 ≈ CSS blur 7.5px
+  filter: blur(7.5px);
   -webkit-mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
   mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
 }
@@ -138,7 +138,7 @@
     background-image: $gradient-cta-split;
 
     @include desktop {
-      min-height: 25rem; // 400px
+      min-height: 25rem;
     }
   }
 

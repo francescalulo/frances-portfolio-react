@@ -45,7 +45,7 @@ function QuickInfo() {
             <dt className="quick-info__label">Email</dt>
             <dd className="quick-info__value">
               <a
-                href={`mailto:${settings.contact_email}`}
+                href={"mailto:" + settings.contact_email}
                 className="quick-info__link"
               >
                 {settings.contact_email}

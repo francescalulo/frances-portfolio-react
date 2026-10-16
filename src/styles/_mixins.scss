@@ -146,7 +146,7 @@
 }
 
 // Solid green button (CTA "Payroll Please", Hero "Fair Warning")
-// Phones: compact like the lo-fi mobile (40px); tablet up: hi-fi size (46px)
+// Phones: compact (40px); tablet up: full size (46px)
 @mixin button-primary {
   display: inline-flex;
   align-items: center;
@@ -190,7 +190,7 @@
   }
 }
 
-// Small L-shaped brackets on a card's four corners (hi-fi "Frame Highlights").
+// Small L-shaped brackets on a card's four corners.
 // Uses ::before, so don't put another ::before on the same element.
 @mixin corner-brackets($size: 0.625rem, $color: $color-rail-marker) {
   position: relative;

@@ -15,16 +15,16 @@
 }
 
 .header__logo {
-  @include flex($gap: 0.9375rem); // 15px
+  @include flex($gap: 0.9375rem);
   text-decoration: none;
 }
 
 .header__logo-mark {
-  width: 2.375rem; // 38px on phones (lo-fi mobile)
+  width: 2.375rem; // 38px on phones
   height: 2.375rem;
 
   @include desktop {
-    width: 2.75rem; // 44px
+    width: 2.75rem;
     height: 2.75rem;
   }
 }
@@ -50,7 +50,7 @@
   }
 
   @include desktop {
-    gap: $space-lg; // 64px
+    gap: $space-lg;
   }
 }
 
@@ -81,12 +81,12 @@
   color: $color-accent; // stays green even on the active link
 }
 
-// Round menu / close button (phones only), like the lo-fi mobile header
+// Round menu / close button (phones only)
 .header__menu-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.75rem; // 44px tap target (wireframe circle is 32px)
+  width: 2.75rem; // 44px tap target
   height: 2.75rem;
   padding: 0;
   border: 1px solid $color-border;
@@ -100,7 +100,7 @@
 }
 
 .header__menu-icon {
-  width: 1rem; // 16px lines, close to the wireframe's 14px icon
+  width: 1rem;
   height: 1rem;
   fill: none;
   stroke: $color-accent;

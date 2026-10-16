@@ -21,14 +21,14 @@
   }
 
   @include desktop {
-    padding-block: $space-xl 3rem; // 80px / 48px, as in the hi-fi
+    padding-block: $space-xl 3rem;
   }
 }
 
 .work-intro__label {
   margin: 0;
   font-family: $font-display;
-  font-size: 0.75rem; // 12px
+  font-size: 0.75rem;
   font-weight: $fw-medium;
   text-transform: uppercase;
   color: $color-syntax-blue;
@@ -37,7 +37,7 @@
 .work-intro__title {
   margin: 0;
   font-family: $font-display;
-  font-size: $fs-h2; // 32px → 52px (hi-fi 48px)
+  font-size: $fs-h2; // 32px → 52px
   font-weight: $fw-bold;
   line-height: 1.1;
   letter-spacing: $tracking-tight;
@@ -54,7 +54,7 @@
 // Pill filter buttons. Pressed = the category showing (aria-pressed drives the look).
 .work-intro__filter {
   min-height: 1.8125rem; // 29px, above the 24px minimum target size
-  padding: 0.4375rem 1rem; // 7px 16px
+  padding: 0.4375rem 1rem;
   border: 1px solid $color-border;
   border-radius: $radius-pill;
   background-color: $color-surface-raised;

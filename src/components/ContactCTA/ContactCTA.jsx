@@ -34,7 +34,11 @@ function ContactCTA({ variant = "primary", aside = null, fullScreen = false }) {
     // tabIndex -1: the header's <Contact/> link can move focus here, but it's not a Tab stop
     <section
       id="contact"
-      className={`contact-cta contact-cta--${variant}${fullScreen ? " contact-cta--full" : ""}`}
+      className={
+        "contact-cta contact-cta--" +
+        variant +
+        (fullScreen ? " contact-cta--full" : "")
+      }
       aria-labelledby="contact-heading"
       tabIndex={-1}
     >
@@ -72,7 +76,7 @@ function ContactCTA({ variant = "primary", aside = null, fullScreen = false }) {
         {ctaText && <p className="contact-cta__text">{ctaText}</p>}
 
         {email && (
-          <a href={`mailto:${email}`} className="contact-cta__button">
+          <a href={"mailto:" + email} className="contact-cta__button">
             Payroll Please <span aria-hidden="true">→</span>
             <span className="visually-hidden"> (email {email})</span>
           </a>

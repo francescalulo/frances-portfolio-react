@@ -33,7 +33,7 @@
 }
 
 // "• CURRENTLY EMPLOYABLE" pill
-// Phones: compact like the lo-fi mobile (about 21px tall). Tablet up: hi-fi size (26px).
+// Phones: compact (about 21px tall). Tablet up
 .hero__badge {
   display: inline-flex;
   align-items: center;
@@ -51,9 +51,9 @@
   color: $color-text-white;
 
   @include tablet {
-    gap: 0.625rem; // 10px
-    padding: 0.375rem 1rem; // 6px 16px
-    font-size: $fs-xs; // 11px
+    gap: 0.625rem;
+    padding: 0.375rem 1rem;
+    font-size: $fs-xs;
   }
 }
 
@@ -64,7 +64,7 @@
   background-color: $color-accent;
 
   @include tablet {
-    width: 0.5rem; // 8px
+    width: 0.5rem;
     height: 0.5rem;
   }
 }
@@ -76,7 +76,7 @@
   line-height: $lh-tight;
 
   @include desktop {
-    padding-bottom: 1.0625rem; // the empty line after "};" in the hi-fi (17px)
+    padding-bottom: 1.0625rem; // the empty line after "};" in the hi-fi
   }
 }
 
@@ -88,7 +88,7 @@
 }
 
 .hero__code-line--superpower {
-  margin-top: 1.25rem; // 20px
+  margin-top: 1.25rem;
   padding-left: 0.25em;
 }
 
@@ -107,7 +107,7 @@
   }
 
   @include desktop {
-    line-height: $lh-tight; // 1.05, as in the hi-fi
+    line-height: $lh-tight;
   }
 }
 
@@ -127,7 +127,7 @@
   }
 
   @include desktop {
-    line-height: $lh-tight; // 1.05, as in the hi-fi
+    line-height: $lh-tight;
   }
 }
 
@@ -140,7 +140,7 @@
 }
 
 .hero__decoded-tagline {
-  margin: 1.25rem 0 0; // 20px, as in the hi-fi
+  margin: 1.25rem 0 0;
   font-size: 1.125rem; // 18px on phones, to match the bigger title
   font-weight: $fw-medium;
   color: $color-syntax-yellow; // same yellow as the coded "superpower: ( ) =>"
@@ -177,17 +177,17 @@
   color: $color-text;
 }
 
-// Phones: two equal buttons, but the pair never grows wider than the lo-fi mobile (358px)
+// Phones: two equal buttons, but the pair never grows wider than 358px
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   width: 100%; // stay full width inside the flex column (phones), max-width still caps it at 358px
-  max-width: 22.375rem; // 358px
+  max-width: 22.375rem;
   padding-top: 1.5rem; // 24px on phones
 
   @include desktop {
-    padding-top: 2.25rem; // 36px
+    padding-top: 2.25rem;
   }
 
   @include tablet {
@@ -195,7 +195,7 @@
   }
 }
 
-// Phones: two equal-width buttons side by side (lo-fi mobile); natural width from tablet up
+// Phones: two equal-width buttons side by side; natural width from tablet up
 .hero__button--primary {
   @include button-primary;
   flex: 1;

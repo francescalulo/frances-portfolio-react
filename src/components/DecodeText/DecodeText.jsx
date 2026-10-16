@@ -24,8 +24,8 @@ const TYPO_CHANCE = 0.05; // chance of a typo on any letter
 const TYPO_PAUSE = 400; // "oops" pause before fixing it
 const BACKSPACE = 70; // ms per deleted typo letter
 const HOLD = 8000; // desktop: decoded stays this long after the mouse stops moving
-const LEAVE_DELAY = 8000; // decoded-by-default text: back to the message this long after the mouse leaves
-const TOUCH_HOLD = 12000; // decoded-by-default text on touch: back to the message this long after a tap
+const LEAVE_DELAY = 3000; // decoded-by-default text: back to the message this long after the mouse leaves
+const TOUCH_HOLD = 8000; // decoded-by-default text on touch: back to the message this long after a tap
 const WORD_SHUFFLE = 500; // colorShuffle: ms a finished word shuffles before it settles white
 const TINT_COLOURS = 4; // colorShuffle: how many syntax colours the letters cycle through (see .scss)
 
@@ -55,18 +55,43 @@ function wordIndexes(lines) {
   return wordOf;
 }
 
-// Shuffles the letters of `text` between `from` and `to` using the text's own letters
-// (case matched), like the nav. Spaces and symbols stay put.
+// Letters grouped by width in Space Grotesk, so a shuffled letter is swapped for one of
+// about the same width and never spills over the letters next to it (an "m" over an "i" would)
+const WIDTH_GROUPS = [
+  "Iijl",
+  "frt1",
+  "EFLksvz7",
+  "235689JPSTVYZacehnouxy",
+  "04ABCDGHKNOQRUXbdgpq",
+  "w",
+  "MWm",
+];
+
+// A random stand-in for char: same width group, from the text's own letters when it has
+// some (pool is an array of letters), and the same case when possible
+function standIn(char, pool) {
+  const group = WIDTH_GROUPS.find((letters) => letters.includes(char));
+  if (!group) return char;
+
+  const fromText = pool.filter((letter) => group.includes(letter));
+  const candidates = fromText.length > 0 ? fromText : group.split("");
+  const isUpper = char === char.toUpperCase();
+  const sameCase = candidates.filter(
+    (letter) => (letter === letter.toUpperCase()) === isUpper,
+  );
+  const options = sameCase.length > 0 ? sameCase : candidates;
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+// Shuffles the letters of text between from and to using the text's own letters
+// (case and width matched), like the nav. Spaces and symbols stay put.
 function scrambleText(text, from, to) {
-  const pool = text.replace(/[^a-z0-9]/gi, "");
+  const pool = text.replace(/[^a-z0-9]/gi, "").split("");
   return text
     .split("")
     .map((char, index) => {
       if (index < from || index >= to || !/[a-z0-9]/i.test(char)) return char;
-      const pick = pool[Math.floor(Math.random() * pool.length)];
-      return char === char.toUpperCase()
-        ? pick.toUpperCase()
-        : pick.toLowerCase();
+      return standIn(char, pool);
     })
     .join("");
 }
@@ -125,7 +150,7 @@ function renderChars(
           key={index}
           className={
             phases[index] !== 0
-              ? `decode__tint decode__tint--${wordOf[index] % TINT_COLOURS}`
+              ? "decode__tint decode__tint--" + (wordOf[index] % TINT_COLOURS)
               : undefined
           }
         >
@@ -393,13 +418,8 @@ function DecodeText({
         wordLength[word] = (wordLength[word] ?? 0) + 1;
       });
       const doneAt = {}; // word → when it was finished
-      const pool = chars.replace(/[^a-z0-9]/gi, "");
-      const randomLetter = (char) => {
-        const pick = pool[Math.floor(Math.random() * pool.length)];
-        return char === char.toUpperCase()
-          ? pick.toUpperCase()
-          : pick.toLowerCase();
-      };
+      const pool = chars.replace(/[^a-z0-9]/gi, "").split("");
+      const randomLetter = (char) => standIn(char, pool);
 
       // Marks every word before the one being typed as finished
       const markDone = (upToWord) => {
@@ -686,10 +706,12 @@ function DecodeText({
   const showCaret = isAnimating || active === awayState;
 
   return (
-    <div className={`decode ${className}`}>
+    <div className={"decode " + className}>
       <div
         ref={stageRef}
-        className={`decode__stage${isAnimating || scrambled ? " is-moving" : ""}`}
+        className={
+          "decode__stage" + (isAnimating || scrambled ? " is-moving" : "")
+        }
         aria-hidden="true"
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
@@ -697,7 +719,7 @@ function DecodeText({
         onClick={handleClick}
       >
         <div
-          className={`decode__layer${active === "coded" ? " is-active" : ""}`}
+          className={"decode__layer" + (active === "coded" ? " is-active" : "")}
         >
           {renderLines(
             coded,
@@ -708,7 +730,11 @@ function DecodeText({
           )}
         </div>
         <div
-          className={`decode__layer${active === "decoded" ? " is-active" : ""}${hasLanded ? " is-landed" : ""}`}
+          className={
+            "decode__layer" +
+            (active === "decoded" ? " is-active" : "") +
+            (hasLanded ? " is-landed" : "")
+          }
         >
           {renderLines(
             decoded,
