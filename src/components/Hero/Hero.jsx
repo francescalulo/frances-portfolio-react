@@ -50,7 +50,7 @@ const CODED = [
   },
 ];
 
-// The decoded version from the Figma ("Frame 39")
+// The decoded (readable) version
 const DECODED = [
   {
     className: "hero__decoded-title",

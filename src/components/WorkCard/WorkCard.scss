@@ -1,7 +1,7 @@
 @use "../../styles/variables" as *;
 @use "../../styles/mixins" as *;
 
-// Phones first: compact card (lo-fi mobile). The featured card grows on desktop (hi-fi).
+// Phones first: compact card. The featured card grows on desktop.
 // The visible frame is drawn on ::after, on top of the image area, so the image can never
 // cover an edge; the corner brackets (::before, from the mixin) sit on top of the frame.
 // The card's own border is transparent and just keeps the 1px space.
@@ -44,11 +44,11 @@
 
 // Image box (ProjectImage): fixed shape so cards line up before (and without) images
 .work-card__media {
-  aspect-ratio: 12 / 5; // 432 × 180 in the hi-fi
+  aspect-ratio: 12 / 5;
   border-bottom: 1px solid $color-border;
 
   .work-card--featured & {
-    aspect-ratio: 9 / 4; // 358 × 160 on phones (lo-fi)
+    aspect-ratio: 9 / 4;
 
     // Desktop: fills whatever height the full-screen section leaves (see FeaturedWork)
     @include desktop {
@@ -72,14 +72,14 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.625rem; // 10px
+  gap: 0.625rem;
   padding: 1rem;
 
   .work-card--featured & {
     @include desktop {
       flex: none; // the image takes the spare height instead
-      gap: 0.75rem; // 12px
-      padding: 1.25rem; // 20px
+      gap: 0.75rem;
+      padding: 1.25rem;
     }
   }
 }
@@ -94,7 +94,7 @@
 .work-card__title {
   margin: 0;
   font-family: $font-display;
-  font-size: 0.8125rem; // 13px
+  font-size: 0.8125rem;
   font-weight: $fw-bold;
   line-height: 1.3;
   text-transform: uppercase;
@@ -104,7 +104,7 @@
     font-size: 0.875rem; // 14px on phones
 
     @include desktop {
-      font-size: $fs-base; // 16px
+      font-size: $fs-base;
     }
   }
 }
@@ -139,7 +139,7 @@
   margin: 0;
   padding-top: 0.125rem;
   font-family: $font-display;
-  font-size: $fs-xs; // 11px (hi-fi 10px, nudged up for legibility)
+  font-size: $fs-xs;
   font-weight: $fw-medium;
   text-transform: uppercase;
   color: $color-syntax-pink;
@@ -147,7 +147,7 @@
 
 .work-card__excerpt {
   font-family: $font-body;
-  font-size: 0.8125rem; // 13px
+  font-size: 0.8125rem;
   line-height: $lh-body;
   color: $color-text-white;
 

@@ -36,6 +36,7 @@
   display: inline-block;
   width: 0;
   white-space: nowrap;
+  text-indent: 0; // same: keeps typo letters right after the last letter
 }
 
 // Wrong letters before they're backspaced (same colour as the word being typed)
@@ -58,6 +59,7 @@
   left: 50%;
   line-height: normal; // same box as the real letter, so the stand-in sits on the same baseline
   transform: translateX(-50%);
+  text-indent: 0; // don't take on a parent's hanging indent (it shifted the letter sideways)
 }
 
 // Blinking cursor: zero width so it never pushes text; sized to the line it's on

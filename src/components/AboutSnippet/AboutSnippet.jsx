@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { restBase } from "../../utilities/Utilities";
+import useExperience from "../../hooks/useExperience";
 import DecodeText from "../DecodeText/DecodeText";
 import ExperienceItem from "../ExperienceItem/ExperienceItem";
 import "./AboutSnippet.scss";
@@ -10,7 +10,7 @@ import "./AboutSnippet.scss";
 const BREAK = "\u200B";
 const NBSP = "\u00A0";
 
-// About statement: decoded by default (dev plan 1.3); hover / tap types the code.
+// About statement: decoded by default; hover / tap types the code.
 // Small lines frame the code, large lines carry the meaning (same idea as the hero).
 const STATEMENT = [
   {
@@ -53,16 +53,16 @@ const STATEMENT_CODE = [
     segments: [
       { text: "chaos", className: "about-snippet__value" },
       {
-        text: `${NBSP}=${NBSP}((${NBSP})${NBSP}`,
+        text: NBSP + "=" + NBSP + "((" + NBSP + ")" + NBSP,
         className: "about-snippet__key",
       },
       { text: "=>", className: "about-snippet__kw" },
-      { text: `${NBSP}{ `, className: "about-snippet__key" },
+      { text: NBSP + "{ ", className: "about-snippet__key" },
       { text: "throw", className: "about-snippet__kw" },
       { text: NBSP },
       { text: "new", className: "about-snippet__kw" },
       {
-        text: `${NBSP}Error(${NBSP}); })(${NBSP}),`,
+        text: NBSP + "Error(" + NBSP + "); })(" + NBSP + "),",
         className: "about-snippet__key",
       },
     ],
@@ -70,7 +70,7 @@ const STATEMENT_CODE = [
   {
     className: "about-snippet__code-big about-snippet__indent-2",
     segments: [
-      { text: `overthinker${NBSP}= "`, className: "about-snippet__key" },
+      { text: "overthinker" + NBSP + '= "', className: "about-snippet__key" },
       { text: "expert", className: "about-snippet__value" },
       { text: '"', className: "about-snippet__key" },
     ],
@@ -93,11 +93,11 @@ const STATEMENT_CODE = [
       { text: "get", className: "about-snippet__kw" },
       { text: NBSP },
       { text: "meticulous", className: "about-snippet__value" },
-      { text: `(${NBSP})${NBSP}{ `, className: "about-snippet__key" },
+      { text: "(" + NBSP + ")" + NBSP + "{ ", className: "about-snippet__key" },
       { text: "return", className: "about-snippet__kw" },
       { text: NBSP },
       { text: "true", className: "about-snippet__kw" },
-      { text: `;${NBSP}}`, className: "about-snippet__key" },
+      { text: ";" + NBSP + "}", className: "about-snippet__key" },
     ],
   },
   {
@@ -106,13 +106,16 @@ const STATEMENT_CODE = [
   },
 ];
 
-// Plot Twist: decoded by default (dev plan 1.5), same interaction as the statement
+// Plot Twist: decoded by default, same interaction as the statement
 const PLOT_TWIST = [
   {
     className: "about-snippet__statement about-snippet__statement--twist",
     segments: [
       {
-        text: `None of these experiences were detours, just the same skills translating into new${NBSP}languages.`,
+        text:
+          "None of these experiences were detours, just the same skills translating into new" +
+          NBSP +
+          "languages.",
       },
     ],
   },
@@ -132,7 +135,13 @@ const PLOT_TWIST_CODE = [
     className: "about-snippet__code-big about-snippet__indent-1",
     segments: [
       {
-        text: `experiences${BREAK}.filter(isDetour)${BREAK}.length${NBSP}`,
+        text:
+          "experiences" +
+          BREAK +
+          ".filter(isDetour)" +
+          BREAK +
+          ".length" +
+          NBSP,
         className: "about-snippet__key",
       },
       { text: "===", className: "about-snippet__kw" },
@@ -155,7 +164,7 @@ const PLOT_TWIST_CODE = [
       { text: "role.", className: "about-snippet__key" },
       { text: "skills", className: "about-snippet__value" },
       {
-        text: `${BREAK}.translateTo(${BREAK}`,
+        text: BREAK + ".translateTo(" + BREAK,
         className: "about-snippet__key",
       },
       { text: "newLanguage", className: "about-snippet__value" },
@@ -168,7 +177,7 @@ const PLOT_TWIST_CODE = [
       { text: "role.", className: "about-snippet__key" },
       { text: "lessons", className: "about-snippet__value" },
       {
-        text: `${BREAK}.carryForward(${NBSP});`,
+        text: BREAK + ".carryForward(" + NBSP + ");",
         className: "about-snippet__key",
       },
     ],
@@ -179,43 +188,13 @@ const PLOT_TWIST_CODE = [
   },
 ];
 
-// Home's About teaser. The large copy is hardcoded (per the plan); career chapters come from the Experience CPT.
-// id="about-snippet" is the target of the hero's "Fair Warning" button.
+// Home's About teaser. The large copy is hardcoded; career chapters come from the Experience CPT.
 function AboutSnippet() {
-  const [chapters, setChapters] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const [openIndex, setOpenIndex] = useState(null); // set once chapters load
-
-  useEffect(() => {
-    let isActive = true; // ignore the result if the page changes first
-
-    fetch(
-      `${restBase}experience?orderby=menu_order&order=asc&acf_format=standard&_fields=id,title,acf`,
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Experience request failed (${response.status})`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (isActive) {
-          setChapters(data);
-          setOpenIndex(data.length - 1); // phones: open the latest chapter (Front-end) first
-        }
-      })
-      .catch(() => {
-        if (isActive) setHasError(true);
-      })
-      .finally(() => {
-        if (isActive) setIsLoaded(true);
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, []);
+  const { chapters, isLoaded, hasError } = useExperience();
+  // Phones: which chapter is open. undefined = not chosen yet, so the latest chapter
+  // (Front-end) opens first; null = the visitor closed them all.
+  const [openIndex, setOpenIndex] = useState(undefined);
+  const shownIndex = openIndex === undefined ? chapters.length - 1 : openIndex;
 
   return (
     <section
@@ -272,9 +251,9 @@ function AboutSnippet() {
                   {/* Phones: one chapter open at a time; tapping the open one closes it */}
                   <ExperienceItem
                     chapter={chapter}
-                    isOpen={openIndex === index}
+                    isOpen={shownIndex === index}
                     onToggle={() =>
-                      setOpenIndex(openIndex === index ? null : index)
+                      setOpenIndex(shownIndex === index ? null : index)
                     }
                   />
                 </li>

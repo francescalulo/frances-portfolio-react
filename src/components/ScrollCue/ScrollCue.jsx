@@ -38,7 +38,7 @@ function focusSection(section) {
 
 // Fixed "next section" control, on every page.
 // Desktop + a section with rails: a mouse with a vertical "SCROLL" label sitting on the
-// right rail (inspired by yasio.dev); sections marked data-rails="false" (Featured Work):
+// right rail; sections marked data-rails="false" (Featured Work):
 // a thin arrow. Phones/tablets: "SCROLL" + arrow only when scrolled all the way to the top,
 // "TOP" + arrow only at the very bottom, hidden in between (so it never covers content;
 // the hero and CTA keep room for it). Tall sections are stepped through a screen at a time.
@@ -143,8 +143,13 @@ function ScrollCue() {
   return (
     <button
       type="button"
-      className={`scroll-cue scroll-cue--${variant}${isAtEnd ? " scroll-cue--top" : ""}${!isDesktop && !isAtTop && !isAtBottom ? " scroll-cue--hidden" : ""}`}
-      style={{ "--footer-overlap": `${footerOverlap}px` }}
+      className={
+        "scroll-cue scroll-cue--" +
+        variant +
+        (isAtEnd ? " scroll-cue--top" : "") +
+        (!isDesktop && !isAtTop && !isAtBottom ? " scroll-cue--hidden" : "")
+      }
+      style={{ "--footer-overlap": footerOverlap + "px" }}
       aria-label={isAtEnd ? "Back to top" : "Scroll down"}
       onClick={handleClick}
     >
@@ -168,7 +173,7 @@ function ScrollCue() {
         <span className="scroll-cue__label">{isAtEnd ? "Top" : "Scroll"}</span>
       </span>
 
-      {/* Arrow version: a thin arrow like yasio.dev, in the rail-marker purple */}
+      {/* Arrow version: a thin arrow in the rail-marker purple */}
       <span className="scroll-cue__arrow" aria-hidden="true">
         {/* Phones: slides out when you stop scrolling (the button's aria-label already says it) */}
         <span className="scroll-cue__arrow-label">

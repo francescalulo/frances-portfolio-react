@@ -19,7 +19,7 @@ function formatYears(range) {
   if (total < 1) return null;
 
   const rounded = total >= 5 ? Math.floor(total / 5) * 5 : total;
-  return `${rounded}+ ${rounded === 1 ? "year" : "years"}`;
+  return rounded + "+ " + (rounded === 1 ? "year" : "years");
 }
 
 // One career chapter from the Experience CPT.
@@ -73,7 +73,7 @@ function ExperienceItem({ chapter, isOpen, onToggle }) {
   );
 
   return (
-    <div className={`experience-item${showPanel ? " is-open" : ""}`}>
+    <div className={"experience-item" + (showPanel ? " is-open" : "")}>
       <h3 className="experience-item__heading" ref={headerRef}>
         {isDesktop ? (
           <span className="experience-item__header">
@@ -129,7 +129,7 @@ function ExperienceItem({ chapter, isOpen, onToggle }) {
           <ul className="experience-item__skills" aria-label="Skills gained">
             {skillList.map((item, index) => (
               <li
-                key={`${item.skill}-${index}`}
+                key={item.skill + "-" + index}
                 className="experience-item__skill"
               >
                 {item.skill}

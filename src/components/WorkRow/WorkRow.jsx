@@ -4,7 +4,7 @@ import ProjectImage from "../ProjectImage/ProjectImage";
 import { decodeHtml, getTerms } from "../../utilities/Utilities";
 import "./WorkRow.scss";
 
-// One project on the Work archive (hi-fi "Project-Row").
+// One project on the Work archive ("Project-Row").
 // Desktop: three columns: number + Build tags + title | excerpt + year, categories and
 // "Project with SOLO/TEAM" | image + Live Site link. Phones/tablets: a card, image first.
 // The title link stretches over the whole row; Live Site sits above it as its own link.
