@@ -11,7 +11,7 @@ function HomePage() {
       <Hero />
       <FeaturedWork />
       <AboutSnippet />
-      <ContactCTA />
+      <ContactCTA fullScreen />
     </>
   );
 }

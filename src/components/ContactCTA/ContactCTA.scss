@@ -13,27 +13,30 @@
   }
 }
 
-// Covers the whole CTA and clips only the logo, so the section itself never needs overflow/clip
+// Covers the whole CTA and clips only the logo, so the section itself never needs overflow/clip.
+// Shown at every size (smaller on phones), always in the CTA's lower-right corner.
 .contact-cta__mark {
-  display: none;
-
-  @include desktop {
-    display: block;
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    mix-blend-mode: plus-lighter; // Figma blend mode: glows against the purple
-    pointer-events: none;
-  }
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  mix-blend-mode: plus-lighter; // Figma blend mode: glows against the purple
+  pointer-events: none;
 }
 
 // Both logo copies sit in the same spot; the masks blend them into the progressive blur
 .contact-cta__mark-layer {
   position: absolute;
-  top: 2.5625rem; // 41px: Figma frame at -35px + logo 76px inside it
-  right: max(1.6875rem, calc((100% - #{$content-max-width}) / 2 + 1.6875rem));
-  width: 38rem; // 608px
+  right: $gutter-mobile; // phones: on the content edge
+  bottom: -1.5rem;
+  width: min(30rem, 85%);
   height: auto;
+
+  // Desktop: hi-fi size, on the content edge of wide screens too
+  @include desktop {
+    right: max(1.6875rem, calc((100% - #{$content-max-width}) / 2 + 1.6875rem));
+    bottom: -4rem; // the blurred lower part sinks past the bottom edge
+    width: 38rem; // 608px
+  }
 }
 
 // Sharp copy: fully visible top-left, fading out toward the bottom-right
@@ -52,10 +55,19 @@
 .contact-cta__inner {
   @include flex($direction: column, $align: flex-start, $gap: $space-sm);
   position: relative; // keeps the content above the faded logo
-  padding-block: 3rem;
+  padding-block: 3rem 4.5rem; // bottom keeps room for the phone "Top" cue
 
   @include desktop {
     padding-block: $space-xl; // 80px
+  }
+}
+
+// Home: the CTA fills one screen (capped like the hero) with the content centred.
+// svh = the visible screen height, so the mobile address bar doesn't cut it off.
+.contact-cta--full {
+  .contact-cta__inner {
+    justify-content: center;
+    min-height: min(100svh, 56rem);
   }
 }
 

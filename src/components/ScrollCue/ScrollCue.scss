@@ -35,15 +35,17 @@
   }
 }
 
-// Phones: hidden (and not tappable) until there's scroll activity.
-// Still shows if a keyboard user tabs to it.
-.scroll-cue--idle {
+// Phones/tablets: only shown at the very top ("Scroll") and the very bottom ("Top"),
+// where the hero / CTA keep empty room for it; hidden in between so it never covers content
+.scroll-cue--hidden {
   opacity: 0;
-  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s;
 
-  &:focus-visible {
-    opacity: 1;
-    pointer-events: auto;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 
@@ -136,14 +138,36 @@
   transform: rotate(180deg);
 }
 
-// ---- Arrow look: a thin arrow (like yasio.dev), no circle ----
+// ---- Arrow look: a thin arrow, no circle ----
 // The button stays 44px wide so it's still easy to tap.
 .scroll-cue__arrow {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem; // 44px tap target
+  align-items: flex-end; // the label sits level with the arrow's tip
+  justify-content: flex-end;
+  gap: 0.5rem;
+  min-width: 2.75rem; // 44px tap target
   height: 2.75rem;
+  padding-bottom: 0.375rem;
+  animation: scroll-cue-pulse 1.5s ease-in-out infinite; // text + arrow pulse together
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+// "SCROLL" / "TOP" beside the arrow (phones/tablets; desktop has the rail label instead)
+.scroll-cue__arrow-label {
+  font-family: $font-display;
+  font-size: $fs-xs; // 11px
+  font-weight: $fw-medium;
+  line-height: 1;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $color-accent;
+
+  @include desktop {
+    display: none;
+  }
 }
 
 .scroll-cue__arrow-icon {
@@ -154,6 +178,8 @@
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
+  --bob: 0.25rem; // drifts down (up for "Top")
+  animation: scroll-cue-bob 1.5s ease-in-out infinite;
   transition:
     stroke 0.2s ease,
     transform 0.3s ease;
@@ -165,9 +191,25 @@
   // Points up for "Back to top"
   .scroll-cue--top & {
     transform: rotate(180deg);
+    --bob: -0.25rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+    animation: none;
+  }
+}
+
+// Fades to 40% and back every 1.5s: slow enough to be calm, never a flash (WCAG 2.3.1)
+@keyframes scroll-cue-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+// The arrow drifts toward where it's pointing and back, in time with the pulse
+@keyframes scroll-cue-bob {
+  50% {
+    translate: 0 var(--bob);
   }
 }

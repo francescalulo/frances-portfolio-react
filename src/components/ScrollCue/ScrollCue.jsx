@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import { DESKTOP_QUERY } from "../../utilities/Utilities";
 import "./ScrollCue.scss";
 
-const EDGE = 8; // px of slack when checking for the bottom of the page
-const IDLE_DELAY = 2000; // phones: hide this long (ms) after scrolling stops
+const EDGE = 8; // px of slack when checking for the top / bottom of the page
 
 const getSections = () => [...document.querySelectorAll("main section")];
 
@@ -39,22 +38,25 @@ function focusSection(section) {
 
 // Fixed "next section" control, on every page.
 // Desktop + a section with rails: a mouse with a vertical "SCROLL" label sitting on the
-// right rail
-// and all phones/tablets: a simple round arrow. At the last section it becomes
-// "Back to top". It rides up above the footer so it never covers the footer links.
-// Reduced motion: no wheel animation or fades, and the page jumps instead of gliding.
+// right rail (inspired by yasio.dev); sections marked data-rails="false" (Featured Work):
+// a thin arrow. Phones/tablets: "SCROLL" + arrow only when scrolled all the way to the top,
+// "TOP" + arrow only at the very bottom, hidden in between (so it never covers content;
+// the hero and CTA keep room for it). Tall sections are stepped through a screen at a time.
+// Reduced motion: no animations or fades, and the page jumps instead of gliding.
 function ScrollCue() {
   const { pathname } = useLocation();
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const [isAtEnd, setIsAtEnd] = useState(false);
   const [isOnRails, setIsOnRails] = useState(true);
   const [footerOverlap, setFooterOverlap] = useState(0);
-  const [isActive, setIsActive] = useState(false); // phones: only shown while scrolling
-  const idleTimer = useRef(null);
+  const [isAtTop, setIsAtTop] = useState(true); // phones: show "Scroll"
+  const [isAtBottom, setIsAtBottom] = useState(false); // phones: show "Top"
 
   const update = useCallback(() => {
     const { next } = getPosition();
     setIsAtEnd(!next || isAtPageEnd());
+    setIsAtTop(window.scrollY <= EDGE);
+    setIsAtBottom(isAtPageEnd());
 
     // The look depends on the section directly behind the cue (near the bottom of the
     // screen), not the one you're reading: rails behind it → mouse, no rails → arrow.
@@ -75,13 +77,8 @@ function ScrollCue() {
   useEffect(() => {
     let frame = null;
 
-    // At most one update per frame while scrolling.
-    // Any scroll also "wakes" the cue (phones), then it hides IDLE_DELAY after it stops.
-    const onScroll = () => {
-      setIsActive(true);
-      clearTimeout(idleTimer.current);
-      idleTimer.current = setTimeout(() => setIsActive(false), IDLE_DELAY);
-
+    // At most one update per frame while scrolling or resizing
+    const scheduleUpdate = () => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = null;
@@ -91,24 +88,17 @@ function ScrollCue() {
 
     // Re-measure whenever the page changes size (e.g. Featured Work finishes loading and
     // the page grows). It also fires once as soon as it starts, for the first measurement.
-    const resizeObserver = new ResizeObserver(() => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = null;
-        update();
-      });
-    });
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
     resizeObserver.observe(document.body);
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
       cancelAnimationFrame(frame);
-      clearTimeout(idleTimer.current);
     };
   }, [pathname, update]);
 
@@ -125,7 +115,24 @@ function ScrollCue() {
       return;
     }
 
-    const { next } = getPosition();
+    const { current, next } = getPosition();
+
+    // A tall section (e.g. the About snippet) still has a real amount of content below the
+    // screen (more than a quarter screen): go down about one screen, keeping a strip of what
+    // you just read on screen, and never past the end of this section. Focus stays put.
+    // A section that's only a little taller than the screen (the hero, by a few px of
+    // padding and borders) goes straight to the next section instead.
+    const below = current
+      ? current.getBoundingClientRect().bottom - window.innerHeight
+      : 0;
+    if (below > window.innerHeight * 0.25) {
+      window.scrollBy({
+        top: Math.min(below, window.innerHeight * 0.8),
+        behavior,
+      });
+      return;
+    }
+
     if (!next) return;
     next.scrollIntoView({ behavior });
     focusSection(next);
@@ -136,9 +143,9 @@ function ScrollCue() {
   return (
     <button
       type="button"
-      className={`scroll-cue scroll-cue--${variant}${isAtEnd ? " scroll-cue--top" : ""}${!isDesktop && !isActive ? " scroll-cue--idle" : ""}`}
+      className={`scroll-cue scroll-cue--${variant}${isAtEnd ? " scroll-cue--top" : ""}${!isDesktop && !isAtTop && !isAtBottom ? " scroll-cue--hidden" : ""}`}
       style={{ "--footer-overlap": `${footerOverlap}px` }}
-      aria-label={isAtEnd ? "Back to top" : "Scroll to next section"}
+      aria-label={isAtEnd ? "Back to top" : "Scroll down"}
       onClick={handleClick}
     >
       {/* Rail version: mouse + vertical label */}
@@ -163,6 +170,10 @@ function ScrollCue() {
 
       {/* Arrow version: a thin arrow like yasio.dev, in the rail-marker purple */}
       <span className="scroll-cue__arrow" aria-hidden="true">
+        {/* Phones: slides out when you stop scrolling (the button's aria-label already says it) */}
+        <span className="scroll-cue__arrow-label">
+          {isAtEnd ? "Top" : "Scroll"}
+        </span>
         <svg
           className="scroll-cue__arrow-icon"
           viewBox="0 0 16 32"
