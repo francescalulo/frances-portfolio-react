@@ -99,8 +99,21 @@
 }
 
 .work-list__status {
-  margin: 0;
   padding-block: 2rem;
   font-family: $font-body;
   color: $color-muted;
+
+  // Nothing to say once the projects show, so it takes no space
+  &:empty {
+    padding-block: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+// Error text in #F07869 the empty-category note stays grey
+.work-list__error {
+  color: $color-error;
 }

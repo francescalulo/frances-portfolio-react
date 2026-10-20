@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useExperience from "../../hooks/useExperience";
 import DecodeText from "../DecodeText/DecodeText";
 import ExperienceItem from "../ExperienceItem/ExperienceItem";
+import Loader from "../Loader/Loader";
 import "./AboutSnippet.scss";
 
 // Code line breaks: BREAK is an invisible "you may wrap here" spot (after natural code
@@ -232,17 +233,22 @@ function AboutSnippet() {
             Career chapters
           </p>
 
-          {!isLoaded && (
-            <p className="about-snippet__status" role="status">
-              Loading career chapters…
-            </p>
-          )}
+          {/* Always on the page, so screen readers announce loading and errors */}
+          <div role="status">
+            {!isLoaded && (
+              <Loader
+                code="fetching(chapters)…"
+                label="Loading career chapters…"
+              />
+            )}
 
-          {isLoaded && hasError && (
-            <p className="about-snippet__status">
-              Career chapters couldn’t load right now. Please try again later.
-            </p>
-          )}
+            {isLoaded && hasError && (
+              <p className="about-snippet__status">
+                The career chapters didn’t render. Not my code, obviously. The
+                server dropped the ball. Refresh, or check back in a bit.
+              </p>
+            )}
+          </div>
 
           {isLoaded && !hasError && (
             <ol className="about-snippet__chapters">

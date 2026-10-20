@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import useProjects from "../../hooks/useProjects";
 import WorkRow from "../../components/WorkRow/WorkRow";
+import Loader from "../../components/Loader/Loader";
 import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import { decodeHtml, getTerms } from "../../utilities/Utilities";
 import "./WorkPage.scss";
@@ -100,23 +101,24 @@ function WorkPage() {
       </section>
 
       <section className="work-list" aria-label="Projects">
-        {!isLoaded && (
-          <p className="work-list__status content-width" role="status">
-            Loading work…
-          </p>
-        )}
+        {/* Always on the page, so screen readers announce loading, errors and empty results */}
+        <div className="work-list__status content-width" role="status">
+          {!isLoaded && <Loader code="fetching(work)…" label="Loading work…" />}
 
-        {isLoaded && hasError && (
-          <p className="work-list__status content-width">
-            Work couldn’t load right now. Please try again later.
-          </p>
-        )}
+          {isLoaded && hasError && (
+            <p className="work-list__error">
+              The work didn’t render. Not my code, obviously. The server dropped
+              the ball. Refresh, or check back in a bit.
+            </p>
+          )}
 
-        {isLoaded && !hasError && shown.length === 0 && (
-          <p className="work-list__status content-width">
-            Nothing in this category yet.
-          </p>
-        )}
+          {isLoaded && !hasError && shown.length === 0 && (
+            <p>
+              Nothing’s rendered here yet. Shocking, I know. Try another
+              category.
+            </p>
+          )}
+        </div>
 
         {shown.length > 0 && (
           <ol className="work-list__items">

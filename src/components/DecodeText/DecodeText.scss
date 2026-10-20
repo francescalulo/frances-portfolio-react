@@ -1,4 +1,5 @@
 @use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 
 // Both versions share one grid cell, so switching never changes the height.
 // minmax(0, 1fr): the cell never grows past the screen, even if a code line has a long word
@@ -64,30 +65,7 @@
 
 // Blinking cursor: zero width so it never pushes text; sized to the line it's on
 .decode__caret {
-  position: relative;
-  display: inline-block;
-  width: 0;
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0.04em;
-    bottom: -0.1em;
-    width: 0.08em;
-    height: 1em;
-    background-color: $color-accent;
-    animation: decode-blink 1s steps(1) infinite;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    display: none;
-  }
-}
-
-@keyframes decode-blink {
-  50% {
-    opacity: 0;
-  }
+  @include blinking-caret;
 }
 
 // Decode / Code switch: the knob slides across the pill and the label moves to the other side
