@@ -1,3 +1,6 @@
+// The live React site (canonical links)
+export const SITE_URL = "https://francescalulo.com";
+
 export const restBase = "https://francescalulo.com/fc-cms-1212/wp-json/wp/v2/";
 
 // WordPress page IDs used by the app

@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import useProjects from "../../hooks/useProjects";
 import WorkRow from "../../components/WorkRow/WorkRow";
 import Loader from "../../components/Loader/Loader";
+import PageMeta from "../../components/PageMeta/PageMeta";
 import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import { decodeHtml, getTerms } from "../../utilities/Utilities";
 import "./WorkPage.scss";
@@ -49,7 +50,10 @@ function WorkPage() {
 
   return (
     <>
-      <title>The Build | Frances Calulo</title>
+      <PageMeta
+        title="The Build | Frances Calulo"
+        description="The Build: projects by Frances Calulo, from web apps and interfaces to design systems, built with React, JavaScript and WordPress."
+      />
 
       <section className="work-intro" aria-labelledby="work-heading">
         <div className="work-intro__inner content-width">
