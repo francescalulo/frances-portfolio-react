@@ -3,11 +3,8 @@ import { PLATFORM_LABELS } from "../../utilities/Utilities";
 import "./Footer.scss";
 
 function Footer() {
-  const { settings } = useSiteSettings();
+  const { socialLinks } = useSiteSettings();
   const year = new Date().getFullYear();
-
-  // ACF returns false when the repeater is empty, so fall back to an empty array.
-  const socialLinks = settings?.social_links || [];
 
   return (
     <footer className="footer">
