@@ -246,3 +246,26 @@
     color: $color-accent;
   }
 }
+
+// Blinking text cursor in the accent green. Zero width so it never pushes the text,
+// sized to the line it sits on. Hidden for reduced motion. Keyframes: global.scss.
+@mixin blinking-caret {
+  position: relative;
+  display: inline-block;
+  width: 0;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0.04em;
+    bottom: -0.1em;
+    width: 0.08em;
+    height: 1em;
+    background-color: $color-accent;
+    animation: caret-blink 1s steps(1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}

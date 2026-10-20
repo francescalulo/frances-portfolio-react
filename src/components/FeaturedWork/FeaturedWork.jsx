@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import useProjects from "../../hooks/useProjects";
+import Loader from "../Loader/Loader";
 import WorkCard from "../WorkCard/WorkCard";
 import "./FeaturedWork.scss";
 
@@ -36,17 +37,19 @@ function FeaturedWork() {
             </h2>
           </div>
 
-          {!isLoaded && (
-            <p className="featured-work__status" role="status">
-              Loading work…
-            </p>
-          )}
+          {/* Always on the page, so screen readers announce loading and errors */}
+          <div role="status">
+            {!isLoaded && (
+              <Loader code="fetching(work)…" label="Loading work…" />
+            )}
 
-          {isLoaded && hasError && (
-            <p className="featured-work__status">
-              Work couldn’t load right now. Please try again later.
-            </p>
-          )}
+            {isLoaded && hasError && (
+              <p className="featured-work__status">
+                The work didn’t render. Not my code, obviously. The server
+                dropped the ball. Refresh, or check back in a bit.
+              </p>
+            )}
+          </div>
 
           {isLoaded && !hasError && featured && (
             <div className="featured-work__featured">

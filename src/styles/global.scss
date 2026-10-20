@@ -91,3 +91,10 @@ main section[tabindex="-1"]:focus {
   max-width: $content-max-width;
   margin-inline: auto;
 }
+
+// Blinking cursor (used by the blinking-caret mixin)
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}

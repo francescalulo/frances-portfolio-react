@@ -26,6 +26,9 @@ $color-syntax-yellow: #ffca70;
 $color-syntax-pink: #fd8eff;
 $color-syntax-code-yellow: #c3c44c;
 
+// Status messages
+$color-error: #f07869; // Coral Red, only for errors
+
 // Decorative rails (Lines BG layer)
 $color-rail: $color-border; // rail lines, same purple as the dividers (#4A1080)
 $color-rail-marker: #946ab8; // the + / T / ⊥ markers where rails meet a section edge
