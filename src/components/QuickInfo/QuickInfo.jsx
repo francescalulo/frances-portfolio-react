@@ -4,8 +4,7 @@ import "./QuickInfo.scss";
 
 // Left column of the About page CTA. All values come from Site Settings in WordPress.
 function QuickInfo() {
-  const { settings } = useSiteSettings();
-  const socialLinks = settings?.social_links || [];
+  const { settings, socialLinks } = useSiteSettings();
 
   return (
     <div className="quick-info">

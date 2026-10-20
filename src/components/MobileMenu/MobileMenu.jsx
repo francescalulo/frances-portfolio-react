@@ -52,8 +52,7 @@ function MenuLink({ number, label, srLabel, to, onClick, delay }) {
 // Escape closes, and the page behind doesn't scroll.
 function MobileMenu({ id, items, onClose, onContact }) {
   const panelRef = useRef(null);
-  const { settings } = useSiteSettings();
-  const socialLinks = settings?.social_links || [];
+  const { socialLinks } = useSiteSettings();
 
   useEffect(() => {
     const panel = panelRef.current;

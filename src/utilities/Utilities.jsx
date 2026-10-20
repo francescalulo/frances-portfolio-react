@@ -41,6 +41,21 @@ export function getTerms(project, taxonomy) {
     .filter((term) => term.taxonomy === taxonomy);
 }
 
+// Link types allowed from WordPress fields: web pages and email
+const SAFE_PROTOCOLS = ["https:", "http:", "mailto:"];
+
+// Returns the URL only if it's a web or email link, otherwise null, so a mistyped or
+// harmful link from WordPress (e.g. "javascript:…" or "www.site.com") is never rendered.
+export function safeUrl(url) {
+  if (!url) return null;
+
+  try {
+    return SAFE_PROTOCOLS.includes(new URL(url).protocol) ? url : null;
+  } catch {
+    return null; // not a full URL
+  }
+}
+
 // WordPress sends titles and term names with HTML entities (&amp;, &#8217;).
 // This turns them into plain text, so React can show them safely as text.
 export function decodeHtml(html = "") {

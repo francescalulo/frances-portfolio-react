@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
 import ProjectImage from "../ProjectImage/ProjectImage";
-import { decodeHtml, getTerms } from "../../utilities/Utilities";
+import { decodeHtml, getTerms, safeUrl } from "../../utilities/Utilities";
 import "./WorkRow.scss";
 
 // One project on the Work archive ("Project-Row").
@@ -14,7 +14,7 @@ function WorkRow({ project, number }) {
   const categories = getTerms(project, "work-category");
   const [collaboration] = getTerms(project, "collaboration");
   const year = new Date(project.date).getFullYear();
-  const liveUrl = project.acf?.live_site_url;
+  const liveUrl = safeUrl(project.acf?.live_site_url);
 
   return (
     <article className="work-row">

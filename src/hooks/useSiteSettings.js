@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { restBase, SITE_SETTINGS_PAGE_ID } from "../utilities/Utilities";
+import {
+  restBase,
+  safeUrl,
+  SITE_SETTINGS_PAGE_ID,
+} from "../utilities/Utilities";
 
 // Footer and ContactCTA both need Site Settings. The first component that asks
 // starts the fetch; every other component reuses the same promise, so the
@@ -46,7 +50,12 @@ function useSiteSettings() {
     };
   }, []);
 
-  return { settings, error, isLoaded: settings !== null };
+  // Social links with a safe URL only (ACF returns false when the repeater is empty)
+  const socialLinks = (settings?.social_links || []).filter((link) =>
+    safeUrl(link.url),
+  );
+
+  return { settings, socialLinks, error, isLoaded: settings !== null };
 }
 
 export default useSiteSettings;
