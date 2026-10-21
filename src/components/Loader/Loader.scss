@@ -6,16 +6,12 @@
 .loader {
   margin: 0;
   font-family: $font-display;
-  font-size: $fs-base;
+  font-size: $fs-md;
   font-weight: $fw-bold;
   line-height: 1.5;
   color: $color-accent;
   text-shadow: 0 0 0.5em color-mix(in srgb, currentColor 55%, transparent); // soft green glow
   animation: loader-pulse 2.4s ease-in-out infinite alternate; // slow breathe, far below 3 flashes a second
-
-  @include tablet {
-    font-size: $fs-lg;
-  }
 
   // Reduced motion: the glow stays, it just doesn't pulse
   @media (prefers-reduced-motion: reduce) {

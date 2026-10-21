@@ -9,7 +9,7 @@
 
 .experience-item__heading {
   margin: 0;
-  font-size: 0.9375rem; // 15px
+  font-size: $fs-md;
 }
 
 // Title, years and (on phones) chevron in one row
@@ -49,7 +49,7 @@
 .experience-item__years {
   flex-shrink: 0;
   font-family: $font-display;
-  font-size: 0.8125rem; // 13px
+  font-size: $fs-sm;
   font-weight: $fw-medium;
   color: $color-accent; // Code Green
 }
@@ -93,7 +93,7 @@
   align-items: center;
   gap: 0.375rem;
   margin: 0;
-  font-size: 0.8125rem; // 13px
+  font-size: $fs-sm;
   color: $color-accent-soft;
 }
 
@@ -134,7 +134,7 @@
   border: 1px solid $color-accent;
   border-radius: $radius-tag;
   background-color: $color-surface-code;
-  font-size: 0.75rem;
+  font-size: $fs-xs;
   line-height: normal;
   color: $color-accent;
 }

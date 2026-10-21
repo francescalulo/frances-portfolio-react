@@ -1,0 +1,30 @@
+@use "../../styles/variables" as *;
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: $font-display;
+  font-size: $fs-sm; // same as the eyebrow
+  font-weight: $fw-medium;
+  color: $color-text-subdued; // current page and the "/" separator
+}
+
+// "/" between items; the empty alt text after it keeps screen readers from reading it
+.breadcrumb__item + .breadcrumb__item::before {
+  content: "/" / "";
+  margin-inline: 0.5em;
+}
+
+// White like the footer links; the current page stays lavender
+.breadcrumb__link {
+  color: $color-text-white;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-accent;
+    text-decoration: underline;
+  }
+}

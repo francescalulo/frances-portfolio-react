@@ -157,7 +157,7 @@
   background-color: $color-accent;
   color: $color-on-accent;
   font-family: $font-display;
-  font-size: 0.8125rem; // 13px on phones
+  font-size: $fs-sm;
   font-weight: $fw-medium;
   letter-spacing: 0.035em;
   text-decoration: none;
@@ -166,7 +166,6 @@
   @include tablet {
     min-height: 2.875rem; // 46px
     padding: 0.875rem 1.75rem; // 14px 28px
-    font-size: $fs-sm; // 14px
   }
 
   &:hover {

@@ -39,14 +39,14 @@
 }
 
 .quick-info__label {
-  font-size: 0.75rem;
+  font-size: $fs-xs;
   color: $color-text-mint;
 }
 
 .quick-info__value {
   margin: 0;
   font-family: $font-display;
-  font-size: 0.9375rem;
+  font-size: $fs-md;
   font-weight: $fw-medium;
   color: $color-text;
 }

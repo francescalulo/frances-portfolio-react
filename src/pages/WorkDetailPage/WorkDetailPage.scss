@@ -1,2 +1,83 @@
 @use "../../styles/variables" as *;
 @use "../../styles/mixins" as *;
+
+// ---- Loading / error ----
+.work-detail__status {
+  padding-block: 2rem;
+
+  &:empty {
+    padding-block: 0;
+  }
+}
+
+.work-detail__error {
+  margin: 0;
+  font-family: $font-body;
+  color: $color-error;
+}
+
+// ---- Intro: breadcrumb, eyebrow, title, meta, Work Info ----
+// Phones/tablets: in reading order. Desktop: the meta strip moves above the title.
+.work-detail__intro {
+  @include rails;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid $color-border;
+  background-color: $color-canvas;
+  background-image: $gradient-hero; // same glows as the Home hero and Work page
+
+  // Each part fills the width; content-width then centres it on wide screens
+  > * {
+    width: 100%;
+  }
+}
+
+.work-detail__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-block: 2rem 0;
+
+  @include tablet {
+    padding-block: 3rem 0;
+  }
+
+  @include desktop {
+    padding-block: $space-xl 2.5rem;
+  }
+}
+
+// Sits right under the breadcrumb, so the two read as one group
+.work-detail__eyebrow {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-syntax-blue;
+}
+
+.work-detail__title {
+  margin: 1rem 0 0; // 16px under the eyebrow
+  font-family: $font-display;
+  font-size: $fs-display-xl;
+  font-weight: $fw-bold;
+  line-height: 1;
+  overflow-wrap: break-word;
+  color: $color-text;
+
+  @include desktop {
+    margin-top: 1.5rem; // 24px
+    line-height: 0.95;
+  }
+}
+
+// Line under the details; desktop: a full-width strip on top, on its own dark background
+.work-detail__meta {
+  border-bottom: 1px solid $color-border;
+
+  @include desktop {
+    order: -1;
+    background-color: $color-surface;
+  }
+}
