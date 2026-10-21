@@ -5,6 +5,8 @@ import Loader from "../../components/Loader/Loader";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import WorkMeta from "../../components/WorkMeta/WorkMeta";
 import WorkInfo from "../../components/WorkInfo/WorkInfo";
+import KeyTakeaway from "../../components/KeyTakeaway/KeyTakeaway";
+import NextUp from "../../components/NextUp/NextUp";
 import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { decodeHtml } from "../../utilities/Utilities";
@@ -71,7 +73,15 @@ function WorkDetailPage() {
         <WorkInfo info={project.acf?.work_info} />
       </section>
 
-      <ContactCTA variant="about" />
+      <KeyTakeaway
+        text={project.acf?.key_takeaway}
+        coded={project.acf?.key_takeaway_coded}
+      />
+
+      <ContactCTA
+        variant="about"
+        aside={<NextUp next={project.next_project} />}
+      />
     </>
   );
 }

@@ -137,8 +137,17 @@
     justify-content: center;
     background-image: $gradient-cta-split;
 
+    // Desktop: the heading starts at the top and the button sits at the bottom,
+    // level with the top and bottom of the left column
     @include desktop {
+      justify-content: flex-start;
       min-height: 25rem;
+    }
+  }
+
+  .contact-cta__text {
+    @include desktop {
+      margin-bottom: auto; // takes any spare height, so the button drops to the bottom
     }
   }
 
