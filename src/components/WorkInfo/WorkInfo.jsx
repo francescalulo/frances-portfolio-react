@@ -1,5 +1,6 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import DOMPurify from "dompurify";
+import { revealInView } from "../../utilities/Utilities";
 import "./WorkInfo.scss";
 
 const SECTIONS = [
@@ -9,19 +10,36 @@ const SECTIONS = [
 ];
 
 // One row: the label is a button that opens and closes its text.
+// Opening it by click scrolls the page so the whole row is on screen.
 function WorkInfoItem({ label, html, sidenote, isOpenAtStart }) {
   const [isOpen, setIsOpen] = useState(isOpenAtStart);
   const panelId = useId();
+  const itemRef = useRef(null);
+  const openedByClick = useRef(false);
+
+  useEffect(() => {
+    if (!isOpen || !openedByClick.current) return;
+    openedByClick.current = false;
+    revealInView(itemRef.current);
+  }, [isOpen]);
+
+  function handleToggle() {
+    openedByClick.current = !isOpen;
+    setIsOpen(!isOpen);
+  }
 
   return (
-    <div className={"work-info__item" + (isOpen ? " is-open" : "")}>
+    <div
+      ref={itemRef}
+      className={"work-info__item" + (isOpen ? " is-open" : "")}
+    >
       <h2 className="work-info__heading">
         <button
           type="button"
           className="work-info__toggle"
           aria-expanded={isOpen}
           aria-controls={panelId}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handleToggle}
         >
           {label}
           <svg

@@ -28,7 +28,8 @@ function toSegments(line) {
 }
 
 // Work Detail "Key Takeaway": the ACF key_takeaway text, decoded by default; hovering /
-// tapping types the key_takeaway_coded version. Plain text if there's no coded version.
+// tapping, or the Code / Decode switch, types the key_takeaway_coded version.
+// Plain text (no switch) if there's no coded version.
 function KeyTakeaway({ text, coded }) {
   if (!text) return null;
 
@@ -62,6 +63,7 @@ function KeyTakeaway({ text, coded }) {
               ]}
               startDecoded
               colorShuffle
+              toggle
             />
           </>
         ) : (

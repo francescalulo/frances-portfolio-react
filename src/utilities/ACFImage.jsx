@@ -1,42 +1,49 @@
-// Description: ACFImage component will display images from ACFs.
-// acfImageObject (Required): The ACF image array from the REST API.
-// acfImageSize (Optional): Add if you want a specific size. For example: 'medium', 'medium_large', 'large'.
+// Image sizes WordPress makes, smallest first (used to build srcSet)
+const IMAGE_SIZES = [
+  "medium",
+  "medium_large",
+  "large",
+  "1536x1536",
+  "2048x2048",
+];
 
-const ACFImage = ({ acfImageObject, acfImageSize }) => {
+// An image from an ACF image field (Return Format: Image Array), with srcSet so the
+// browser downloads the smallest file that looks sharp.
+// alt: the Media Library alt text, or fallbackAlt when that's empty.
+function ACFImage({
+  image,
+  sizes = "100vw",
+  fallbackAlt = "",
+  isEager = false,
+  className = "",
+}) {
+  if (!image?.url) return null;
 
-    let imgWidth = acfImageObject.width;
-    let imgHeight = acfImageObject.height;
-    let imgURL = acfImageObject.url;
-    let size = acfImageSize;
+  // One file per width (WordPress lists sizes bigger than the original at the original size)
+  const byWidth = new Map();
+  IMAGE_SIZES.forEach((name) => {
+    const width = image.sizes?.[name + "-width"];
+    if (image.sizes?.[name] && width) byWidth.set(width, image.sizes[name]);
+  });
+  byWidth.set(image.width, image.url);
 
-    return (
-        <>
-            {acfImageObject.sizes[size] ?
-                <figure className="acf-image">
-                    <img
-                        src={acfImageObject.sizes[size]}
-                        width={acfImageObject.sizes[`${size}-width`]}
-                        height={acfImageObject.sizes[`${size}-height`]}
-                        alt={acfImageObject.alt}
-                    />
-                </figure>
-                :
-                <figure className="acf-image">
-                    <img
-                        src={imgURL}
-                        width={imgWidth}
-                        height={imgHeight}
-                        alt={acfImageObject.alt}
-                        srcSet={`
-                            ${imgURL} ${imgWidth}w,
-                            ${acfImageObject.sizes.large ? acfImageObject.sizes.large + ' ' + acfImageObject.sizes['large-width'] + 'w,' : ''}
-                            ${acfImageObject.sizes.medium_large ? acfImageObject.sizes.medium_large + ' ' + acfImageObject.sizes['medium_large-width'] + 'w,' : ''}
-                        `}
-                    />
-                </figure>
-            }
-        </>
-    );
-};
+  const srcSet = [...byWidth]
+    .map(([width, url]) => url + " " + width + "w")
+    .join(", ");
+
+  return (
+    <img
+      className={className}
+      src={image.url}
+      srcSet={srcSet}
+      sizes={sizes}
+      width={image.width}
+      height={image.height}
+      alt={image.alt || fallbackAlt}
+      loading={isEager ? "eager" : "lazy"}
+      decoding="async"
+    />
+  );
+}
 
 export default ACFImage;

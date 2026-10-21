@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef } from "react";
 import DOMPurify from "dompurify";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { DESKTOP_QUERY } from "../../utilities/Utilities";
+import { DESKTOP_QUERY, revealInView } from "../../utilities/Utilities";
 import "./ExperienceItem.scss";
 
 // Turns the ACF "years_in_role" text (e.g. "2007–2019", "2023–present") into "10+ years".
@@ -28,22 +28,15 @@ function formatYears(range) {
 function ExperienceItem({ chapter, isOpen, onToggle }) {
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const panelId = useId();
-  const headerRef = useRef(null);
+  const itemRef = useRef(null);
   const openedByTap = useRef(false);
   const showPanel = isDesktop || isOpen;
 
-  // After a tap opens this chapter (and closes the one above), keep its title on screen
+  // After a tap opens this chapter (and closes the one above), show the whole chapter
   useEffect(() => {
     if (!isOpen || !openedByTap.current) return;
     openedByTap.current = false;
-
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    headerRef.current?.scrollIntoView({
-      block: "nearest",
-      behavior: reduceMotion ? "auto" : "smooth",
-    });
+    revealInView(itemRef.current);
   }, [isOpen]);
 
   function handleToggle() {
@@ -73,8 +66,11 @@ function ExperienceItem({ chapter, isOpen, onToggle }) {
   );
 
   return (
-    <div className={"experience-item" + (showPanel ? " is-open" : "")}>
-      <h3 className="experience-item__heading" ref={headerRef}>
+    <div
+      ref={itemRef}
+      className={"experience-item" + (showPanel ? " is-open" : "")}
+    >
+      <h3 className="experience-item__heading">
         {isDesktop ? (
           <span className="experience-item__header">
             {title}

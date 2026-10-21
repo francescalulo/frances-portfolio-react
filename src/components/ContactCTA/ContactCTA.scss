@@ -108,6 +108,14 @@
 }
 
 // ---------- Split version (About, Work Detail) ----------
+// Each half spans to the screen edge; on screens wider than 1440px the outer padding grows
+// so the content still lines up with the page content (and stays inside the rails).
+// 100% = this half's width, so 100% - 720px + 80px = the content edge.
+$split-gutter: max(
+  #{$gutter-desktop},
+  calc(100% - #{$content-max-width * 0.5} + #{$gutter-desktop})
+);
+
 .contact-cta--about {
   background-image: none; // each column has its own glow
 
@@ -127,6 +135,7 @@
       flex-direction: column;
       justify-content: center;
       padding-block: $space-xl;
+      padding-left: $split-gutter;
       border-bottom: 0;
       border-right: 1px solid $color-border;
     }
@@ -142,6 +151,7 @@
     @include desktop {
       justify-content: flex-start;
       min-height: 25rem;
+      padding-right: $split-gutter;
     }
   }
 

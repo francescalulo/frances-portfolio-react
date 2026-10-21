@@ -1,0 +1,68 @@
+@use "../../styles/variables" as *;
+
+.browser-frame {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  border-radius: $radius-card;
+  background-color: $color-surface-raised;
+  box-shadow: $shadow-card;
+}
+
+.browser-frame__bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 2rem; // 32px, as in the design
+  padding: 0.375rem 0.75rem;
+  border-bottom: 1px solid $color-border;
+  font-family: $font-display;
+  font-size: $fs-xs;
+}
+
+// Window dots in the site's syntax colours
+.browser-frame__dots {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.375rem;
+
+  span {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: $color-syntax-pink;
+
+    &:nth-child(2) {
+      background-color: $color-syntax-yellow;
+    }
+
+    &:nth-child(3) {
+      background-color: $color-accent;
+    }
+  }
+}
+
+.browser-frame__address {
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: $color-text-subdued;
+}
+
+.browser-frame__address--link {
+  color: $color-accent;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.browser-frame__screen {
+  position: relative;
+  flex: 1;
+  overflow: hidden; // the content can't stretch the screen past its set shape
+  background-color: $color-surface;
+}

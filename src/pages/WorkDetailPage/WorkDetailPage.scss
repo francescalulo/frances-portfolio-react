@@ -81,3 +81,19 @@
     background-color: $color-surface;
   }
 }
+
+// ---- Rail markers next to the sections without rails (Mockups, Site Preview) ----
+// "⊥" where the rails stop above them, "T" where they start again below them
+.work-detail__intro:has(+ [data-rails="false"]),
+.key-takeaway:has(+ [data-rails="false"]) {
+  @include rails($bottom-marker: true);
+}
+
+[data-rails="false"] + .key-takeaway,
+[data-rails="false"] + .contact-cta {
+  @include rails($top-marker: "tee");
+}
+
+[data-rails="false"] + .key-takeaway:has(+ [data-rails="false"]) {
+  @include rails($top-marker: "tee", $bottom-marker: true);
+}

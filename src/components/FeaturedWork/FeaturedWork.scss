@@ -18,11 +18,7 @@
 // sticks while the page scrolls the right column past it; when the last card is up,
 // the section scrolls away. Plain page scrolling, so keyboard and screen readers just work.
 .featured-work__inner {
-  --panel-height: clamp(
-    40rem,
-    100svh,
-    60rem
-  ); // one screen, never cramped or huge
+  -panel-height: #{$panel-height};
 
   display: flex;
   flex-direction: column;
