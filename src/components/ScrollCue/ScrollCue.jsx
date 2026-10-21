@@ -54,7 +54,8 @@ function ScrollCue() {
 
   const update = useCallback(() => {
     const { next } = getPosition();
-    setIsAtEnd(!next || isAtPageEnd());
+    // A one-section page (404) at the very top still offers "Scroll" (down to the footer)
+    setIsAtEnd(isAtPageEnd() || (!next && window.scrollY > EDGE));
     setIsAtTop(window.scrollY <= EDGE);
     setIsAtBottom(isAtPageEnd());
 
@@ -133,7 +134,11 @@ function ScrollCue() {
       return;
     }
 
-    if (!next) return;
+    // No next section (404): go down to the footer
+    if (!next) {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior });
+      return;
+    }
     next.scrollIntoView({ behavior });
     focusSection(next);
   }
