@@ -28,6 +28,23 @@ export function scrollToSection(id) {
   return true;
 }
 
+// After an accordion opens: scrolls just enough to show the whole item. If it's taller
+// than the screen, its top goes to the top instead, so the heading stays in view.
+// Instant if the user prefers reduced motion.
+export function revealInView(element) {
+  if (!element) return;
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const isTooTall = element.getBoundingClientRect().height > window.innerHeight;
+
+  element.scrollIntoView({
+    block: isTooTall ? "start" : "nearest",
+    behavior: reduceMotion ? "auto" : "smooth",
+  });
+}
+
 // Same as $breakpoint-desktop in _variables.scss (64em = 1024px). Keep the two in sync.
 export const DESKTOP_QUERY = "(min-width: 64em)";
 

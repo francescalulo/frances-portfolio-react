@@ -5,7 +5,9 @@ import Loader from "../../components/Loader/Loader";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import WorkMeta from "../../components/WorkMeta/WorkMeta";
 import WorkInfo from "../../components/WorkInfo/WorkInfo";
+import WorkMockups from "../../components/WorkMockups/WorkMockups";
 import KeyTakeaway from "../../components/KeyTakeaway/KeyTakeaway";
+import SitePreview from "../../components/SitePreview/SitePreview";
 import NextUp from "../../components/NextUp/NextUp";
 import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
@@ -73,9 +75,19 @@ function WorkDetailPage() {
         <WorkInfo info={project.acf?.work_info} />
       </section>
 
+      <WorkMockups mockups={project.acf?.mockups} title={title} />
+
       <KeyTakeaway
         text={project.acf?.key_takeaway}
         coded={project.acf?.key_takeaway_coded}
+      />
+
+      <SitePreview
+        image={project.acf?.site_preview_image}
+        embedUrl={project.acf?.site_preview_embed_url}
+        liveUrl={project.acf?.live_site_url}
+        repoUrl={project.acf?.repo_url}
+        title={title}
       />
 
       <ContactCTA

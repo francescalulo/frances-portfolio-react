@@ -149,11 +149,6 @@ $fs-display: clamp(
   0.5rem + 4.6vw,
   4.5rem
 ); // 28 → 72px hero / about statements
-$fs-display-lg: clamp(
-  2.5rem,
-  16cqi,
-  5.625rem
-); // 40 → 90px, sized by its column (needs container-type: inline-size)
 $fs-display-xl: clamp(
   2.25rem,
   0.5rem + 7vw,
@@ -185,6 +180,9 @@ $space-sm: 1rem;
 $space-md: 2rem;
 $space-lg: 4rem; // 64px nav gap
 $space-xl: 5rem; // 80px section padding
+
+// One-screen panels (Featured Work, Work Detail previews): a screen tall, never cramped or huge
+$panel-height: clamp(40rem, 100svh, 60rem);
 
 // Layout (1440px frame, 80px side margins → 1280px content)
 $content-max-width: 90rem;

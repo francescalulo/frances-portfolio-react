@@ -1,10 +1,8 @@
 @use "../../styles/variables" as *;
-@use "../../styles/mixins" as *;
 
 // Desktop: fills the CTA's left column. "Next up" sits at the top (level with "Need I say"),
 // the project type at the bottom (level with the bottom of the button).
 .next-up {
-  container-type: inline-size; // the title is sized by this column's width
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -54,17 +52,12 @@
 }
 
 .next-up__title {
-  font-size: $fs-h1; // phones: same as "QUICK INFO" on About
+  font-size: $fs-h1; // a step below "Need I say more?", so long titles still fit
   line-height: 1.05;
   letter-spacing: $tracking-tight;
   text-transform: uppercase;
   color: $color-text;
   transition: color 0.2s ease;
-
-  // Desktop: up to 90px, sized by the column so long titles never spill out
-  @include desktop {
-    font-size: $fs-display-lg;
-  }
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
