@@ -1,0 +1,64 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.work-meta__list {
+  display: grid;
+  gap: 1rem;
+  margin-block: 0;
+  padding-block: 1.5rem;
+  font-family: $font-display;
+  font-weight: $fw-medium;
+
+  // Desktop: four equal columns divided by thin lines
+  @include desktop {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 3rem;
+    padding-block: 0;
+  }
+}
+
+.work-meta__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  // Desktop: every label starts at the same height, even when a value wraps
+  @include desktop {
+    gap: 0.5rem;
+    padding-block: 1.5rem; // 24px above and below
+    padding-right: 1.5rem;
+    border-right: 1px solid $color-border;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}
+
+.work-meta__label {
+  font-size: $fs-xs;
+  text-transform: uppercase;
+  color: $color-syntax-yellow;
+}
+
+.work-meta__value {
+  margin: 0;
+  font-size: $fs-sm;
+  color: $color-text;
+}
+
+// "Git | Local Storage | Sass": a line can only break after a "|", never before one
+.work-meta__terms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.5em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-meta__term:not(:last-child)::after {
+  content: "|" / ""; // empty alt text: screen readers don't read the "|"
+  margin-left: 0.5em;
+  color: $color-border;
+}

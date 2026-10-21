@@ -28,7 +28,7 @@
 .work-intro__label {
   margin: 0;
   font-family: $font-display;
-  font-size: 0.75rem;
+  font-size: $fs-xs;
   font-weight: $fw-medium;
   text-transform: uppercase;
   color: $color-syntax-blue;
@@ -59,7 +59,7 @@
   border-radius: $radius-pill;
   background-color: $color-surface-raised;
   font-family: $font-display;
-  font-size: 0.75rem; // 12px
+  font-size: $fs-xs;
   font-weight: $fw-medium;
   line-height: 1;
   color: $color-accent-soft;

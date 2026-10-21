@@ -4,6 +4,7 @@
 $color-footer: #04000c;
 $color-canvas: #06000f; // page + header
 $color-canvas-deep: #08001a; // About teaser background
+$color-text-subdued: #c4b2e2; // Soft Lavender: breadcrumb on the purple glows (5.7:1 at the brightest)
 $color-surface: #0a0015; // sections, image boxes
 $color-surface-raised: #0d0020; // card bodies, career chapters
 $color-surface-code: #0a1410; // badges, skill tags, outline button
@@ -112,19 +113,55 @@ $fw-regular: 400;
 $fw-medium: 500;
 $fw-bold: 700;
 
-// Type scale (the big sizes shrink on small screens)
-$fs-2xs: 0.5625rem; // 9px  nav numbers
-$fs-xs: 0.6875rem; // 11px eyebrows, badges
-$fs-sm: 0.875rem; // 14px nav, buttons, footer
-$fs-base: 1rem; // 16px
-$fs-lg: 1.25rem; // 20px CTA subtext
-$fs-h1: clamp(2rem, 1rem + 3.3vw, 4rem); // 32px → 64px "QUICK INFO" on desktop
-$fs-h2: clamp(2rem, 1rem + 3vw, 3.25rem); // 52px "The Receipts"
+// Type scale: every size is fluid. It grows smoothly from phones (320px) to desktop
+// (1440px), and rem min/max keep it zoomable. Comments show phone → desktop.
+$fs-2xs: clamp(
+  0.5625rem,
+  0.5446rem + 0.0893vw,
+  0.625rem
+); // 9 → 10px nav numbers
+$fs-xs: clamp(
+  0.6875rem,
+  0.6696rem + 0.0893vw,
+  0.75rem
+); // 11 → 12px labels, tags, badges
+$fs-sm: clamp(
+  0.8125rem,
+  0.7946rem + 0.0893vw,
+  0.875rem
+); // 13 → 14px nav, buttons, eyebrows
+$fs-md: clamp(
+  1rem,
+  0.9643rem + 0.1786vw,
+  1.125rem
+); // 16 → 18px body text (set on <body>)
+$fs-lg: clamp(1.125rem, 1.0893rem + 0.1786vw, 1.25rem); // 18 → 20px CTA subtext
+$fs-xl: clamp(
+  1.75rem,
+  1.6786rem + 0.3571vw,
+  2rem
+); // 28 → 32px mobile menu links
+$fs-h3: clamp(1.5rem, 0.6rem + 3.6vw, 3.5rem); // 24 → 56px Work row titles
+$fs-h2: clamp(2rem, 1rem + 3vw, 3.25rem); // 32 → 52px "The Receipts"
+$fs-h1: clamp(2rem, 1rem + 3.3vw, 4rem); // 32 → 64px "QUICK INFO"
 $fs-display: clamp(
   1.75rem,
   0.5rem + 4.6vw,
   4.5rem
-); // 28px → 72px hero / about statements
+); // 28 → 72px hero / about statements
+$fs-display-xl: clamp(
+  2.25rem,
+  0.5rem + 7vw,
+  6.75rem
+); // 36 → 108px Work Detail title
+$fs-code-lg: clamp(
+  1.25rem,
+  0.5rem + 3.2vw,
+  3.25rem
+); // 20 → 52px big About code lines
+// Hero on phones only (tablet+ uses $fs-display): sized so the widest code line fills the screen
+$fs-hero-code: clamp(1.75rem, 12vw - 0.25rem, 2.75rem); // 28 → 44px
+$fs-hero-title: clamp(2rem, 0.75rem + 6vw, 2.75rem); // 32 → 44px
 
 $lh-tight: 1.05;
 $lh-body: 1.6;

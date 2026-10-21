@@ -45,7 +45,7 @@
   background-color: $color-surface-code;
   box-shadow: 0 0 6px rgba(8, 13, 10, 0.35);
   font-family: $font-display;
-  font-size: 0.625rem; // 10px on phones
+  font-size: $fs-xs;
   font-weight: $fw-medium;
   text-transform: uppercase;
   color: $color-text-white;
@@ -53,7 +53,6 @@
   @include tablet {
     gap: 0.625rem;
     padding: 0.375rem 1rem;
-    font-size: $fs-xs;
   }
 }
 
@@ -82,7 +81,7 @@
 
 .hero__code-line {
   margin: 0;
-  font-size: $fs-base;
+  font-size: $fs-md;
   font-weight: $fw-medium;
   line-height: 1.5; // room between wrapped lines on phones ("superpower…" wraps)
 }
@@ -97,7 +96,7 @@
   padding-left: 0.25em; // the indent inside "const me = {"
   // Phones: grows with the screen so the widest line ("roles: ['designer',") nearly fills the width.
   // About 34px at 320px and 41px at 375px, capped at 44px.
-  font-size: clamp(1.75rem, 12vw - 0.25rem, 2.75rem);
+  font-size: $fs-hero-code;
   font-weight: $fw-light;
   line-height: 1.15;
   letter-spacing: $tracking-tight;
@@ -114,11 +113,7 @@
 // Decoded version ("Hey I'm Frances. / Designer & Developer")
 .hero__decoded-title {
   margin: 0;
-  font-size: clamp(
-    2rem,
-    0.75rem + 6vw,
-    2.75rem
-  ); // 32px at 320 → 44px; bigger than the coded text on phones
+  font-size: $fs-hero-title; // bigger than the coded text on phones
   font-weight: $fw-bold;
   line-height: 1.1;
 
@@ -141,12 +136,12 @@
 
 .hero__decoded-tagline {
   margin: 1.25rem 0 0;
-  font-size: 1.125rem; // 18px on phones, to match the bigger title
+  font-size: $fs-lg; // bigger on phones, to match the bigger title
   font-weight: $fw-medium;
   color: $color-syntax-yellow; // same yellow as the coded "superpower: ( ) =>"
 
   @include tablet {
-    font-size: $fs-base;
+    font-size: $fs-md;
   }
 }
 

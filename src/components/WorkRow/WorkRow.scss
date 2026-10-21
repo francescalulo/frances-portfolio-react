@@ -109,7 +109,7 @@
 .work-row__title {
   margin: 0;
   font-family: $font-display;
-  font-size: clamp(1.5rem, 0.6rem + 3.6vw, 3.5rem); // 24px on phones → 56px
+  font-size: $fs-h3;
   font-weight: $fw-bold;
   line-height: 1.1;
   letter-spacing: $tracking-tight;
@@ -156,7 +156,7 @@
 
 .work-row__excerpt {
   font-family: $font-body;
-  font-size: 0.8125rem; // 13px
+  font-size: $fs-sm;
   line-height: $lh-body;
   color: $color-text-white;
 

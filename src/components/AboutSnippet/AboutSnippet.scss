@@ -102,22 +102,18 @@
 }
 
 .about-snippet__code-line {
-  font-size: 0.8125rem; // 13px on phones
+  font-size: $fs-sm; // 13px on phones
   font-weight: $fw-medium;
   line-height: 1.5;
   color: $color-text;
 
   @include tablet {
-    font-size: $fs-base; // 16px, same as the hero's small code lines
+    font-size: $fs-md; // same as the hero's small code lines
   }
 }
 
 .about-snippet__code-big {
-  font-size: clamp(
-    1.25rem,
-    0.5rem + 3.2vw,
-    3.25rem
-  ); // 20px on phones → 52px, same as "The Receipts"
+  font-size: $fs-code-lg; // same size as "The Receipts" on desktop
   font-weight: $fw-bold;
   line-height: 1.2;
   letter-spacing: $tracking-tight;
