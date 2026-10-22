@@ -1,0 +1,38 @@
+@use "../../styles/variables" as *;
+
+// Both versions in one grid cell. The box's height is set to the showing version's
+// (CodeToggle) and glides to the new one; the taller one is cut off while it fades out.
+.code-toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  transition: height 0.6s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.code-toggle__layer {
+  grid-area: 1 / 1;
+  align-self: start;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.6s ease,
+    visibility 0s linear 0.6s; // hidden once it has faded out
+
+  &.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &.is-active {
+      transition: none;
+    }
+  }
+}

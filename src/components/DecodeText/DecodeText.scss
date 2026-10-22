@@ -1,0 +1,133 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// Both versions share one grid cell, so switching never changes the height.
+// minmax(0, 1fr): the cell never grows past the screen, even if a code line has a long word
+.decode__stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+
+  // While typing / shuffling: typo letters and wide stand-in letters at the end of a line
+  // are cut at the text's edge, so they never spill into the page padding.
+  // (clip, not hidden: no scroll box, and the glow afterwards isn't cut)
+  &.is-moving {
+    overflow-x: clip;
+  }
+}
+
+.decode__layer {
+  grid-area: 1 / 1;
+  align-self: center; // the shorter version sits in the middle of the taller one
+  visibility: hidden;
+  overflow-wrap: break-word; // last resort: a word too long for the screen wraps instead of overflowing
+
+  &.is-active {
+    visibility: visible;
+  }
+}
+
+// Letters not typed yet keep their space, so lines don't reflow while typing
+.decode__pending {
+  visibility: hidden;
+}
+
+// Typo letters + cursor: a zero-width box, so they overlap the space the next letters
+// will fill instead of pushing the line (which made words hop between lines)
+.decode__cursor {
+  display: inline-block;
+  width: 0;
+  white-space: nowrap;
+  text-indent: 0; // same: keeps typo letters right after the last letter
+}
+
+// Wrong letters before they're backspaced (same colour as the word being typed)
+.decode__typo {
+  opacity: 0.85;
+}
+
+// A shuffled letter: the real letter keeps its width (invisible), the stand-in sits on top
+.decode__glyph {
+  position: relative;
+}
+
+.decode__glyph-real {
+  visibility: hidden;
+}
+
+.decode__glyph-fake {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  line-height: normal; // same box as the real letter, so the stand-in sits on the same baseline
+  transform: translateX(-50%);
+  text-indent: 0; // don't take on a parent's hanging indent (it shifted the letter sideways)
+}
+
+// Blinking cursor: zero width so it never pushes text; sized to the line it's on
+.decode__caret {
+  @include blinking-caret;
+}
+
+// One soft glow when the decoded message finishes typing (each word glows in its own colour).
+// Brightens gently, then dims like a light: quick at first, then a long faint tail,
+// spreading softer as it fades so it melts away instead of switching off.
+.decode__layer.is-landed p > span {
+  animation: decode-glow 8s linear forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes decode-glow {
+  0% {
+    text-shadow: 0 0 0.25em color-mix(in srgb, currentColor 0%, transparent);
+    animation-timing-function: ease-in-out; // gentle rise
+  }
+
+  16% {
+    text-shadow: 0 0 0.25em color-mix(in srgb, currentColor 45%, transparent); // peak
+  }
+
+  35% {
+    text-shadow: 0 0 0.35em color-mix(in srgb, currentColor 28%, transparent);
+  }
+
+  55% {
+    text-shadow: 0 0 0.45em color-mix(in srgb, currentColor 15%, transparent);
+  }
+
+  75% {
+    text-shadow: 0 0 0.55em color-mix(in srgb, currentColor 6%, transparent);
+  }
+
+  90% {
+    text-shadow: 0 0 0.6em color-mix(in srgb, currentColor 2%, transparent); // faint tail
+  }
+
+  100% {
+    text-shadow: 0 0 0.6em color-mix(in srgb, currentColor 0%, transparent);
+  }
+}
+
+// colorShuffle: a word's solid syntax colour while it's typed and while it shuffles;
+// DecodeText.jsx removes the class letter by letter as each one settles white
+.decode__tint {
+  color: var(--tint);
+}
+
+.decode__tint--0 {
+  --tint: #{$color-syntax-yellow};
+}
+
+.decode__tint--1 {
+  --tint: #{$color-syntax-pink};
+}
+
+.decode__tint--2 {
+  --tint: #{$color-accent};
+}
+
+.decode__tint--3 {
+  --tint: #{$color-syntax-blue};
+}

@@ -1,0 +1,64 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.key-takeaway {
+  @include rails;
+  @include syntax-colours; // .key-takeaway__comment, __string, __keyword, __key
+  border-bottom: 1px solid $color-border;
+  background-color: $color-surface;
+}
+
+// Desktop: the text sits 80px further in than the page edge, as in the design
+.key-takeaway__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 3rem;
+
+  @include desktop {
+    gap: 1.5rem;
+    padding: $space-xl $space-xl * 2;
+  }
+}
+
+.key-takeaway__label {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-syntax-yellow;
+}
+
+.key-takeaway__decode .decode__layer {
+  align-self: start;
+}
+
+.key-takeaway__text {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-display; // 28 → 72px
+  font-weight: $fw-bold;
+  line-height: $lh-tight;
+  letter-spacing: $tracking-tight;
+  color: $color-text;
+}
+
+// Coded version. Hanging indent: a wrapped line continues 1em further in, like soft wrap
+// in a code editor, so it still reads as one line of code
+.key-takeaway__code {
+  margin: 0;
+  padding-left: 1em;
+  text-indent: -1em;
+  font-family: $font-display;
+  font-size: $fs-code-lg;
+  font-weight: $fw-medium;
+  line-height: 1.2;
+  letter-spacing: $tracking-tight;
+  color: $color-text;
+}
+
+// Lines inside { } sit one step in (and still wrap with the hanging indent)
+.key-takeaway__code--indent {
+  padding-left: 2em; // 1em step in + the 1em hanging indent
+}

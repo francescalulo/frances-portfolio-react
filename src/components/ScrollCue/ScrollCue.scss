@@ -1,0 +1,215 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// One fixed button holding both looks, stacked; only the active one is visible.
+// Phones/tablets: bottom-right corner. Desktop: centred on the left rail line.
+.scroll-cue {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(1rem + var(--footer-overlap, 0px)); // rides above the footer
+  z-index: 50; // above the page, below the mobile menu (100)
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  // Desktop: same spot for both looks, so the control never jumps around.
+  // % here is the viewport width (fixed position), matching the rails' 42px inset.
+  @include desktop {
+    right: calc(
+      max(
+          #{$rail-offset},
+          (100% - #{$content-max-width}) / 2 + #{$rail-offset}
+        ) -
+        1.375rem
+    ); // minus half the 44px button, so it's centred on the right rail
+    bottom: calc(2rem + var(--footer-overlap, 0px));
+    width: 2.75rem;
+  }
+}
+
+// Phones/tablets: only shown at the very top ("Scroll") and the very bottom ("Top"),
+// where the hero / CTA keep empty room for it; hidden in between so it never covers content
+.scroll-cue--hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Both looks share one grid cell; the inactive one fades out
+.scroll-cue__rail,
+.scroll-cue__arrow {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.scroll-cue--rail .scroll-cue__arrow,
+.scroll-cue--arrow .scroll-cue__rail {
+  opacity: 0;
+  visibility: hidden;
+}
+
+// ---- Rail look: mouse + vertical "SCROLL" on the rail line ----
+.scroll-cue__rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scroll-cue__mouse {
+  display: block;
+  width: 1rem; // 16px
+  height: 1.625rem; // 26px
+}
+
+.scroll-cue__body {
+  fill: $color-canvas; // hides the rail line inside the mouse
+  stroke: $color-rail-marker;
+  stroke-width: 1.5;
+  transition: stroke 0.2s ease;
+
+  .scroll-cue:hover & {
+    stroke: $color-accent;
+  }
+}
+
+// The scroll wheel: rolls down and fades, on a loop (rolls up for "Top")
+.scroll-cue__wheel {
+  fill: $color-accent;
+  animation: scroll-cue-wheel 1.8s ease-in-out infinite;
+
+  .scroll-cue--top & {
+    animation-direction: reverse;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes scroll-cue-wheel {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  80%,
+  100% {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+}
+
+// Reads bottom to top
+.scroll-cue__label {
+  padding-block: 0.25rem;
+  background-color: $color-canvas; // a gap in the rail line behind the text
+  font-family: $font-display;
+  font-size: $fs-2xs; // 9px
+  font-weight: $fw-medium;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $color-accent;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+// ---- Arrow look: a thin arrow, no circle ----
+// The button stays 44px wide so it's still easy to tap.
+.scroll-cue__arrow {
+  display: inline-flex;
+  align-items: flex-end; // the label sits level with the arrow's tip
+  justify-content: flex-end;
+  gap: 0.5rem;
+  min-width: 2.75rem; // 44px tap target
+  height: 2.75rem;
+  padding-bottom: 0.375rem;
+  animation: scroll-cue-pulse 1.5s ease-in-out infinite; // text + arrow pulse together
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+// "SCROLL" / "TOP" beside the arrow (phones/tablets; desktop has the rail label instead)
+.scroll-cue__arrow-label {
+  font-family: $font-display;
+  font-size: $fs-xs; // 11px
+  font-weight: $fw-medium;
+  line-height: 1;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $color-accent;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.scroll-cue__arrow-icon {
+  width: 1rem; // 16px
+  height: 2rem; // 32px
+  fill: none;
+  stroke: $color-rail-marker; // the rails' marker purple (the line purple is too dark to see)
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  --bob: 0.25rem; // drifts down (up for "Top")
+  animation: scroll-cue-bob 1.5s ease-in-out infinite;
+  transition:
+    stroke 0.2s ease,
+    transform 0.3s ease;
+
+  .scroll-cue:hover & {
+    stroke: $color-accent;
+  }
+
+  // Points up for "Back to top"
+  .scroll-cue--top & {
+    transform: rotate(180deg);
+    --bob: -0.25rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    animation: none;
+  }
+}
+
+// Fades to 40% and back every 1.5s: slow enough to be calm, never a flash (WCAG 2.3.1)
+@keyframes scroll-cue-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+// The arrow drifts toward where it's pointing and back, in time with the pulse
+@keyframes scroll-cue-bob {
+  50% {
+    translate: 0 var(--bob);
+  }
+}

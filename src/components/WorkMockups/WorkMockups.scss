@@ -1,0 +1,57 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// No rails here (like Featured Work), so the mockup gets the full width
+.work-mockups {
+  border-bottom: 1px solid $color-border;
+  background-color: $color-surface;
+}
+
+.work-mockups__inner {
+  display: grid;
+  gap: 2rem;
+  padding-block: 3rem;
+
+  // Desktop: one screen tall; the card is as big as fits, keeping 16:9
+  @include desktop {
+    container-type: size; // lets the card measure this box (cqw / cqh)
+    place-items: center;
+    height: $panel-height;
+    padding-block: $space-xl;
+  }
+}
+
+// Several mockups: side by side from tablet up
+.work-mockups__inner--grid {
+  @include tablet {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+}
+
+.work-mockups__frame {
+  width: 100%;
+
+  .browser-frame__screen {
+    aspect-ratio: 16 / 9;
+  }
+
+  // One mockup on desktop: full width, unless that would be too tall for the screen
+  // (2.25rem = the card's address bar)
+  @include desktop {
+    width: min(100cqw, (100cqh - 2.25rem) * 16 / 9);
+  }
+}
+
+.work-mockups__inner--grid .work-mockups__frame {
+  @include desktop {
+    width: 100%;
+  }
+}
+
+// Fills the 16:9 card; anything outside it is cropped (export mockups at 16:9 to avoid that)
+.work-mockups__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

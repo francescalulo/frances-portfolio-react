@@ -1,0 +1,340 @@
+@use "variables" as *;
+@use "sass:list";
+
+// Mobile-first breakpoint helpers
+@mixin tablet {
+  @media (min-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $breakpoint-desktop) {
+    @content;
+  }
+}
+
+// Flexible flex layout, pass only what differs from the defaults
+@mixin flex($direction: row, $align: center, $justify: flex-start, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+// Horizontal page padding shared by header, footer and page sections
+@mixin page-gutter {
+  padding-inline: $gutter-mobile;
+
+  @include desktop {
+    padding-inline: $gutter-desktop;
+  }
+}
+
+// Decorative vertical rails, desktop only. Pure decoration: no markup, ignored by screen readers.
+// $top-marker: true = a full "+" centred on the section's top edge (default, rails continue above);
+//              "tee" = a "T" on the top edge (the rails start here, nothing above);
+//              false = no top marker.
+// $bottom-marker: a "⊥" on the bottom edge, only when the next section has no rails.
+@mixin rails($top-marker: true, $bottom-marker: false) {
+  position: relative;
+
+  // Rails sit 42px inside the 1440px frame, even on wider screens
+  $inset: max(
+    #{$rail-offset},
+    calc((100% - #{$content-max-width}) / 2 + #{$rail-offset})
+  );
+  $line: linear-gradient($color-rail-marker, $color-rail-marker);
+  $images: ();
+  $positions: ();
+  $sizes: ();
+
+  @if $top-marker == "tee" {
+    // "T": arm along the top edge, stem pointing down
+    $images: list.join($images, ($line, $line, $line, $line), comma);
+    $positions: list.join(
+      $positions,
+      (
+        left 0 top $rail-arm,
+        right 0 top $rail-arm,
+        left 8px top $rail-arm,
+        right 8px top $rail-arm
+      ),
+      comma
+    );
+    $sizes: list.join(
+      $sizes,
+      ($rail-tick 1px, $rail-tick 1px, 1px $rail-arm, 1px $rail-arm),
+      comma
+    );
+  } @else if $top-marker {
+    $images: list.join($images, ($line, $line, $line, $line), comma);
+    $positions: list.join(
+      $positions,
+      (
+        left 0 top $rail-arm,
+        right 0 top $rail-arm,
+        left 8px top 0,
+        right 8px top 0
+      ),
+      comma
+    );
+    $sizes: list.join(
+      $sizes,
+      (
+        $rail-tick 1px,
+        $rail-tick 1px,
+        1px ($rail-arm * 2 + 1px),
+        1px ($rail-arm * 2 + 1px)
+      ),
+      comma
+    );
+  }
+
+  @if $bottom-marker {
+    $images: list.join($images, ($line, $line, $line, $line), comma);
+    $positions: list.join(
+      $positions,
+      (
+        left 0 bottom 0,
+        right 0 bottom 0,
+        left 8px bottom 0,
+        right 8px bottom 0
+      ),
+      comma
+    );
+    $sizes: list.join(
+      $sizes,
+      ($rail-tick 1px, $rail-tick 1px, 1px $rail-arm, 1px $rail-arm),
+      comma
+    );
+  }
+
+  @include desktop {
+    // The two vertical lines
+    &::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline: $inset;
+      border-inline: 1px solid $color-rail;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    // The markers, centred on each rail. The box starts 9px higher so the "+" sits on the border above.
+    @if list.length($images) > 0 {
+      &::after {
+        content: "";
+        position: absolute;
+        top: -$rail-arm;
+        bottom: 0;
+        inset-inline: calc(#{$inset} - 8px);
+        z-index: 1;
+        pointer-events: none;
+        background-image: $images;
+        background-position: $positions;
+        background-size: $sizes;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
+
+// Solid green button (CTA "Payroll Please", Hero "Fair Warning")
+// Phones: compact (40px); tablet up: full size (46px)
+@mixin button-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.5rem; // 40px on phones
+  padding: 0.625rem 1.25rem; // 10px 20px
+  border-radius: $radius-button;
+  background-color: $color-accent;
+  color: $color-on-accent;
+  font-family: $font-display;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  letter-spacing: 0.035em;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+
+  @include tablet {
+    min-height: 2.875rem; // 46px
+    padding: 0.875rem 1.75rem; // 14px 28px
+  }
+
+  &:hover {
+    background-color: $color-accent-soft;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Outlined green button (Hero "Payroll Please")
+@mixin button-outline {
+  @include button-primary;
+  border: 1px solid $color-accent;
+  background-color: $color-surface-code;
+  color: $color-accent;
+
+  &:hover {
+    background-color: rgba(74, 222, 128, 0.12);
+  }
+}
+
+// Small L-shaped brackets on a card's four corners.
+// Uses ::before, so don't put another ::before on the same element.
+@mixin corner-brackets($size: 0.625rem, $color: $color-rail-marker) {
+  position: relative;
+
+  &::before {
+    $line: linear-gradient($color, $color);
+
+    content: "";
+    position: absolute;
+    inset: -1px; // sit on top of the card's 1px border
+    pointer-events: none;
+    background-image: $line, $line, $line, $line, $line, $line, $line, $line;
+    background-position:
+      top left,
+      top left,
+      top right,
+      top right,
+      bottom left,
+      bottom left,
+      bottom right,
+      bottom right;
+    background-size:
+      $size 1px,
+      1px $size,
+      $size 1px,
+      1px $size,
+      $size 1px,
+      1px $size,
+      $size 1px,
+      1px $size;
+    background-repeat: no-repeat;
+  }
+}
+
+// Small outlined pill link ("Full disclosure →", "View all works →")
+@mixin pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 1.625rem; // 26px, above the 24px minimum target size
+  padding: 0.3125rem 0.625rem;
+  border: 1px solid $color-accent;
+  border-radius: $radius-pill;
+  background-color: $color-surface-code;
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $color-text-white;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+// Blinking text cursor in the accent green. Zero width so it never pushes the text,
+// sized to the line it sits on. Hidden for reduced motion. Keyframes: global.scss.
+@mixin blinking-caret {
+  position: relative;
+  display: inline-block;
+  width: 0;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0.04em;
+    bottom: -0.1em;
+    width: 0.08em;
+    height: 1em;
+    background-color: $color-accent;
+    animation: caret-blink 1s steps(1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+
+// Colours for code text split by toCodeSegments() (Utilities): include it on a block and
+// it makes .block__comment / __string / __keyword / __key, in the site's syntax colours
+@mixin syntax-colours {
+  &__comment {
+    color: $color-syntax-blue;
+  }
+
+  &__string {
+    color: $color-syntax-pink;
+  }
+
+  &__keyword {
+    color: $color-syntax-yellow;
+  }
+
+  &__key {
+    color: $color-accent;
+  }
+}
+
+// Lines made by toCodeLines() (Utilities): .block__code with a hanging indent (a line that
+// wraps on a phone continues 1em further in, like soft wrap in a code editor), indent
+// steps .block__indent-1 / -2 / -3, and .block__nowrap for the bits that must stay on one line
+@mixin code-lines {
+  &__code {
+    margin: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+  }
+
+  &__nowrap {
+    white-space: nowrap;
+  }
+
+  @for $step from 1 through 3 {
+    &__indent-#{$step} {
+      padding-left: calc(#{$step}rem + 1em);
+
+      @include tablet {
+        padding-left: calc(#{$step * 1.5}rem + 1em);
+      }
+    }
+  }
+}
+
+// Boxed accordion items (Experience, FAQ): the border turns pink (like the titles) and a
+// little thicker while the item is open, and on hover (mouse only). The extra pixel is an
+// inset shadow inside the border, so nothing moves. Only applies when $toggle (the item's
+// button) exists.
+@mixin accordion-highlight($toggle) {
+  $colour: $color-syntax-yellow;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:has(#{$toggle}[aria-expanded="true"]) {
+    border-color: $colour;
+  }
+
+  @media (hover: hover) {
+    &:has(#{$toggle}:hover) {
+      border-color: $colour;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

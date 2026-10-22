@@ -1,0 +1,13 @@
+@use "../../styles/variables" as *;
+
+// Badge dot in the error colour instead of the "available" green
+.not-found .hero__badge-dot {
+  background-color: $color-error;
+}
+
+// Phones: the labels are longer than the Home ones, so each button keeps its label on one
+// line and the pair stacks on the smallest screens instead
+.not-found .hero__button {
+  flex-basis: auto;
+  white-space: nowrap;
+}

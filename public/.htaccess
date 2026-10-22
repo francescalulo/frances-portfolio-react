@@ -1,0 +1,37 @@
+# Frances Calulo portfolio: the React build at the domain root (public_html).
+
+Options -MultiViews
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# The other sites in public_html (the CMS and past projects) keep their own setup;
+# the React rules below never touch them
+RewriteRule ^(fc-cms-1212|polar-db|mindset-headless|mindset|woo-store|vancouver|twin-trouble_memory-game|behold-bohol|landing-page)(/|$) - [L]
+# React Router: any URL that isn't a real file or folder loads index.html,
+# so refreshing or opening a link like /work/polardb works
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [QSA,L]
+
+<IfModule mod_headers.c>
+  # Security headers
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Browser caching: each build gives the JS / CSS new file names, so they can be kept
+  # for a year; images for 30 days; index.html is always re-checked so visitors get the
+  # newest build
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpe?g|webp|avif|svg|ico|webmanifest)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

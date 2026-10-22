@@ -1,0 +1,76 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.about-statement {
+  @include rails;
+  @include syntax-colours; // .about-statement__keyword, __string, __key, __comment
+  @include code-lines; // .about-statement__code, __indent-1 / -2, __nowrap
+  border-block: 1px solid $color-border;
+  background-color: $color-surface-raised;
+}
+
+.about-statement__inner {
+  padding-block: 3rem;
+
+  @include desktop {
+    padding: $space-xl 10rem; // 80px 160px, a narrower column for the big text
+  }
+}
+
+// Both versions start at the top, so the statement stays put while it switches
+.about-statement__decode .decode__layer {
+  align-self: start;
+}
+
+// Small code lines ("keepGoing( ) {", the comment, the closing braces)
+.about-statement__code {
+  font-family: $font-display;
+  font-size: $fs-sm;
+  font-weight: $fw-medium;
+  line-height: 1.5;
+  color: $color-text; // same white as the statement
+
+  @include tablet {
+    font-size: $fs-md;
+  }
+}
+
+// "this.momOf3 = true;": large and light, the role in bold green.
+// Phones: a step smaller and never wrapped, so each line stays one line.
+.about-statement__code-big {
+  font-family: $font-display;
+  font-size: $fs-code-lg; // 20px on phones
+  font-weight: $fw-light;
+  line-height: $lh-tight;
+  letter-spacing: $tracking-tight;
+  white-space: nowrap;
+  color: $color-text;
+
+  @include tablet {
+    font-size: $fs-display; // 43 → 72px
+  }
+}
+
+.about-statement__role {
+  font-weight: $fw-bold;
+  color: $color-accent;
+}
+
+// Decoded: "console.log( )" + the statement
+.about-statement__eyebrow {
+  margin: 0 0 1.5rem;
+  font-family: $font-display;
+  font-size: $fs-sm; // same as the About snippet's labels above its large copy
+  font-weight: $fw-medium;
+  color: $color-syntax-blue;
+}
+
+.about-statement__text {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-display;
+  font-weight: $fw-bold;
+  line-height: $lh-tight;
+  letter-spacing: $tracking-tight;
+  color: $color-text;
+}

@@ -1,0 +1,215 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.hero {
+  @include rails(
+    $bottom-marker: true
+  ); // "⊥" where the rails stop (Featured Work has none)
+  background-color: $color-canvas;
+  background-image: $gradient-hero;
+  border-bottom: 1px solid $color-border;
+}
+
+// The hero fills the first screen (minus the header) with the content centred, at every size.
+// svh = the visible screen height, so the mobile address bar doesn't cut off the bottom.
+// Capped at 56rem (896px) so very tall screens don't get a huge empty hero.
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; // stops the badge and buttons stretching full width
+  min-height: min(
+    calc(100svh - 4.5rem - 2px),
+    56rem
+  ); // header height + header and hero borders
+  padding-block: 2rem 4.5rem; // 32px on phones; bottom keeps room for the "Scroll" cue
+  @include tablet {
+    padding-block: 3rem 4.5rem;
+  }
+
+  @include desktop {
+    padding-block: $space-xl; // 80px
+  }
+}
+
+// "• CURRENTLY EMPLOYABLE" pill
+// Phones: compact (about 21px tall). Tablet up
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem; // 6px on phones
+  margin: 0;
+  padding: 0.25rem 0.75rem; // 4px 12px on phones
+  border: 1px solid $color-accent;
+  border-radius: $radius-pill;
+  background-color: $color-surface-code;
+  box-shadow: 0 0 6px rgba(8, 13, 10, 0.35);
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-text-white;
+
+  @include tablet {
+    gap: 0.625rem;
+    padding: 0.375rem 1rem;
+  }
+}
+
+.hero__badge-dot {
+  width: 0.375rem; // 6px on phones
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: $color-accent;
+
+  @include tablet {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+}
+
+.hero__code {
+  width: 100%; // stay full width inside the flex column (phones)
+  padding-top: 2rem;
+  font-family: $font-display;
+  line-height: $lh-tight;
+
+  @include desktop {
+    padding-bottom: 1.0625rem; // the empty line after "};" in the hi-fi
+  }
+}
+
+.hero__code-line {
+  margin: 0;
+  font-size: $fs-md;
+  font-weight: $fw-medium;
+  line-height: 1.5; // room between wrapped lines on phones ("superpower…" wraps)
+}
+
+.hero__code-line--superpower {
+  margin-top: 1.25rem;
+  padding-left: 0.25em;
+}
+
+.hero__headline {
+  margin: 0;
+  padding-left: 0.25em; // the indent inside "const me = {"
+  // Phones: grows with the screen so the widest line ("roles: ['designer',") nearly fills the width.
+  // About 34px at 320px and 41px at 375px, capped at 44px.
+  font-size: $fs-hero-code;
+  font-weight: $fw-light;
+  line-height: 1.15;
+  letter-spacing: $tracking-tight;
+
+  @include tablet {
+    font-size: $fs-display; // back to the shared display size (about 43px at 768px, 72px max)
+  }
+
+  @include desktop {
+    line-height: $lh-tight;
+  }
+}
+
+// Decoded version ("Hey I'm Frances. / Designer & Developer")
+.hero__decoded-title {
+  margin: 0;
+  font-size: $fs-hero-title; // bigger than the coded text on phones
+  font-weight: $fw-bold;
+  line-height: 1.1;
+
+  @include tablet {
+    font-size: $fs-display;
+  }
+
+  @include desktop {
+    line-height: $lh-tight;
+  }
+}
+
+.hero__designer {
+  color: $color-syntax-pink; // same pink as the coded "turns coffee…" string
+}
+
+.hero__developer {
+  color: $color-accent;
+}
+
+.hero__decoded-tagline {
+  margin: 1.25rem 0 0;
+  font-size: $fs-lg; // bigger on phones, to match the bigger title
+  font-weight: $fw-medium;
+  color: $color-syntax-yellow; // same yellow as the coded "superpower: ( ) =>"
+
+  @include tablet {
+    font-size: $fs-md;
+  }
+}
+
+// Phones: "pixels into code." always starts its own line. Tablet up: one line again.
+.hero__tagline-end {
+  display: block;
+
+  @include tablet {
+    display: inline;
+  }
+}
+
+// Syntax colours
+.hero__keyword {
+  color: $color-syntax-yellow;
+}
+
+.hero__string {
+  color: $color-syntax-pink;
+}
+
+.hero__key {
+  color: $color-accent;
+}
+
+.hero__value {
+  font-weight: $fw-bold;
+  color: $color-text;
+}
+
+// Phones: two equal buttons, but the pair never grows wider than 358px
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  width: 100%; // stay full width inside the flex column (phones), max-width still caps it at 358px
+  max-width: 22.375rem;
+  padding-top: 1.5rem; // 24px on phones
+
+  @include desktop {
+    padding-top: 2.25rem;
+  }
+
+  @include tablet {
+    max-width: none; // natural-width buttons from tablet up
+  }
+}
+
+// Phones: two equal-width buttons side by side; natural width from tablet up
+.hero__button--primary {
+  @include button-primary;
+  flex: 1;
+  justify-content: center;
+  font-weight: $fw-bold;
+  letter-spacing: 0;
+
+  @include tablet {
+    flex: none;
+  }
+}
+
+.hero__button--outline {
+  @include button-outline;
+  flex: 1;
+  justify-content: center;
+  letter-spacing: 0;
+
+  @include tablet {
+    flex: none;
+  }
+}

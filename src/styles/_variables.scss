@@ -1,0 +1,194 @@
+// Design tokens
+
+// Surfaces (darkest to lightest)
+$color-footer: #04000c;
+$color-canvas: #06000f; // page + header
+$color-canvas-deep: #08001a; // About teaser background
+$color-text-subdued: #c4b2e2; // Soft Lavender: breadcrumb on the purple glows (5.7:1 at the brightest)
+$color-surface: #0a0015; // sections, image boxes
+$color-surface-raised: #0d0020; // card bodies, career chapters
+$color-surface-code: #0a1410; // badges, skill tags, outline button
+$color-border: #4a1080; // all dividers (decorative)
+
+// Text
+$color-text: #f0fdf4; // Fresh White
+$color-text-white: #ffffff;
+$color-text-mint: #d1fae5; // Pale Mint: small labels (Quick Info)
+$color-muted: #8a8a8a; //
+
+// Accents
+$color-accent: #4ade80; // Code Green: links, nav, primary button
+$color-accent-soft: #86efac; // Soft Green
+$color-on-accent: #131313; // text on green buttons
+
+// Syntax highlights (code-style headings and labels)
+$color-syntax-blue: #53afd8;
+$color-syntax-yellow: #ffca70;
+$color-syntax-pink: #fd8eff;
+$color-syntax-code-yellow: #c3c44c;
+
+// Status messages
+$color-error: #f07869; // Coral Red, only for errors
+
+// Decorative rails (Lines BG layer)
+$color-rail: $color-border; // rail lines, same purple as the dividers (#4A1080)
+$color-rail-marker: #946ab8; // the + / T / ⊥ markers where rails meet a section edge
+$rail-offset: 2.625rem; // 42px from the frame edge
+$rail-tick: 17px; // width of the marker's horizontal arm
+$rail-arm: 9px; // length of the marker's vertical arm (half of the 19px +)
+
+// Background glows (radial gradients; % sizes so they scale)
+$gradient-hero:
+  radial-gradient(
+    54% 75% at 15% 0,
+    rgba(204, 0, 170, 0.4),
+    rgba(105, 0, 93, 0.2) 50%,
+    rgba(6, 0, 15, 0)
+  ),
+  radial-gradient(
+    103% 103% at 50% 0,
+    rgba(102, 0, 204, 0.8),
+    rgba(78, 0, 157, 0.6) 25%,
+    rgba(54, 0, 110, 0.4) 50%,
+    rgba(6, 0, 15, 0)
+  );
+
+$gradient-cta:
+  radial-gradient(
+    28% 17% at 0 0,
+    rgba(85, 0, 187, 0.47),
+    rgba(46, 0, 101, 0.23) 50%,
+    rgba(6, 0, 15, 0)
+  ),
+  radial-gradient(
+    178% 142% at 100% 0,
+    rgba(136, 0, 204, 0.73),
+    rgba(104, 0, 157, 0.55) 25%,
+    rgba(71, 0, 110, 0.37) 50%,
+    rgba(6, 0, 15, 0)
+  );
+
+// Split CTA (About / Work Detail): each half has its own glow
+$gradient-cta-aside: radial-gradient(
+  413% 248% at 0 92%,
+  rgba(85, 0, 187, 0.47),
+  rgba(46, 0, 101, 0.23) 50%,
+  rgba(6, 0, 15, 0)
+);
+$gradient-cta-split: radial-gradient(
+  178% 142% at 100% 0,
+  rgba(136, 0, 204, 0.73),
+  rgba(104, 0, 157, 0.55) 25%,
+  rgba(71, 0, 110, 0.37) 50%,
+  rgba(6, 0, 15, 0)
+);
+
+// About teaser (Home): purple and magenta glows, top-right
+$gradient-about:
+  radial-gradient(
+    39% 58% at 97% 0,
+    rgba(85, 0, 153, 0.53),
+    rgba(47, 0, 90, 0.27) 50%,
+    rgba(8, 0, 26, 0)
+  ),
+  radial-gradient(
+    15% 22% at 100% 1%,
+    rgba(170, 0, 119, 0.4),
+    rgba(89, 0, 73, 0.2) 50%,
+    rgba(8, 0, 26, 0)
+  );
+
+$shadow-card: 0 0 24px rgba(61, 0, 136, 0.4);
+
+// Typography
+$font-display: "Space Grotesk", system-ui, sans-serif;
+$font-body:
+  "Google Sans Flex",
+  system-ui,
+  -apple-system,
+  sans-serif;
+
+$fw-light: 300;
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-bold: 700;
+
+// Type scale: every size is fluid. It grows smoothly from phones (320px) to desktop
+// (1440px), and rem min/max keep it zoomable. Comments show phone → desktop.
+$fs-2xs: clamp(
+  0.5625rem,
+  0.5446rem + 0.0893vw,
+  0.625rem
+); // 9 → 10px nav numbers
+$fs-xs: clamp(
+  0.6875rem,
+  0.6696rem + 0.0893vw,
+  0.75rem
+); // 11 → 12px labels, tags, badges
+$fs-sm: clamp(
+  0.8125rem,
+  0.7946rem + 0.0893vw,
+  0.875rem
+); // 13 → 14px nav, buttons, eyebrows
+$fs-md: clamp(
+  1rem,
+  0.9643rem + 0.1786vw,
+  1.125rem
+); // 16 → 18px body text (set on <body>)
+$fs-lg: clamp(1.125rem, 1.0893rem + 0.1786vw, 1.25rem); // 18 → 20px CTA subtext
+$fs-xl: clamp(
+  1.75rem,
+  1.6786rem + 0.3571vw,
+  2rem
+); // 28 → 32px mobile menu links
+$fs-h3: clamp(1.5rem, 0.6rem + 3.6vw, 3.5rem); // 24 → 56px Work row titles
+$fs-h2: clamp(2rem, 1rem + 3vw, 3.25rem); // 32 → 52px "The Receipts"
+$fs-h1: clamp(2rem, 1rem + 3.3vw, 4rem); // 32 → 64px "QUICK INFO"
+$fs-display: clamp(
+  1.75rem,
+  0.5rem + 4.6vw,
+  4.5rem
+); // 28 → 72px hero / about statements
+$fs-display-xl: clamp(
+  2.25rem,
+  0.5rem + 7vw,
+  6.75rem
+); // 36 → 108px Work Detail title
+$fs-code-lg: clamp(
+  1.25rem,
+  0.5rem + 3.2vw,
+  3.25rem
+); // 20 → 52px big About code lines
+// Hero on phones only (tablet+ uses $fs-display): sized so the widest code line fills the screen
+$fs-hero-code: clamp(1.75rem, 12vw - 0.25rem, 2.75rem); // 28 → 44px
+$fs-hero-title: clamp(2rem, 0.75rem + 6vw, 2.75rem); // 32 → 44px
+
+$lh-tight: 1.05;
+$lh-body: 1.6;
+$tracking-tight: -0.02em;
+$tracking-tighter: -0.03em;
+
+// Radius
+$radius-tag: 3px;
+$radius-card: 4px;
+$radius-button: 6px;
+$radius-pill: 999px;
+
+// Spacing
+$space-xs: 0.5rem;
+$space-sm: 1rem;
+$space-md: 2rem;
+$space-lg: 4rem; // 64px nav gap
+$space-xl: 5rem; // 80px section padding
+
+// One-screen panels (Featured Work, Work Detail previews): a screen tall, never cramped or huge
+$panel-height: clamp(40rem, 100svh, 60rem);
+
+// Layout (1440px frame, 80px side margins → 1280px content)
+$content-max-width: 90rem;
+$gutter-mobile: 1rem;
+$gutter-desktop: 5rem;
+
+// Breakpoints (em so they scale with the user's browser font size; 1em = 16px)
+$breakpoint-tablet: 48em; // 768px
+$breakpoint-desktop: 64em; // 1024px

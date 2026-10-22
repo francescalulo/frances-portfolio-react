@@ -1,0 +1,40 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.footer {
+  @include rails;
+  background-color: $color-footer;
+  border-top: 1px solid $color-border;
+}
+
+.footer__inner {
+  @include flex($justify: space-between, $gap: $space-sm);
+  padding-block: 1.5rem; // 24px on phones
+  font-size: $fs-sm;
+  color: $color-text-white;
+
+  @include tablet {
+    padding-block: 3rem; // 48px
+  }
+}
+
+.footer__copyright {
+  margin: 0;
+}
+
+.footer__social {
+  @include flex($gap: 1.5rem); // 24px
+  flex-shrink: 0; // keeps LinkedIn / GitHub on one line; the copyright wraps instead
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__social-link {
+  text-decoration: none;
+
+  &:hover {
+    color: $color-accent;
+    text-decoration: underline;
+  }
+}

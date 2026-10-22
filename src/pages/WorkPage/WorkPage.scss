@@ -1,0 +1,119 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// ---- Intro: "// WORK ARCHIVE", "The Build", Category filters ----
+.work-intro {
+  @include rails; // desktop rails, like the header, CTA and footer around it
+  border-bottom: 1px solid $color-border;
+  background-color: $color-canvas;
+  background-image: $gradient-hero; // same glows as the Home hero (hi-fi Work-Header)
+}
+
+.work-intro__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem; // 12px label → title
+  padding-block: 2.5rem 2rem; // phones
+
+  @include tablet {
+    padding-block: 4rem 3rem;
+  }
+
+  @include desktop {
+    padding-block: $space-xl 3rem;
+  }
+}
+
+.work-intro__label {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  text-transform: uppercase;
+  color: $color-syntax-blue;
+}
+
+.work-intro__title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-h2; // 32px → 52px
+  font-weight: $fw-bold;
+  line-height: 1.1;
+  letter-spacing: $tracking-tight;
+  color: $color-text;
+}
+
+.work-intro__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem; // 32px from the title in total
+}
+
+// Pill filter buttons. Pressed = the category showing (aria-pressed drives the look).
+.work-intro__filter {
+  min-height: 1.8125rem; // 29px, above the 24px minimum target size
+  padding: 0.4375rem 1rem;
+  border: 1px solid $color-border;
+  border-radius: $radius-pill;
+  background-color: $color-surface-raised;
+  font-family: $font-display;
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  line-height: 1;
+  color: $color-accent-soft;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    border-color: $color-rail-marker;
+  }
+
+  &[aria-pressed="true"] {
+    border-color: $color-accent;
+    color: $color-text-white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// ---- Project list ----
+.work-list {
+  @include rails($top-marker: false); // the intro's border already has the "+"
+  padding-block: 1rem; // phones: room around the cards
+
+  @include tablet {
+    padding-block: 0;
+  }
+}
+
+.work-list__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-list__status {
+  padding-block: 2rem;
+  font-family: $font-body;
+  color: $color-muted;
+
+  // Nothing to say once the projects show, so it takes no space
+  &:empty {
+    padding-block: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+// Error text in #F07869 the empty-category note stays grey
+.work-list__error {
+  color: $color-error;
+}

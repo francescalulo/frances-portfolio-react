@@ -1,0 +1,87 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// No rails here (like Featured Work), so each frame gets the most width
+.site-preview {
+  border-bottom: 1px solid $color-border;
+  background-color: $color-surface;
+
+  // Desktop: when you stop scrolling near it, the page settles with this section filling
+  // the screen. Scrolling over the embed then browses the live site; at its end the page
+  // carries on. (Gentle "proximity" snapping, only on pages that have this section.)
+  @include desktop {
+    scroll-snap-align: start;
+  }
+}
+
+:root:has(.site-preview) {
+  @include desktop {
+    scroll-snap-type: y proximity;
+  }
+}
+
+// Phones: stacked, page space around them (a full-screen embed would trap the thumb).
+// Tablets: side by side. Desktop: one screen tall too, so scrolling inside the embed
+// browses the live site while the page waits, then the page carries on.
+.site-preview__inner {
+  display: grid;
+  gap: 2rem;
+  padding-block: 3rem;
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include desktop {
+    height: $panel-height;
+    padding-block: $space-xl;
+  }
+}
+
+// Phones/tablets: never taller than 70% of the screen (70svh × 4/5 = 56svh wide),
+// so it narrows instead of being cropped into a strip
+.site-preview__frame {
+  justify-self: center;
+  width: 100%;
+  max-width: 56svh;
+
+  @include desktop {
+    max-width: none;
+  }
+}
+
+// Phones/tablets: a tall 4:5 screen
+.site-preview__frame .browser-frame__screen {
+  aspect-ratio: 4 / 5;
+
+  // Desktop: the frame fills the panel height instead
+  @include desktop {
+    aspect-ratio: auto;
+  }
+}
+
+// Only one frame (no embed or no screenshot): centred, the width of one column
+.site-preview__frame:only-child {
+  @include tablet {
+    grid-column: 1 / -1;
+    width: calc(50% - 1rem);
+  }
+}
+
+// Fills the frame from the top of the page; anything below is cropped
+// (export screenshots at 4:5 to avoid that)
+.site-preview__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.site-preview__embed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

@@ -1,0 +1,101 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+// Always reserve the scrollbar's space, so nothing shifts when the mobile menu locks scrolling
+html {
+  scrollbar-gutter: stable;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: $font-body;
+  font-size: $fs-md;
+  font-weight: $fw-regular;
+  line-height: $lh-body;
+  color: $color-text;
+  background-color: $color-canvas;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: $font-display;
+  font-weight: $fw-bold;
+  line-height: $lh-tight;
+  letter-spacing: $tracking-tight;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+// One visible focus ring for every interactive element (green on dark: 11.9:1)
+:focus-visible {
+  outline: 2px solid $color-accent;
+  outline-offset: 3px;
+}
+
+// Sections that receive focus from the scroll cue / in-page links aren't controls,
+// so they don't need a focus ring (focus just moves there for keyboard users)
+main section[tabindex="-1"]:focus {
+  outline: none;
+}
+
+::selection {
+  background-color: $color-accent;
+  color: $color-on-accent;
+}
+
+// Hidden on screen, still read by screen readers
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Sticky-footer layout: footer stays at the bottom on short pages
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.wrapper main {
+  flex: 1;
+  // Safety net: nothing inside main (animations included) can make the page scroll sideways.
+  // clip, not hidden, so position: sticky inside still works
+  overflow-x: clip;
+}
+
+// Caps and centers content on wide screens, with the page gutter built in
+.content-width {
+  @include page-gutter;
+  max-width: $content-max-width;
+  margin-inline: auto;
+}
+
+// Blinking cursor (used by the blinking-caret mixin)
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}

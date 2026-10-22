@@ -1,0 +1,16 @@
+@use "../../styles/variables" as *;
+
+// Loading / error for the WordPress parts (Core Competencies, FAQs)
+.about-page__status {
+  padding-block: 2rem;
+
+  &:empty {
+    padding-block: 0;
+  }
+}
+
+.about-page__error {
+  margin: 0;
+  font-family: $font-body;
+  color: $color-error;
+}

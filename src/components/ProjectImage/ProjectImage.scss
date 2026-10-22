@@ -1,0 +1,38 @@
+@use "../../styles/variables" as *;
+
+// The box itself; the parent (WorkCard, WorkRow) gives it its shape and border
+.project-image {
+  overflow: hidden;
+  background-color: $color-surface;
+}
+
+.project-image__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease; // the parent card zooms it on hover
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Until the project has a featured image
+.project-image__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 100%;
+  font-family: $font-body;
+  font-size: $fs-xs;
+  text-transform: uppercase;
+  color: $color-muted;
+}
+
+.project-image__placeholder-icon {
+  width: 2rem; // 32px
+  height: 2rem;
+}

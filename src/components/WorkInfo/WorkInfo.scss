@@ -1,0 +1,111 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.work-info {
+  padding-block: 1rem 3rem;
+
+  @include desktop {
+    padding-block: 2.5rem $space-xl;
+  }
+}
+
+// Desktop: label on the left, text on the right in the same row (as in the design).
+// The button spans the whole row; the text sits on top of its right part.
+.work-info__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+
+  & + & {
+    border-top: 1px solid $color-border;
+  }
+
+  @include desktop {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 5fr); // 480px | 720px
+    column-gap: 5rem;
+  }
+}
+
+.work-info__heading {
+  margin: 0;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  align-self: start;
+}
+
+.work-info__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  min-height: 2.75rem; // 44px touch target
+  padding: 1rem 0;
+  border: 0;
+  background: none;
+  font-family: $font-display;
+  font-size: $fs-sm; // 14px
+  font-weight: $fw-bold;
+  text-align: left;
+  text-transform: uppercase;
+  color: $color-syntax-pink;
+  cursor: pointer;
+}
+
+.work-info__chevron {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: $color-accent;
+  stroke-width: 2.5;
+  transition: transform 0.2s ease;
+
+  .is-open & {
+    transform: rotate(180deg); // points up when open
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.work-info__panel {
+  padding-bottom: 1.5rem;
+
+  // Desktop: right column, level with the label, clear of the chevron
+  @include desktop {
+    grid-column: 2;
+    grid-row: 1;
+    padding-block: 1rem 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.work-info__text {
+  font-family: $font-body;
+  font-size: $fs-md;
+  line-height: $lh-body;
+  color: $color-text-white;
+
+  p {
+    margin: 0 0 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Approach's side note: same size as the text above, in the eyebrow blue
+.work-info__sidenote {
+  margin: 1.25rem 0 0;
+  font-family: $font-body;
+  font-size: $fs-md; // same as the text above
+  line-height: $lh-body;
+  white-space: pre-line; // keep line breaks typed in WordPress
+  color: $color-syntax-blue;
+}
+
+.work-info__sidenote-label {
+  font-weight: $fw-bold;
+}

@@ -1,0 +1,73 @@
+@use "../../styles/variables" as *;
+
+// Desktop: fills the CTA's left column. "Next up" sits at the top (level with "Need I say"),
+// the project type at the bottom (level with the bottom of the button).
+.next-up {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-family: $font-display;
+  font-weight: $fw-bold;
+}
+
+.next-up__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.next-up__label,
+.next-up__count {
+  margin: 0;
+  font-size: $fs-xs;
+  letter-spacing: 0.04em;
+}
+
+.next-up__label {
+  text-transform: uppercase;
+  color: $color-syntax-pink;
+}
+
+.next-up__count {
+  color: $color-accent;
+}
+
+.next-up__link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-decoration: none;
+
+  // The title and type light up together when the link is hovered
+  &:hover .next-up__title {
+    color: $color-accent;
+  }
+
+  &:hover .next-up__type {
+    text-decoration: underline;
+  }
+}
+
+.next-up__title {
+  font-size: $fs-h1; // a step below "Need I say more?", so long titles still fit
+  line-height: 1.05;
+  letter-spacing: $tracking-tight;
+  text-transform: uppercase;
+  color: $color-text;
+  transition: color 0.2s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.next-up__type {
+  margin-top: auto; // pinned to the bottom
+  font-size: $fs-xs;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $color-accent;
+}

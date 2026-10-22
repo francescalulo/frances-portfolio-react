@@ -1,0 +1,40 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// "fetching(work)…" styled like the decoded hero title (Space Grotesk, bold) in the accent green:
+// 16px on phones, 20px from tablet
+.loader {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-md;
+  font-weight: $fw-bold;
+  line-height: 1.5;
+  color: $color-accent;
+  text-shadow: 0 0 0.5em color-mix(in srgb, currentColor 55%, transparent); // soft green glow
+  animation: loader-pulse 2.4s ease-in-out infinite alternate; // slow breathe, far below 3 flashes a second
+
+  // Reduced motion: the glow stays, it just doesn't pulse
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.loader__caret {
+  @include blinking-caret;
+
+  // The caret glows to match the text
+  &::after {
+    box-shadow: 0 0 0.4em color-mix(in srgb, $color-accent 60%, transparent);
+  }
+}
+
+// Glow fades between soft and bright
+@keyframes loader-pulse {
+  from {
+    text-shadow: 0 0 0.3em color-mix(in srgb, currentColor 25%, transparent);
+  }
+
+  to {
+    text-shadow: 0 0 0.6em color-mix(in srgb, currentColor 70%, transparent);
+  }
+}

@@ -1,0 +1,66 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.quick-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; // 20px on phones
+  padding-top: 1.5rem;
+  border-top: 1px solid $color-border;
+
+  @include desktop {
+    gap: 2.625rem;
+  }
+}
+
+.quick-info__title {
+  margin: 0;
+  font-size: $fs-h1;
+  letter-spacing: $tracking-tight;
+  text-transform: uppercase;
+  color: $color-text;
+}
+
+.quick-info__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.5rem; // 20px rows, 40px columns
+  margin: 0;
+
+  @include desktop {
+    margin-top: auto; // pinned to the bottom
+  }
+}
+
+.quick-info__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.quick-info__item--full {
+  flex-basis: 100%;
+}
+
+.quick-info__label {
+  font-size: $fs-xs;
+  color: $color-syntax-yellow;
+}
+
+.quick-info__value {
+  margin: 0;
+  font-family: $font-display;
+  font-size: $fs-md;
+  font-weight: $fw-medium;
+  color: $color-text;
+}
+
+.quick-info__link {
+  text-decoration-color: $color-border;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: $color-accent;
+    text-decoration-color: currentColor;
+  }
+}
