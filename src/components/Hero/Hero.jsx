@@ -1,4 +1,5 @@
 import DecodeText from "../DecodeText/DecodeText";
+import PayrollLink from "../PayrollLink/PayrollLink";
 import { scrollToSection } from "../../utilities/Utilities";
 import "./Hero.scss";
 
@@ -108,13 +109,7 @@ function Hero() {
           >
             Fair Warning
           </a>
-          <a
-            href="#contact"
-            className="hero__button hero__button--outline"
-            onClick={(event) => jumpTo(event, "contact")}
-          >
-            Payroll Please
-          </a>
+          <PayrollLink className="hero__button hero__button--outline" />
         </div>
       </div>
     </section>

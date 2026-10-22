@@ -3,9 +3,10 @@ import CodeToggle from "../CodeToggle/CodeToggle";
 import DecodeText from "../DecodeText/DecodeText";
 import DecodeSwitch from "../DecodeSwitch/DecodeSwitch";
 import GlitchImage from "../GlitchImage/GlitchImage";
+import PayrollLink from "../PayrollLink/PayrollLink";
 import BrowserFrame from "../BrowserFrame/BrowserFrame";
 import portrait from "../../assets/frances-portrait.webp";
-import { scrollToSection, toCodeLines } from "../../utilities/Utilities";
+import { toCodeLines } from "../../utilities/Utilities";
 import "./AboutIntro.scss";
 
 const NBSP = "\u00A0";
@@ -137,11 +138,6 @@ function AboutIntro() {
   const [isBioDecoded, setIsBioDecoded] = useState(false);
   const photoRef = useRef(null);
 
-  // The anchor works without JS; with JS we scroll smoothly and move focus (like the hero)
-  function jumpToContact(event) {
-    if (scrollToSection("contact")) event.preventDefault();
-  }
-
   return (
     <>
       <section className="about-intro" aria-labelledby="about-heading">
@@ -173,13 +169,7 @@ function AboutIntro() {
               toggle
               onSwitch={() => photoRef.current?.glitch()}
             />
-            <a
-              href="#contact"
-              className="about-intro__button"
-              onClick={jumpToContact}
-            >
-              Payroll Please
-            </a>
+            <PayrollLink className="about-intro__button" />
           </div>
         </div>
       </section>

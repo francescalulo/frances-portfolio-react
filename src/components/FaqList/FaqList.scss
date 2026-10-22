@@ -33,6 +33,7 @@
 }
 
 .faq-list__item {
+  @include accordion-highlight(".faq-list__toggle");
   border: 1px solid $color-border;
   border-radius: $radius-card;
   background-color: $color-surface-raised;

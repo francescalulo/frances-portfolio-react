@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import logoGhost from "../../assets/frances-logo-ghost.svg";
 import useScramble from "../../hooks/useScramble";
@@ -50,9 +50,32 @@ function MenuLink({ number, label, srLabel, to, onClick, delay }) {
 
 // Full-screen menu for phones. A modal dialog: focus moves in, Tab stays inside,
 // Escape closes, and the page behind doesn't scroll.
+// Closing plays the opening in reverse (links leave, the circle shrinks into the menu
+// button), then onClose runs. Reduced motion: closes instantly.
 function MobileMenu({ id, items, onClose, onContact }) {
   const panelRef = useRef(null);
   const { socialLinks } = useSiteSettings();
+  const [closing, setClosing] = useState(null); // while closing: what to do once it's gone
+
+  // options go to onClose; afterClose runs once the menu is gone (Contact's jump)
+  const requestClose = useCallback(
+    (options, afterClose) => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        onClose(options);
+        afterClose?.();
+        return;
+      }
+      setClosing({ options, afterClose });
+    },
+    [onClose],
+  );
+
+  // The panel's closing animation has finished (the links' animations bubble up too)
+  function handleAnimationEnd(event) {
+    if (!closing || event.animationName !== "mobile-menu-out") return;
+    onClose(closing.options);
+    closing.afterClose?.();
+  }
 
   useEffect(() => {
     const panel = panelRef.current;
@@ -62,7 +85,7 @@ function MobileMenu({ id, items, onClose, onContact }) {
 
     function handleKeyDown(event) {
       if (event.key === "Escape") {
-        onClose();
+        requestClose();
         return;
       }
       if (event.key !== "Tab") return;
@@ -92,20 +115,26 @@ function MobileMenu({ id, items, onClose, onContact }) {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose]);
+  }, [requestClose]);
 
   // Picking a link closes the menu without sending focus back to the menu button
-  const closeForLink = () => onClose({ returnFocus: false });
+  const closeForLink = () => requestClose({ returnFocus: false });
 
+  // Contact: close first, then jump to the CTA
+  function closeForContact(event) {
+    event.preventDefault();
+    requestClose({ returnFocus: false }, () => onContact(event));
+  }
   return (
     <div
       id={id}
       ref={panelRef}
-      className="mobile-menu"
+      className={"mobile-menu" + (closing ? " is-closing" : "")}
       role="dialog"
       aria-modal="true"
       aria-label="Site menu"
       tabIndex={-1}
+      onAnimationEnd={handleAnimationEnd}
     >
       {/* Big faded {f}, decoration only (same treatment as the CTA) */}
       <div className="mobile-menu__mark" aria-hidden="true">
@@ -131,7 +160,7 @@ function MobileMenu({ id, items, onClose, onContact }) {
             type="button"
             className="header__menu-button"
             aria-label="Close menu"
-            onClick={() => onClose()}
+            onClick={() => requestClose()}
           >
             <svg
               className="header__menu-icon"
@@ -163,7 +192,7 @@ function MobileMenu({ id, items, onClose, onContact }) {
                 label="<Contact/>"
                 srLabel="Contact"
                 delay={START + items.length * STAGGER}
-                onClick={onContact}
+                onClick={closeForContact}
               />
             </li>
           </ul>

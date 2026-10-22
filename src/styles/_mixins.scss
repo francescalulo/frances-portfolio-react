@@ -313,3 +313,28 @@
     }
   }
 }
+
+// Boxed accordion items (Experience, FAQ): the border turns pink (like the titles) and a
+// little thicker while the item is open, and on hover (mouse only). The extra pixel is an
+// inset shadow inside the border, so nothing moves. Only applies when $toggle (the item's
+// button) exists.
+@mixin accordion-highlight($toggle) {
+  $colour: $color-syntax-yellow;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:has(#{$toggle}[aria-expanded="true"]) {
+    border-color: $colour;
+  }
+
+  @media (hover: hover) {
+    &:has(#{$toggle}:hover) {
+      border-color: $colour;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

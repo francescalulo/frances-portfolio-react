@@ -1,4 +1,5 @@
 import useSiteSettings from "../../hooks/useSiteSettings";
+import PayrollLink from "../PayrollLink/PayrollLink";
 import logoGhost from "../../assets/frances-logo-ghost.svg";
 import "./ContactCTA.scss";
 
@@ -76,10 +77,9 @@ function ContactCTA({ variant = "primary", aside = null, fullScreen = false }) {
         {ctaText && <p className="contact-cta__text">{ctaText}</p>}
 
         {email && (
-          <a href={"mailto:" + email} className="contact-cta__button">
+          <PayrollLink className="contact-cta__button">
             Payroll Please <span aria-hidden="true">→</span>
-            <span className="visually-hidden"> (email {email})</span>
-          </a>
+          </PayrollLink>
         )}
       </div>
     </section>
