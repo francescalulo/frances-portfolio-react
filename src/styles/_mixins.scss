@@ -268,3 +268,73 @@
     display: none;
   }
 }
+
+// Colours for code text split by toCodeSegments() (Utilities): include it on a block and
+// it makes .block__comment / __string / __keyword / __key, in the site's syntax colours
+@mixin syntax-colours {
+  &__comment {
+    color: $color-syntax-blue;
+  }
+
+  &__string {
+    color: $color-syntax-pink;
+  }
+
+  &__keyword {
+    color: $color-syntax-yellow;
+  }
+
+  &__key {
+    color: $color-accent;
+  }
+}
+
+// Lines made by toCodeLines() (Utilities): .block__code with a hanging indent (a line that
+// wraps on a phone continues 1em further in, like soft wrap in a code editor), indent
+// steps .block__indent-1 / -2 / -3, and .block__nowrap for the bits that must stay on one line
+@mixin code-lines {
+  &__code {
+    margin: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+  }
+
+  &__nowrap {
+    white-space: nowrap;
+  }
+
+  @for $step from 1 through 3 {
+    &__indent-#{$step} {
+      padding-left: calc(#{$step}rem + 1em);
+
+      @include tablet {
+        padding-left: calc(#{$step * 1.5}rem + 1em);
+      }
+    }
+  }
+}
+
+// Boxed accordion items (Experience, FAQ): the border turns pink (like the titles) and a
+// little thicker while the item is open, and on hover (mouse only). The extra pixel is an
+// inset shadow inside the border, so nothing moves. Only applies when $toggle (the item's
+// button) exists.
+@mixin accordion-highlight($toggle) {
+  $colour: $color-syntax-yellow;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:has(#{$toggle}[aria-expanded="true"]) {
+    border-color: $colour;
+  }
+
+  @media (hover: hover) {
+    &:has(#{$toggle}:hover) {
+      border-color: $colour;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

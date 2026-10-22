@@ -22,6 +22,7 @@
 .header__logo-mark {
   width: 2.375rem; // 38px on phones
   height: 2.375rem;
+  transition: filter 0.3s ease;
 
   @include desktop {
     width: 2.75rem;
@@ -36,6 +37,28 @@
   letter-spacing: $tracking-tight;
   text-transform: uppercase;
   color: $color-text;
+  transition: text-shadow 0.3s ease;
+}
+
+// Hover / keyboard focus: a soft green glow on the logo
+.header__logo:hover,
+.header__logo:focus-visible {
+  .header__logo-mark {
+    filter: drop-shadow(
+      0 0 0.375rem color-mix(in srgb, #{$color-accent} 45%, transparent)
+    );
+  }
+
+  .header__logo-text {
+    text-shadow: 0 0 0.5em color-mix(in srgb, #{$color-accent} 45%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header__logo-mark,
+  .header__logo-text {
+    transition: none;
+  }
 }
 
 .header__list {
@@ -64,15 +87,10 @@
   color: $color-accent;
   text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
-  }
-
   // NavLink adds .active to the current page's link
   &.active {
     color: $color-text;
     font-weight: $fw-bold;
-    text-decoration: underline;
   }
 }
 

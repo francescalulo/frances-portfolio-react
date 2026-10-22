@@ -26,6 +26,10 @@
   flex-wrap: wrap;
   gap: 1.25rem 2.5rem; // 20px rows, 40px columns
   margin: 0;
+
+  @include desktop {
+    margin-top: auto; // pinned to the bottom
+  }
 }
 
 .quick-info__item {
@@ -40,7 +44,7 @@
 
 .quick-info__label {
   font-size: $fs-xs;
-  color: $color-text-mint;
+  color: $color-syntax-yellow;
 }
 
 .quick-info__value {

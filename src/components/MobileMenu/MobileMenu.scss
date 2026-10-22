@@ -21,6 +21,13 @@
   &:focus {
     outline: none;
   }
+
+  // Closing: the opening in reverse. The links leave first, then the circle shrinks back
+  // into the menu button. No clicks while it closes.
+  &.is-closing {
+    animation: mobile-menu-out 0.4s cubic-bezier(0.65, 0, 0.35, 1) 0.15s both;
+    pointer-events: none;
+  }
 }
 
 // The panel grows as a circle out of the menu button (top-right)
@@ -35,6 +42,15 @@ $menu-button-center: calc(100% - clamp(1rem, 4vw, 2.5rem) - 1.375rem) 2.25rem;
   }
 }
 
+@keyframes mobile-menu-out {
+  from {
+    clip-path: circle(150% at #{$menu-button-center});
+  }
+  to {
+    clip-path: circle(0 at #{$menu-button-center});
+  }
+}
+
 // Links slide up one after another, as the circle finishes
 @keyframes mobile-menu-item-in {
   from {
@@ -44,6 +60,18 @@ $menu-button-center: calc(100% - clamp(1rem, 4vw, 2.5rem) - 1.375rem) 2.25rem;
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+// Closing: links slide back down and fade, last one first
+@keyframes mobile-menu-item-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(0.75rem);
   }
 }
 
@@ -103,6 +131,17 @@ $menu-button-center: calc(100% - clamp(1rem, 4vw, 2.5rem) - 1.375rem) 2.25rem;
       animation: none;
     }
   }
+
+  // Closing: 150ms, 100ms, 50ms, 0ms: the reverse order
+  .is-closing & li {
+    animation: mobile-menu-item-out 0.2s ease-in both;
+
+    @for $i from 1 through 4 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{(4 - $i) * 50}ms;
+      }
+    }
+  }
 }
 
 .mobile-menu__link {
@@ -139,6 +178,10 @@ $menu-button-center: calc(100% - clamp(1rem, 4vw, 2.5rem) - 1.375rem) 2.25rem;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
+  }
+
+  .is-closing & {
+    animation: mobile-menu-item-out 0.2s ease-in both; // leaves first
   }
 }
 

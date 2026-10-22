@@ -1,31 +1,6 @@
+import { toCodeSegments } from "../../utilities/Utilities";
 import DecodeText from "../DecodeText/DecodeText";
 import "./KeyTakeaway.scss";
-
-// Colours the coded version like the rest of the site: 'strings' pink, keywords yellow,
-// object keys green
-const TOKEN =
-  /('[^']*'|"[^"]*")|\b(const|let|var|function|return)\b|([A-Za-z_$][\w$]*)(?=\s*:)/g;
-
-function toSegments(line) {
-  const segments = [];
-  let last = 0;
-
-  for (const match of line.matchAll(TOKEN)) {
-    if (match.index > last) {
-      segments.push({ text: line.slice(last, match.index) });
-    }
-    const className = match[1]
-      ? "key-takeaway__string"
-      : match[2]
-        ? "key-takeaway__keyword"
-        : "key-takeaway__key";
-    segments.push({ text: match[0], className });
-    last = match.index + match[0].length;
-  }
-
-  if (last < line.length) segments.push({ text: line.slice(last) });
-  return segments;
-}
 
 // Work Detail "Key Takeaway": the ACF key_takeaway text, decoded by default; hovering /
 // tapping, or the Code / Decode switch, types the key_takeaway_coded version.
@@ -41,7 +16,7 @@ function KeyTakeaway({ text, coded }) {
       className:
         "key-takeaway__code" +
         (line.startsWith(" ") ? " key-takeaway__code--indent" : ""),
-      segments: toSegments(line.trim()),
+      segments: toCodeSegments(line.trim(), "key-takeaway"),
     }));
 
   return (

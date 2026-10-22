@@ -68,68 +68,6 @@
   @include blinking-caret;
 }
 
-// Decode / Code switch: the knob slides across the pill and the label moves to the other side
-.decode__toggle {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  width: 5.25rem; // 84px, fixed so the knob always travels the same distance
-  min-height: 1.5rem; // 24px, the minimum tap target (WCAG 2.5.8)
-  margin-top: 1.5rem; // 24px gap below the code block
-  padding: 0;
-  border: 1px solid $color-border;
-  border-radius: $radius-pill;
-  background-color: $color-surface-code;
-  font-family: $font-display;
-  font-size: $fs-xs; // 11px, same as the badge
-  font-weight: $fw-medium;
-  color: $color-accent;
-  cursor: pointer;
-
-  &:hover {
-    border-color: $color-accent;
-  }
-}
-
-.decode__toggle-knob {
-  position: absolute;
-  top: 50%;
-  left: 0.1875rem; // 3px from the left edge (Decode)
-  width: 1rem; // 16px
-  height: 1rem;
-  border-radius: 50%;
-  background-color: $color-rail-marker;
-  transform: translateY(-50%);
-  transition:
-    left 0.3s ease,
-    background-color 0.2s ease;
-
-  .decode__toggle[aria-pressed="true"] & {
-    left: calc(100% - 1rem - 0.1875rem); // 3px from the right edge (Code)
-    background-color: $color-accent;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-}
-
-// The label sits beside the knob: right of it on Decode, left of it on Code
-.decode__toggle-label {
-  flex: 1;
-  padding: 0 0.5rem 0 1.5rem; // room for the knob on the left
-  text-align: center;
-  transition: padding 0.3s ease;
-
-  .decode__toggle[aria-pressed="true"] & {
-    padding: 0 1.5rem 0 0.5rem; // room for the knob on the right
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-}
-
 // One soft glow when the decoded message finishes typing (each word glows in its own colour).
 // Brightens gently, then dims like a light: quick at first, then a long faint tail,
 // spreading softer as it fades so it melts away instead of switching off.

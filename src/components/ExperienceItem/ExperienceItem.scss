@@ -1,7 +1,9 @@
 @use "../../styles/variables" as *;
 @use "../../styles/mixins" as *;
 
+// Phones / tablets: thicker border on hover and while open (desktop has no button)
 .experience-item {
+  @include accordion-highlight(".experience-item__toggle");
   border: 1px solid $color-border;
   border-radius: $radius-card;
   background-color: $color-surface-raised;
