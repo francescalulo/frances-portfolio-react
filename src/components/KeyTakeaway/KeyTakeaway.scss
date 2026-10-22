@@ -3,6 +3,7 @@
 
 .key-takeaway {
   @include rails;
+  @include syntax-colours; // .key-takeaway__comment, __string, __keyword, __key
   border-bottom: 1px solid $color-border;
   background-color: $color-surface;
 }
@@ -60,16 +61,4 @@
 // Lines inside { } sit one step in (and still wrap with the hanging indent)
 .key-takeaway__code--indent {
   padding-left: 2em; // 1em step in + the 1em hanging indent
-}
-
-.key-takeaway__keyword {
-  color: $color-syntax-yellow;
-}
-
-.key-takeaway__key {
-  color: $color-accent;
-}
-
-.key-takeaway__string {
-  color: $color-syntax-pink;
 }

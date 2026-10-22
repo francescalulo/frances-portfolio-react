@@ -1,0 +1,142 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+.core-competencies {
+  @include rails;
+
+  // "T" where the rails start again under the bio section
+  [data-rails="false"] + & {
+    @include rails($top-marker: "tee");
+  }
+
+  background-color: $color-surface;
+}
+
+.core-competencies__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 3rem;
+
+  @include desktop {
+    padding-block: $space-xl;
+  }
+}
+
+// Same small blue label as the About snippet's
+.core-competencies__label {
+  margin: 0;
+  font-size: $fs-sm;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: $color-syntax-blue;
+}
+
+// Phones / tablets: the label is the dropdown's button (full width, padlock on the right)
+.core-competencies__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  min-height: 2.75rem; // 44px touch target
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.core-competencies__toggle-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+// "unlock potentials": a soft green blink so people know there's more to open
+.core-competencies__hint {
+  font-size: $fs-xs;
+  font-weight: $fw-medium;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: $color-accent;
+  animation: hint-blink 2.4s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none; // stays visible, just doesn't blink
+  }
+}
+
+@keyframes hint-blink {
+  0%,
+  100% {
+    opacity: 0.45;
+    text-shadow: none;
+  }
+
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+  }
+}
+
+.core-competencies__lock {
+  flex-shrink: 0;
+  width: 1.125rem; // 18px
+  height: 1.125rem;
+  fill: none;
+  stroke: $color-accent;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.core-competencies__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem; // 8px on phones
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // display: flex would override the hidden attribute, so restore it
+  &[hidden] {
+    display: none;
+  }
+
+  @include tablet {
+    gap: 0.75rem;
+  }
+}
+
+// Phones: compact, so two tags fit on a row. Tablet up: full size.
+.core-competencies__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.625rem; // 6px 10px on phones
+  border: 1px solid $color-border;
+  border-radius: $radius-card;
+  background-color: $color-surface-code;
+  font-size: $fs-xs;
+  line-height: normal;
+  color: $color-text-white;
+
+  @include tablet {
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem; // 8px 12px
+    font-size: $fs-sm;
+  }
+}
+
+.core-competencies__dot {
+  flex-shrink: 0;
+  width: 0.375rem; // 6px
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: $color-accent;
+}

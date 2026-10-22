@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import { scrambleText, standIn } from "../../utilities/Utilities";
+import DecodeSwitch from "../DecodeSwitch/DecodeSwitch";
 import "./DecodeText.scss";
 
 const SHUFFLE_TIME = 1200; // ms for the shuffle band to sweep across the text (like the nav)
@@ -53,47 +55,6 @@ function wordIndexes(lines) {
     }
   });
   return wordOf;
-}
-
-// Letters grouped by width in Space Grotesk, so a shuffled letter is swapped for one of
-// about the same width and never spills over the letters next to it (an "m" over an "i" would)
-const WIDTH_GROUPS = [
-  "Iijl",
-  "frt1",
-  "EFLksvz7",
-  "235689JPSTVYZacehnouxy",
-  "04ABCDGHKNOQRUXbdgpq",
-  "w",
-  "MWm",
-];
-
-// A random stand-in for char: same width group, from the text's own letters when it has
-// some (pool is an array of letters), and the same case when possible
-function standIn(char, pool) {
-  const group = WIDTH_GROUPS.find((letters) => letters.includes(char));
-  if (!group) return char;
-
-  const fromText = pool.filter((letter) => group.includes(letter));
-  const candidates = fromText.length > 0 ? fromText : group.split("");
-  const isUpper = char === char.toUpperCase();
-  const sameCase = candidates.filter(
-    (letter) => (letter === letter.toUpperCase()) === isUpper,
-  );
-  const options = sameCase.length > 0 ? sameCase : candidates;
-  return options[Math.floor(Math.random() * options.length)];
-}
-
-// Shuffles the letters of text between from and to using the text's own letters
-// (case and width matched), like the nav. Spaces and symbols stay put.
-function scrambleText(text, from, to) {
-  const pool = text.replace(/[^a-z0-9]/gi, "").split("");
-  return text
-    .split("")
-    .map((char, index) => {
-      if (index < from || index >= to || !/[a-z0-9]/i.test(char)) return char;
-      return standIn(char, pool);
-    })
-    .join("");
 }
 
 // Finds which character of the text is under the mouse (for the hover ripple).
@@ -260,6 +221,7 @@ function renderLines(lines, shown, showCaret, typo, scrambled, tint = null) {
 // startDecoded (large copies): rests as the readable message and mirrors that: hover (or tap)
 // types the code, it goes back LEAVE_DELAY after the mouse leaves (TOUCH_HOLD after a tap),
 // and scrolling never codes it. Optional toggle switch: puts the visitor in control (stops auto).
+// Optional onSwitch(target): called each time it starts switching (e.g. to glitch a photo).
 // Optional colorShuffle: when the message is typed back, each word types in its own solid
 // syntax colour; once the word is finished its letters shuffle and settle white, one by one.
 // The text is visual only (aria-hidden): give screen readers the real text separately.
@@ -270,6 +232,7 @@ function DecodeText({
   startDecoded = false,
   toggle = false,
   colorShuffle = false,
+  onSwitch,
   className = "",
 }) {
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
@@ -296,6 +259,7 @@ function DecodeText({
   const isManual = useRef(false); // true once the visitor uses the toggle
   const isHovering = useRef(false); // desktop: is the mouse over the text right now
   const playRef = useRef(null); // the latest play(), for timers started inside play itself
+  const onSwitchRef = useRef(onSwitch); // a ref, so play() doesn't restart on re-render
 
   const linesFor = useCallback(
     (state) => (state === "decoded" ? decoded : coded),
@@ -321,6 +285,7 @@ function DecodeText({
   const play = useCallback(
     (target, { fast = false } = {}) => {
       stop();
+      onSwitchRef.current?.(target);
       setGoal(target);
       setTypo("");
       setScrambled(null);
@@ -586,6 +551,10 @@ function DecodeText({
     playRef.current = play;
   }, [play]);
 
+  useEffect(() => {
+    onSwitchRef.current = onSwitch;
+  }, [onSwitch]);
+
   // Desktop: the letters near the mouse ripple (shuffle briefly) on the resting code
   function ripple(event) {
     if (prefersReducedMotion()) return;
@@ -748,18 +717,7 @@ function DecodeText({
       </div>
 
       {toggle && (
-        <button
-          type="button"
-          className="decode__toggle"
-          aria-pressed={goal === "decoded"}
-          aria-label="Show the decoded message"
-          onClick={handleToggle}
-        >
-          <span className="decode__toggle-knob" aria-hidden="true" />
-          <span className="decode__toggle-label" aria-hidden="true">
-            {goal === "decoded" ? "Code" : "Decode"}
-          </span>
-        </button>
+        <DecodeSwitch isDecoded={goal === "decoded"} onClick={handleToggle} />
       )}
     </div>
   );
