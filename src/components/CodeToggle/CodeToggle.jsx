@@ -57,7 +57,7 @@ function CodeToggle({
   numberRows = false,
   className = "",
 }) {
-  const [frame, setFrame] = useState(null); // shuffled texts while switching
+  const [frame, setFrame] = useState(null); // while switching: each version's shuffled texts
   const [height, setHeight] = useState(null); // the showing version's height
   const [rows, setRows] = useState(0); // rows of code on screen (numberRows)
   const timer = useRef(null);
@@ -85,10 +85,16 @@ function CodeToggle({
       }
 
       const head = progress * total; // front edge of the sweep
-      setFrame({
-        incoming: scrambleLines(incoming, head - BAND, Infinity), // settles behind it
-        outgoing: scrambleLines(outgoing, 0, head), // dissolves behind it
-      });
+      const settling = scrambleLines(incoming, head - BAND, Infinity); // settles behind it
+      const dissolving = scrambleLines(outgoing, 0, head); // dissolves behind it
+
+      // Stored per version (not "incoming" / "outgoing"), so a quick second switch can
+      // never draw one version's texts over the other's lines
+      setFrame(
+        isDecoded
+          ? { coded: dissolving, decoded: settling }
+          : { coded: settling, decoded: dissolving },
+      );
     }, FRAME);
 
     return () => {
@@ -139,19 +145,13 @@ function CodeToggle({
             {Array.from({ length: rows }, (_, index) => index + 1).join("\n")}
           </span>
         )}
-        {renderLines(
-          coded,
-          frame && (isDecoded ? frame.outgoing : frame.incoming),
-        )}
+        {renderLines(coded, frame?.coded)}
       </div>
       <div
         ref={decodedRef}
         className={"code-toggle__layer" + (isDecoded ? " is-active" : "")}
       >
-        {renderLines(
-          decoded,
-          frame && (isDecoded ? frame.incoming : frame.outgoing),
-        )}
+        {renderLines(decoded, frame?.decoded)}
       </div>
     </div>
   );
