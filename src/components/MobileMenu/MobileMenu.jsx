@@ -4,7 +4,7 @@ import logoGhost from "../../assets/frances-logo-ghost.svg";
 import useScramble from "../../hooks/useScramble";
 import useSiteSettings from "../../hooks/useSiteSettings";
 import ScrambleText from "../ScrambleText/ScrambleText";
-import { PLATFORM_LABELS } from "../../utilities/Utilities";
+import SocialLink from "../SocialLink/SocialLink";
 import "./MobileMenu.scss";
 
 const STAGGER = 90; // ms between each link's scramble
@@ -202,14 +202,7 @@ function MobileMenu({ id, items, onClose, onContact }) {
           <ul className="mobile-menu__social">
             {socialLinks.map((link) => (
               <li key={link.platform}>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mobile-menu__social-link"
-                >
-                  {PLATFORM_LABELS[link.platform] ?? link.platform}
-                </a>
+                <SocialLink link={link} className="mobile-menu__social-link" />
               </li>
             ))}
           </ul>

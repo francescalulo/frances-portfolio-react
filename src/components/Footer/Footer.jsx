@@ -1,5 +1,5 @@
 import useSiteSettings from "../../hooks/useSiteSettings";
-import { PLATFORM_LABELS } from "../../utilities/Utilities";
+import SocialLink from "../SocialLink/SocialLink";
 import "./Footer.scss";
 
 function Footer() {
@@ -17,14 +17,7 @@ function Footer() {
           <ul className="footer__social">
             {socialLinks.map((link) => (
               <li key={link.platform}>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer__social-link"
-                >
-                  {PLATFORM_LABELS[link.platform] ?? link.platform}
-                </a>
+                <SocialLink link={link} className="footer__social-link" />
               </li>
             ))}
           </ul>
