@@ -61,9 +61,37 @@ const CODED = toCodeLines([...BIO_CODE, "}"], "about-intro").map((line) =>
     : line,
 );
 
+// Readable bio: key phrases in the syntax colours (each phrase → its colour)
+const BIO_HIGHLIGHTS = {
+  designer: "pink",
+  developer: "green",
+  "Figma, React, JavaScript, HTML, CSS, WordPress, and Git": "green",
+  "TypeScript and accessibility": "yellow",
+  memoized: "blue",
+  "still shipping": "green",
+  "K-drama and true crime": "pink",
+  "Everest-sized pile of laundry": "yellow",
+  "the why behind the how": "pink",
+  "coffee-and-cake": "yellow",
+};
+const HIGHLIGHT_PATTERN = new RegExp(
+  "(" + Object.keys(BIO_HIGHLIGHTS).join("|") + ")",
+);
+
 const DECODED = BIO.map((text) => ({
   className: "about-intro__prose",
-  segments: [{ text }],
+  segments: text
+    .split(HIGHLIGHT_PATTERN)
+    .filter(Boolean)
+    .map((part) =>
+      BIO_HIGHLIGHTS[part]
+        ? {
+            text: part,
+            className:
+              "about-intro__mark about-intro__mark--" + BIO_HIGHLIGHTS[part],
+          }
+        : { text: part },
+    ),
 }));
 
 // Beside the photo: small framing lines + large meaning lines (like the About snippet)

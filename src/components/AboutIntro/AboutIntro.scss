@@ -264,7 +264,6 @@
   text-align: right;
   white-space: pre;
   color: $color-muted;
-  opacity: 0.7;
 
   @include tablet {
     font-size: $fs-sm;
@@ -301,6 +300,27 @@
   }
 }
 
+// Readable bio: key phrases in the syntax colours
+.about-intro__mark {
+  font-weight: $fw-medium;
+}
+
+.about-intro__mark--pink {
+  color: $color-syntax-pink;
+}
+
+.about-intro__mark--green {
+  color: $color-accent;
+}
+
+.about-intro__mark--yellow {
+  color: $color-syntax-yellow;
+}
+
+.about-intro__mark--blue {
+  color: $color-syntax-blue;
+}
+
 // Readable bio: one number per paragraph, in the same gutter
 .about-intro__prose::before {
   counter-increment: line;
@@ -311,7 +331,6 @@
   text-align: right;
   text-indent: 0;
   color: $color-muted;
-  opacity: 0.7;
 }
 
 // The "return" line, highlighted across the whole window (gutter included)
