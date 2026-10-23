@@ -147,7 +147,10 @@
 
 // Solid green button (CTA "Payroll Please", Hero "Fair Warning")
 // Phones: compact (40px); tablet up: full size (46px)
+// Hover / keyboard focus: four green corner brackets lock onto it, like a target.
+// Press / tap: it pushes in and the label splits pink and blue (the site's glitch).
 @mixin button-primary {
+  position: relative; // for the corner brackets
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -161,19 +164,84 @@
   font-weight: $fw-medium;
   letter-spacing: 0.035em;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
 
   @include tablet {
     min-height: 2.875rem; // 46px
     padding: 0.875rem 1.75rem; // 14px 28px
   }
 
-  &:hover {
-    background-color: $color-accent-soft;
+  // The corner brackets: wait further out, then snap in around the button
+  &::before {
+    $line: linear-gradient($color-accent, $color-accent);
+
+    content: "";
+    position: absolute;
+    inset: -1rem;
+    pointer-events: none;
+    opacity: 0;
+    background-image: $line, $line, $line, $line, $line, $line, $line, $line;
+    background-position:
+      top left,
+      top left,
+      top right,
+      top right,
+      bottom left,
+      bottom left,
+      bottom right,
+      bottom right;
+    background-size:
+      0.5rem 2px,
+      2px 0.5rem,
+      0.5rem 2px,
+      2px 0.5rem,
+      0.5rem 2px,
+      2px 0.5rem,
+      0.5rem 2px,
+      2px 0.5rem;
+    background-repeat: no-repeat;
+    transition:
+      inset 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 0.2s ease;
+  }
+
+  // Hover only where there's a mouse, so it doesn't stick after a tap
+  @media (hover: hover) {
+    &:hover {
+      background-color: $color-accent-soft;
+    }
+
+    &:hover::before {
+      inset: -0.5rem;
+      opacity: 1;
+    }
+  }
+
+  // Keyboard focus gets the brackets too (outside the focus ring)
+  &:focus-visible::before {
+    inset: -0.5rem;
+    opacity: 1;
+  }
+
+  &:active {
+    transform: scale(0.97);
+    text-shadow:
+      -2px 0 $color-syntax-pink,
+      2px 0 $color-syntax-blue;
   }
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+
+    &::before {
+      transition: none;
+    }
+
+    &:active {
+      transform: none;
+    }
   }
 }
 
@@ -184,8 +252,17 @@
   background-color: $color-surface-code;
   color: $color-accent;
 
-  &:hover {
-    background-color: rgba(74, 222, 128, 0.12);
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(74, 222, 128, 0.12);
+    }
+  }
+
+  // A softer split, so the green label stays readable on the dark button
+  &:active {
+    text-shadow:
+      -1px 0 rgba($color-syntax-pink, 0.6),
+      1px 0 rgba($color-syntax-blue, 0.6);
   }
 }
 
