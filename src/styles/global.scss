@@ -99,3 +99,90 @@ main section[tabindex="-1"]:focus {
     opacity: 0;
   }
 }
+
+// RGB-split glitch (GlitchImage, Preloader): the pink and blue copies jump sideways in
+// slices, then snap back
+@keyframes glitch-jolt {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  25% {
+    transform: translateX(2px);
+  }
+
+  60% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes glitch-split-pink {
+  0% {
+    opacity: 0.9;
+    transform: translateX(-6px);
+    clip-path: inset(8% 0 62% 0);
+  }
+
+  20% {
+    transform: translateX(5px);
+    clip-path: inset(48% 0 30% 0);
+  }
+
+  40% {
+    transform: translateX(-4px);
+    clip-path: inset(20% 0 55% 0);
+  }
+
+  60% {
+    transform: translateX(3px);
+    clip-path: inset(70% 0 8% 0);
+  }
+
+  80% {
+    opacity: 0.6;
+    transform: translateX(-2px);
+    clip-path: inset(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes glitch-split-blue {
+  0% {
+    opacity: 0.9;
+    transform: translateX(6px);
+    clip-path: inset(55% 0 20% 0);
+  }
+
+  20% {
+    transform: translateX(-5px);
+    clip-path: inset(12% 0 70% 0);
+  }
+
+  40% {
+    transform: translateX(4px);
+    clip-path: inset(62% 0 12% 0);
+  }
+
+  60% {
+    transform: translateX(-3px);
+    clip-path: inset(30% 0 45% 0);
+  }
+
+  80% {
+    opacity: 0.6;
+    transform: translateX(2px);
+    clip-path: inset(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0);
+  }
+}
