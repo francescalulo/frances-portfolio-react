@@ -300,6 +300,27 @@
   }
 }
 
+// Readable bio: key phrases in the syntax colours
+.about-intro__mark {
+  font-weight: $fw-medium;
+}
+
+.about-intro__mark--pink {
+  color: $color-syntax-pink;
+}
+
+.about-intro__mark--green {
+  color: $color-accent;
+}
+
+.about-intro__mark--yellow {
+  color: $color-syntax-yellow;
+}
+
+.about-intro__mark--blue {
+  color: $color-syntax-blue;
+}
+
 // Readable bio: one number per paragraph, in the same gutter
 .about-intro__prose::before {
   counter-increment: line;
