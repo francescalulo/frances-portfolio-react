@@ -17,6 +17,7 @@ $color-text-mint: #d1fae5; // Pale Mint: small labels (Quick Info)
 $color-muted: #8a8a8a; //
 
 // Accents
+$color-logo: #94f37a; // the {f} logo's green (the preloader matches it)
 $color-accent: #4ade80; // Code Green: links, nav, primary button
 $color-accent-soft: #86efac; // Soft Green
 $color-on-accent: #131313; // text on green buttons
@@ -102,6 +103,7 @@ $shadow-card: 0 0 24px rgba(61, 0, 136, 0.4);
 
 // Typography
 $font-display: "Space Grotesk", system-ui, sans-serif;
+$font-logo: "Inter", $font-display; // the {f} logo's font (preloader only)
 $font-body:
   "Google Sans Flex",
   system-ui,

@@ -92,6 +92,15 @@ const WIDTH_GROUPS = [
   "MWm",
 ];
 
+// The intro (Preloader): animations that should start after it (the hero) wait for
+// whenIntroDone(); the Preloader calls finishIntro() when it ends or doesn't play.
+let resolveIntro;
+const introDone = new Promise((resolve) => {
+  resolveIntro = resolve;
+});
+export const whenIntroDone = () => introDone;
+export const finishIntro = () => resolveIntro();
+
 // A random stand-in for char: same width group, from the text's own letters when it has
 // some (pool is an array of letters), and the same case when possible
 export function standIn(char, pool) {
