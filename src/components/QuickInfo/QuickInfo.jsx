@@ -1,5 +1,5 @@
 import useSiteSettings from "../../hooks/useSiteSettings";
-import { PLATFORM_LABELS } from "../../utilities/Utilities";
+import SocialLink from "../SocialLink/SocialLink";
 import "./QuickInfo.scss";
 
 // Left column of the About page CTA. All values come from Site Settings in WordPress.
@@ -25,14 +25,7 @@ function QuickInfo() {
               {socialLinks.map((link, index) => (
                 <span key={link.platform}>
                   {index > 0 && " / "}
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="quick-info__link"
-                  >
-                    {PLATFORM_LABELS[link.platform] ?? link.platform}
-                  </a>
+                  <SocialLink link={link} className="quick-info__link" />
                 </span>
               ))}
             </dd>
