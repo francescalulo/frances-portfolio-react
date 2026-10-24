@@ -3,7 +3,7 @@
 
 // No rails here (like Featured Work), so each frame gets the most width
 .site-preview {
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
   background-color: $color-surface;
 
   // Desktop: when you stop scrolling near it, the page settles with this section filling
@@ -25,7 +25,7 @@
 // browses the live site while the page waits, then the page carries on.
 .site-preview__inner {
   display: grid;
-  gap: 2rem;
+  gap: $space-md;
   padding-block: 3rem;
 
   @include tablet {

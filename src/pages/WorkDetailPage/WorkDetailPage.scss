@@ -3,7 +3,7 @@
 
 // ---- Loading / error ----
 .work-detail__status {
-  padding-block: 2rem;
+  padding-block: $space-md;
 
   &:empty {
     padding-block: 0;
@@ -22,7 +22,7 @@
   @include rails;
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
   background-color: $color-canvas;
   background-image: $gradient-hero; // same glows as the Home hero and Work page
 
@@ -36,7 +36,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-block: 2rem 0;
+  padding-block: $space-md 0;
 
   @include tablet {
     padding-block: 3rem 0;
@@ -58,7 +58,7 @@
 }
 
 .work-detail__title {
-  margin: 1rem 0 0; // 16px under the eyebrow
+  margin: $space-sm 0 0; // 16px under the eyebrow
   font-family: $font-display;
   font-size: $fs-display-xl;
   font-weight: $fw-bold;
@@ -74,7 +74,7 @@
 
 // Line under the details; desktop: a full-width strip on top, on its own dark background
 .work-detail__meta {
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
 
   @include desktop {
     order: -1;

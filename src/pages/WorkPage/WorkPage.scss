@@ -4,7 +4,7 @@
 // ---- Intro: "// WORK ARCHIVE", "The Build", Category filters ----
 .work-intro {
   @include rails; // desktop rails, like the header, CTA and footer around it
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
   background-color: $color-canvas;
   background-image: $gradient-hero; // same glows as the Home hero (hi-fi Work-Header)
 }
@@ -47,7 +47,7 @@
 .work-intro__filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: $space-xs;
   margin-top: 1.25rem; // 32px from the title in total
 }
 
@@ -55,7 +55,7 @@
 .work-intro__filter {
   min-height: 1.8125rem; // 29px, above the 24px minimum target size
   padding: 0.4375rem 1rem;
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: $radius-pill;
   background-color: $color-surface-raised;
   font-family: $font-display;
@@ -85,7 +85,7 @@
 // ---- Project list ----
 .work-list {
   @include rails($top-marker: false); // the intro's border already has the "+"
-  padding-block: 1rem; // phones: room around the cards
+  padding-block: $space-sm; // phones: room around the cards
 
   @include tablet {
     padding-block: 0;
@@ -99,7 +99,7 @@
 }
 
 .work-list__status {
-  padding-block: 2rem;
+  padding-block: $space-md;
   font-family: $font-body;
   color: $color-muted;
 

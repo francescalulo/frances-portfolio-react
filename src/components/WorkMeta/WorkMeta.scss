@@ -3,7 +3,7 @@
 
 .work-meta__list {
   display: grid;
-  gap: 1rem;
+  gap: $space-sm;
   margin-block: 0;
   padding-block: 1.5rem;
   font-family: $font-display;
@@ -24,10 +24,10 @@
 
   // Desktop: every label starts at the same height, even when a value wraps
   @include desktop {
-    gap: 0.5rem;
+    gap: $space-xs;
     padding-block: 1.5rem; // 24px above and below
     padding-right: 1.5rem;
-    border-right: 1px solid $color-border;
+    border-right: $border;
 
     &:last-child {
       border-right: 0;

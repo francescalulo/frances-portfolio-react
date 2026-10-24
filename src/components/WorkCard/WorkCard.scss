@@ -22,7 +22,7 @@
     position: absolute;
     inset: -1px; // on the card's border line
     z-index: 1;
-    border: 1px solid $color-border;
+    border: $border;
     pointer-events: none;
     transition: border-color 0.2s ease;
   }
@@ -40,21 +40,24 @@
 
 .work-card--featured {
   box-shadow: $shadow-card;
+
+  // Desktop (one-screen panel, see FeaturedWork): as tall as its 16:10 image needs, but
+  // never taller than the space left, so on short screens the image gives a little
+  @include desktop {
+    height: auto;
+    max-height: 100%;
+  }
 }
 
-// Image box (ProjectImage): fixed shape so cards line up before (and without) images
+// Image box (ProjectImage): 16:10, the shape of the 1920 × 1200 featured images, so
+// nothing is cropped and cards line up before (and without) images
 .work-card__media {
-  aspect-ratio: 12 / 5;
-  border-bottom: 1px solid $color-border;
+  aspect-ratio: 16 / 10;
+  border-bottom: $border;
 
   .work-card--featured & {
-    aspect-ratio: 9 / 4;
-
-    // Desktop: fills whatever height the full-screen section leaves (see FeaturedWork)
     @include desktop {
-      aspect-ratio: auto;
-      flex: 1;
-      min-height: 10rem;
+      min-height: 10rem; // on a very short screen it shrinks, but never below this
     }
   }
 }
@@ -73,11 +76,11 @@
   flex-direction: column;
   flex: 1;
   gap: 0.625rem;
-  padding: 1rem;
+  padding: $space-sm;
 
   .work-card--featured & {
     @include desktop {
-      flex: none; // the image takes the spare height instead
+      flex: none; // on a short screen the image gives way, never the text
       gap: 0.75rem;
       padding: 1.25rem;
     }
@@ -88,7 +91,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: $space-sm;
 }
 
 .work-card__title {

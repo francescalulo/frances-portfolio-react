@@ -37,28 +37,29 @@ function FeaturedWork() {
             </h2>
           </div>
 
-          {/* Always on the page, so screen readers announce loading and errors */}
-          <div role="status">
-            {!isLoaded && (
-              <Loader code="fetching(work)…" label="Loading work…" />
-            )}
+          {/* The status and the card share one slot, so an empty status adds no gap */}
+          <div className="featured-work__featured">
+            {/* Always on the page, so screen readers announce loading and errors */}
+            <div role="status">
+              {!isLoaded && (
+                <Loader code="fetching(work)…" label="Loading work…" />
+              )}
 
-            {isLoaded && hasError && (
-              <p className="featured-work__status">
-                The work didn’t render. Not my code, obviously. The server
-                dropped the ball. Refresh, or check back in a bit.
-              </p>
+              {isLoaded && hasError && (
+                <p className="featured-work__status">
+                  The work didn’t render. Not my code, obviously. The server
+                  dropped the ball. Refresh, or check back in a bit.
+                </p>
+              )}
+            </div>
+
+            {isLoaded && !hasError && featured && (
+              <WorkCard project={featured} isFeatured />
             )}
           </div>
-
-          {isLoaded && !hasError && featured && (
-            <div className="featured-work__featured">
-              <WorkCard project={featured} isFeatured />
-            </div>
-          )}
         </div>
 
-        {/* Other projects. Desktop: right column, two per screen. Phones: just the first one */}
+        {/* Other projects. Desktop: the scrolling right column. Phones: just the first one */}
         {others.length > 0 && (
           <ul className="featured-work__list" aria-label="More work">
             {others.map((project) => (

@@ -16,12 +16,12 @@
   grid-template-columns: minmax(0, 1fr);
 
   & + & {
-    border-top: 1px solid $color-border;
+    border-top: $border;
   }
 
   @include desktop {
     grid-template-columns: minmax(0, 3fr) minmax(0, 5fr); // 480px | 720px
-    column-gap: 5rem;
+    column-gap: $space-xl;
   }
 }
 
@@ -36,10 +36,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: $space-sm;
   width: 100%;
   min-height: 2.75rem; // 44px touch target
-  padding: 1rem 0;
+  padding: $space-sm 0;
   border: 0;
   background: none;
   font-family: $font-display;
