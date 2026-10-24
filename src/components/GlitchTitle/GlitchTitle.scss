@@ -1,0 +1,10 @@
+@use "../../styles/variables" as *;
+
+// While it shuffles: the RGB split (pink and blue edges) and a small jolt, like the
+// About photo (keyframes in global.scss)
+.glitch-title.is-glitching {
+  animation: glitch-jolt 0.45s steps(1, end) infinite;
+  text-shadow:
+    -2px 0 $color-syntax-pink,
+    2px 0 $color-syntax-blue;
+}
