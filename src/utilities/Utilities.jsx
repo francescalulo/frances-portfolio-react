@@ -3,6 +3,33 @@ export const SITE_URL = "https://francescalulo.com";
 
 export const restBase = "https://francescalulo.com/fc-cms-1212/wp-json/wp/v2/";
 
+// Gets JSON from the WordPress REST API. A failed request (404, 500…) throws, so each
+// hook can show its own error message.
+export function fetchJson(url) {
+  return fetch(url).then((response) => {
+    if (!response.ok) {
+      throw new Error("Request failed (" + response.status + "): " + url);
+    }
+    return response.json();
+  });
+}
+
+// Wraps a request so it only runs once: every component that asks gets the same promise,
+// so the page makes one request however many components need the data. A failed
+// request can be tried again.
+export function shareRequest(request) {
+  let promise = null;
+  return () => {
+    if (!promise) {
+      promise = request().catch((error) => {
+        promise = null; // allow a retry next time
+        throw error;
+      });
+    }
+    return promise;
+  };
+}
+
 // WordPress page IDs used by the app
 export const SITE_SETTINGS_PAGE_ID = 41;
 export const ABOUT_PAGE_ID = 52;

@@ -1,61 +1,37 @@
-import { useEffect, useState } from "react";
+import useRestData from "./useRestData";
 import {
+  fetchJson,
   restBase,
   safeUrl,
+  shareRequest,
   SITE_SETTINGS_PAGE_ID,
 } from "../utilities/Utilities";
 
-// Footer and ContactCTA both need Site Settings. The first component that asks
-// starts the fetch; every other component reuses the same promise, so the
-// page only makes ONE request no matter how many components use this hook.
-let settingsPromise = null;
+// The Site Settings page's ACF fields (email, CTA text, location, social links)
+const SETTINGS_URL =
+  restBase +
+  "pages/" +
+  SITE_SETTINGS_PAGE_ID +
+  "?acf_format=standard&_fields=acf";
 
-function fetchSiteSettings() {
-  if (!settingsPromise) {
-    settingsPromise = fetch(
-      `${restBase}pages/${SITE_SETTINGS_PAGE_ID}?acf_format=standard&_fields=acf`,
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Site Settings request failed (${response.status})`);
-        }
-        return response.json();
-      })
-      .then((data) => data.acf)
-      .catch((error) => {
-        settingsPromise = null; // allow a retry next time
-        throw error;
-      });
-  }
-  return settingsPromise;
-}
+// The header menu, Footer, Contact and Quick Info all need it: one shared request
+const loadSiteSettings = shareRequest(() =>
+  fetchJson(SETTINGS_URL).then((data) => data.acf),
+);
 
 function useSiteSettings() {
-  const [settings, setSettings] = useState(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let isActive = true; // ignore the result if the component unmounts first
-
-    fetchSiteSettings()
-      .then((acf) => {
-        if (isActive) setSettings(acf);
-      })
-      .catch((err) => {
-        if (isActive) setError(err);
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, []);
+  const {
+    data: settings,
+    isLoaded,
+    hasError,
+  } = useRestData(loadSiteSettings, null);
 
   // Social links with a safe URL only (ACF returns false when the repeater is empty)
   const socialLinks = (settings?.social_links || []).filter((link) =>
     safeUrl(link.url),
   );
 
-  return { settings, socialLinks, error, isLoaded: settings !== null };
+  return { settings, socialLinks, isLoaded, hasError };
 }
 
 export default useSiteSettings;

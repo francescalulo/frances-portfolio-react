@@ -1,6 +1,6 @@
 import useSiteSettings from "../../hooks/useSiteSettings";
 import PayrollLink from "../PayrollLink/PayrollLink";
-import logoGhost from "../../assets/frances-logo-ghost.svg";
+import GhostLogo from "../GhostLogo/GhostLogo";
 import "./ContactCTA.scss";
 
 // "primary" (Home, Work): full-width with the big {f} logo.
@@ -46,23 +46,7 @@ function ContactCTA({ variant = "primary", aside = null, fullScreen = false }) {
       {isSplit ? (
         <div className="contact-cta__aside">{aside}</div>
       ) : (
-        // Big faded {f} logo, decoration only. Two copies make the progressive blur.
-        <div className="contact-cta__mark" aria-hidden="true">
-          <img
-            src={logoGhost}
-            alt=""
-            className="contact-cta__mark-layer contact-cta__mark-layer--sharp"
-            width="609"
-            height="443"
-          />
-          <img
-            src={logoGhost}
-            alt=""
-            className="contact-cta__mark-layer contact-cta__mark-layer--blur"
-            width="609"
-            height="443"
-          />
-        </div>
+        <GhostLogo layerClassName="contact-cta__mark-layer" />
       )}
 
       <div

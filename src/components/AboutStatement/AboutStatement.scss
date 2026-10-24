@@ -5,7 +5,7 @@
   @include rails;
   @include syntax-colours; // .about-statement__keyword, __string, __key, __comment
   @include code-lines; // .about-statement__code, __indent-1 / -2, __nowrap
-  border-block: 1px solid $color-border;
+  border-block: $border;
   background-color: $color-surface-raised;
 }
 

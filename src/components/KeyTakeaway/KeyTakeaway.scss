@@ -4,7 +4,7 @@
 .key-takeaway {
   @include rails;
   @include syntax-colours; // .key-takeaway__comment, __string, __keyword, __key
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
   background-color: $color-surface;
 }
 
@@ -12,7 +12,7 @@
 .key-takeaway__inner {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $space-sm;
   padding-block: 3rem;
 
   @include desktop {

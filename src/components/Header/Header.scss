@@ -4,7 +4,7 @@
 .header {
   @include rails($top-marker: false);
   background-color: $color-canvas;
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
 }
 
 .header__inner {
@@ -107,7 +107,7 @@
   width: 2.75rem; // 44px tap target
   height: 2.75rem;
   padding: 0;
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: 50%;
   background-color: $color-surface-code;
   cursor: pointer;

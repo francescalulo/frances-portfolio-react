@@ -22,11 +22,12 @@ function ProjectImage({ project, sizes, isEager = false, className = "" }) {
           className="project-image__img"
           src={media.source_url}
           srcSet={srcSet || undefined}
-          sizes={sizes}
+          sizes={srcSet ? sizes : undefined}
           width={media.media_details?.width}
           height={media.media_details?.height}
           alt=""
           loading={isEager ? "eager" : "lazy"}
+          decoding="async"
         />
       ) : (
         <div className="project-image__placeholder" aria-hidden="true">

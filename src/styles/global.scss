@@ -48,8 +48,9 @@ a {
   outline-offset: 3px;
 }
 
-// Sections that receive focus from the scroll cue / in-page links aren't controls,
-// so they don't need a focus ring (focus just moves there for keyboard users)
+// Main and the sections that receive focus from the skip link / scroll cue / in-page links
+// aren't controls, so they don't need a focus ring (focus just moves there for keyboard users)
+main[tabindex="-1"]:focus,
 main section[tabindex="-1"]:focus {
   outline: none;
 }
@@ -72,11 +73,31 @@ main section[tabindex="-1"]:focus {
   border: 0;
 }
 
+// "Skip to content": the first stop for keyboard users, hidden until it's focused
+.skip-link {
+  position: absolute;
+  top: $space-xs;
+  left: $space-xs;
+  z-index: 300; // above the preloader (200)
+  padding: $space-xs $space-sm;
+  border-radius: $radius-button;
+  background-color: $color-accent;
+  color: $color-on-accent;
+  font-family: $font-display;
+  font-weight: $fw-medium;
+  text-decoration: none;
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
+}
+
 // Sticky-footer layout: footer stays at the bottom on short pages
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100svh; // the visible screen height on phones (100vh is taller there)
 }
 
 .wrapper main {

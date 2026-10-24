@@ -3,8 +3,8 @@ import ACFImage from "../../utilities/ACFImage";
 import { safeUrl } from "../../utilities/Utilities";
 import "./SitePreview.scss";
 
-// Project live URL
-// Project Repository
+// A URL without "https://" and a trailing "/" or ".git", for the address bar
+// (https://github.com/francescalulo/polar-db.git → github.com/francescalulo/polar-db)
 function shortAddress(url) {
   const { host, pathname } = new URL(url);
   return host + pathname.replace(/(\.git)?\/?$/, "");
@@ -12,7 +12,8 @@ function shortAddress(url) {
 
 // Work Detail "Site Preview": the ACF screenshot next to a scrollable live embed of the
 // site. The screenshot's address bar links to the repo, the embed's to the live site.
-// The embed only loads https pages, sandboxed.
+// The embed only loads https pages (my own sites, so no sandbox: they need their scripts
+// and storage, and sandbox with both allowed would add no protection).
 function SitePreview({ image, embedUrl, liveUrl, repoUrl, title }) {
   const live = safeUrl(liveUrl);
   const repo = safeUrl(repoUrl);
@@ -65,7 +66,6 @@ function SitePreview({ image, embedUrl, liveUrl, repoUrl, title }) {
               src={embed}
               title={"Live preview of " + title + " (scrollable)"}
               className="site-preview__embed"
-              sandbox="allow-scripts allow-same-origin" // my own sites: scripts run, nothing else
               loading="lazy"
               referrerPolicy="no-referrer"
             />

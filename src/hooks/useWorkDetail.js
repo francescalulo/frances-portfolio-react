@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { restBase } from "../utilities/Utilities";
+import { fetchJson, restBase } from "../utilities/Utilities";
 
 // One Work project by its slug (Work Detail), with its taxonomy terms embedded, the
 // Yoast title/description for PageMeta and the next_project field for Next Up.
 function projectUrl(slug) {
   return (
-    `${restBase}portfolio-project?slug=${encodeURIComponent(slug)}` +
+    restBase +
+    "portfolio-project?slug=" +
+    encodeURIComponent(slug) +
     "&acf_format=standard&_embed=wp:featuredmedia,wp:term" +
     "&_fields=id,slug,title,excerpt,acf,next_project,_links,_embedded" +
     ",yoast_head_json.title,yoast_head_json.description"
@@ -20,13 +22,7 @@ function useWorkDetail(slug) {
   useEffect(() => {
     let isActive = true; // ignore the result if the page changes first
 
-    fetch(projectUrl(slug))
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Project request failed (${response.status})`);
-        }
-        return response.json();
-      })
+    fetchJson(projectUrl(slug))
       .then((data) => {
         // WordPress returns a list; an empty list means no project has this slug
         if (isActive) setResult({ slug, project: data[0] ?? null });

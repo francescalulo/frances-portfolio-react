@@ -9,7 +9,7 @@
 .faq-list__inner {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $space-sm;
   padding-block: 3rem;
 
   @include desktop {
@@ -29,12 +29,12 @@
 .faq-list__items {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $space-sm;
 }
 
 .faq-list__item {
   @include accordion-highlight(".faq-list__toggle");
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: $radius-card;
   background-color: $color-surface-raised;
 }
@@ -47,7 +47,7 @@
 .faq-list__toggle {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: $space-xs;
   width: 100%;
   min-height: 2.75rem; // 44px touch target
   padding: 1rem 1.25rem; // 16px 20px
@@ -70,7 +70,7 @@
 
 .faq-list__question {
   flex: 1;
-  margin-right: 0.5rem;
+  margin-right: $space-xs;
 }
 
 .faq-list__number {
