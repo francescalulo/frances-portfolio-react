@@ -54,10 +54,25 @@
   line-height: 1.1; // roomier at 28px on phones
   letter-spacing: -0.055em; // -4px at 72px
   color: $color-accent;
+  transition: text-shadow 0.6s ease;
 
   @include desktop {
     line-height: 0.95; // as in the hi-fi
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Hovering or keyboard-focusing "Payroll Please": the heading glows softly, like the
+// header logo (each line in its own colour)
+.contact-cta__inner:has(
+    .contact-cta__button:hover,
+    .contact-cta__button:focus-visible
+  )
+  .contact-cta__heading {
+  text-shadow: 0 0 0.5em color-mix(in srgb, currentColor 45%, transparent);
 }
 
 .contact-cta__line {

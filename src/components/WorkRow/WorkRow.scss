@@ -129,6 +129,12 @@
   }
 }
 
+// The glitch jolt (a transform) goes on this inner box, not the h2: a transformed parent
+// would shrink the link's ::after to the title and the rest of the row wouldn't click
+.work-row__title-text {
+  display: inline-block; // transforms don't apply to inline text
+}
+
 // Keyboard focus: ring around the whole row instead of just the title
 @supports selector(:has(*)) {
   .work-row__body:has(.work-row__link:focus-visible) {

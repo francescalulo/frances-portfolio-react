@@ -54,6 +54,14 @@
   }
 }
 
+// Hover, focus or tap (HeaderLogo): the {f} mark splits pink and blue and jolts, like
+// the About photo
+.header__logo.is-glitching .header__logo-mark {
+  animation: glitch-jolt 0.45s steps(1, end);
+  filter: drop-shadow(-2px 0 $color-syntax-pink)
+    drop-shadow(2px 0 $color-syntax-blue);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .header__logo-mark,
   .header__logo-text {

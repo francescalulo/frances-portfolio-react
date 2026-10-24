@@ -1,3 +1,4 @@
+import GlitchImage from "../GlitchImage/GlitchImage";
 import "./ProjectImage.scss";
 
 // Image sizes WordPress makes, smallest first (used to build srcSet)
@@ -7,7 +8,16 @@ const IMAGE_SIZES = ["medium", "medium_large", "large", "full"];
 // has one. Shared by WorkCard (Home) and WorkRow (Work archive); the parent sets the
 // box's size and shape through className.
 // Decorative (alt=""): the project title next to it already names the project.
-function ProjectImage({ project, sizes, isEager = false, className = "" }) {
+// glitch: the RGB-split glitch of the About photo (GlitchImage); the parent can also set it
+// off with ref.current.glitch() (hovering a Home card or a Work archive row).
+function ProjectImage({
+  project,
+  sizes,
+  isEager = false,
+  glitch = false,
+  className = "",
+  ref,
+}) {
   const media = project._embedded?.["wp:featuredmedia"]?.[0];
   const mediaSizes = media?.media_details?.sizes ?? {};
   const srcSet = IMAGE_SIZES.map((name) => mediaSizes[name])
@@ -15,20 +25,38 @@ function ProjectImage({ project, sizes, isEager = false, className = "" }) {
     .map((size) => size.source_url + " " + size.width + "w")
     .join(", ");
 
+  const imageProps = {
+    srcSet: srcSet || undefined,
+    sizes: srcSet ? sizes : undefined,
+    loading: isEager ? "eager" : "lazy",
+    decoding: "async",
+  };
+
+  const image = glitch ? (
+    <GlitchImage
+      ref={ref}
+      className="project-image__img"
+      src={media?.source_url}
+      alt=""
+      width={media?.media_details?.width}
+      height={media?.media_details?.height}
+      imageProps={imageProps}
+    />
+  ) : (
+    <img
+      {...imageProps}
+      className="project-image__img"
+      src={media?.source_url}
+      width={media?.media_details?.width}
+      height={media?.media_details?.height}
+      alt=""
+    />
+  );
+
   return (
     <div className={"project-image " + className}>
       {media?.source_url ? (
-        <img
-          className="project-image__img"
-          src={media.source_url}
-          srcSet={srcSet || undefined}
-          sizes={srcSet ? sizes : undefined}
-          width={media.media_details?.width}
-          height={media.media_details?.height}
-          alt=""
-          loading={isEager ? "eager" : "lazy"}
-          decoding="async"
-        />
+        image
       ) : (
         <div className="project-image__placeholder" aria-hidden="true">
           <svg

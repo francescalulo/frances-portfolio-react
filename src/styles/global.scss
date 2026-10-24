@@ -207,3 +207,13 @@ main section[tabindex="-1"]:focus {
     clip-path: inset(0);
   }
 }
+
+// Text that glitches while it shuffles (Work Detail and Work archive titles):
+// pink and blue edges and a small jolt, like the About photo. Components add
+// is-glitching while the text shuffles (never with reduced motion).
+.glitch-text.is-glitching {
+  animation: glitch-jolt 0.45s steps(1, end) infinite;
+  text-shadow:
+    -2px 0 $color-syntax-pink,
+    2px 0 $color-syntax-blue;
+}

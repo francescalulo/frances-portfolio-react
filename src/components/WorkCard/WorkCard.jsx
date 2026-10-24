@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
 import ProjectImage from "../ProjectImage/ProjectImage";
@@ -6,12 +7,21 @@ import "./WorkCard.scss";
 // One Work project as a card (Home's Featured Work). The whole card is clickable (the title
 // link stretches over it), but only the title is a real link, so screen readers hear each
 // project once. WordPress HTML (title, excerpt) is sanitized before it's rendered.
+// Hovering the card (or focusing its link): the image glitches, like the About photo.
+// Touch screens: it glitches as it scrolls into view. Reduced motion: no glitch.
 function WorkCard({ project, isFeatured = false, headingLevel = 3 }) {
   const Heading = "h" + headingLevel;
+  const imageRef = useRef(null);
+
+  function play() {
+    imageRef.current?.glitch();
+  }
 
   return (
     <article
       className={"work-card" + (isFeatured ? " work-card--featured" : "")}
+      onMouseEnter={play}
+      onFocus={play}
     >
       <ProjectImage
         project={project}
@@ -22,6 +32,8 @@ function WorkCard({ project, isFeatured = false, headingLevel = 3 }) {
             : "(min-width: 64em) 30vw, 100vw"
         }
         isEager={isFeatured}
+        glitch
+        ref={imageRef}
       />
 
       <div className="work-card__body">

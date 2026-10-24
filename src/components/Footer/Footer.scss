@@ -9,6 +9,7 @@
 
 .footer__inner {
   @include flex($justify: space-between, $gap: $space-sm);
+  flex-wrap: wrap; // very narrow phones (320px): the links drop below the copyright
   padding-block: 1.5rem; // 24px on phones
   font-size: $fs-sm;
   color: $color-text-white;
@@ -19,7 +20,12 @@
 }
 
 .footer__copyright {
+  flex: 1 1 0; // shrinks (wrapping its sentences) before the links have to drop
   margin: 0;
+}
+
+.footer__phrase {
+  white-space: nowrap;
 }
 
 .footer__social {
