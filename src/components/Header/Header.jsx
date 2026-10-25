@@ -1,10 +1,11 @@
 import { useCallback, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../assets/frances-logo.svg";
 import useGlitch from "../../hooks/useGlitch";
 import useScramble from "../../hooks/useScramble";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import LogoMark from "../LogoMark/LogoMark";
 import ScrambleText from "../ScrambleText/ScrambleText";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import { scrollToSection, TABLET_QUERY } from "../../utilities/Utilities";
 import "./Header.scss";
@@ -79,13 +80,7 @@ function HeaderLogo() {
       onPointerEnter={() => glitch()}
       onFocus={() => glitch()}
     >
-      <img
-        src={logo}
-        alt=""
-        className="header__logo-mark"
-        width="44"
-        height="44"
-      />
+      <LogoMark className="header__logo-mark" width="44" height="44" />
       <span className="header__logo-text">Frances Calulo</span>
     </Link>
   );
@@ -123,23 +118,26 @@ function Header() {
         <HeaderLogo />
 
         {isTablet ? (
-          <nav className="header__nav" aria-label="Primary">
-            <ul className="header__list">
-              {navItems.map((item) => (
-                <li key={item.to} className="header__item">
-                  <NavItem {...item} />
+          <>
+            <nav className="header__nav" aria-label="Primary">
+              <ul className="header__list">
+                {navItems.map((item) => (
+                  <li key={item.to} className="header__item">
+                    <NavItem {...item} />
+                  </li>
+                ))}
+                <li className="header__item">
+                  <NavItem
+                    number="04"
+                    label="<Contact/>"
+                    srLabel="Contact"
+                    onClick={scrollToContact}
+                  />
                 </li>
-              ))}
-              <li className="header__item">
-                <NavItem
-                  number="04"
-                  label="<Contact/>"
-                  srLabel="Contact"
-                  onClick={scrollToContact}
-                />
-              </li>
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+            <ThemeToggle />
+          </>
         ) : (
           <>
             <button

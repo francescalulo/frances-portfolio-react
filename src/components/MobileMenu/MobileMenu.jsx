@@ -4,6 +4,7 @@ import GhostLogo from "../GhostLogo/GhostLogo";
 import useScramble from "../../hooks/useScramble";
 import useSiteSettings from "../../hooks/useSiteSettings";
 import ScrambleText from "../ScrambleText/ScrambleText";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import SocialLink from "../SocialLink/SocialLink";
 import "./MobileMenu.scss";
 
@@ -140,6 +141,7 @@ function MobileMenu({ id, items, onClose, onContact }) {
 
       <div className="mobile-menu__top">
         <div className="mobile-menu__top-inner content-width">
+          <ThemeToggle />
           <button
             type="button"
             className="header__menu-button"

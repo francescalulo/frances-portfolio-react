@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import logo from "../../assets/frances-logo.svg";
 import { finishIntro, scrambleText } from "../../utilities/Utilities";
+import LogoMark from "../LogoMark/LogoMark";
 import "./Preloader.scss";
 
 const NAME = "francesCalulo"; // written like code (camelCase)
@@ -306,10 +306,8 @@ function Preloader() {
           {line("blue")}
         </div>
 
-        <img
+        <LogoMark
           ref={markRef}
-          src={logo}
-          alt=""
           className="preloader__mark"
           width="512"
           height="512"

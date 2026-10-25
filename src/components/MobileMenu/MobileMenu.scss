@@ -84,7 +84,8 @@ $menu-button-center: calc(100% - clamp(1rem, 4vw, 2.5rem) - 1.375rem) 2.25rem;
 .mobile-menu__top-inner {
   display: flex;
   align-items: center;
-  justify-content: flex-end; // only the close button now
+  justify-content: flex-end; // theme toggle + close button, on the right
+  gap: $space-sm;
   min-height: 4.5rem;
   padding-block: $space-xs;
   padding-inline: clamp(
