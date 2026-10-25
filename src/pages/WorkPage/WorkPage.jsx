@@ -65,33 +65,32 @@ function WorkPage() {
             The Build
           </h1>
 
-          {categories.length > 0 && (
-            <div
-              className="work-intro__filters"
-              role="group"
-              aria-label="Filter projects by category"
+          {/* Always shown, so the filter row is in place before the projects load */}
+          <div
+            className="work-intro__filters"
+            role="group"
+            aria-label="Filter projects by category"
+          >
+            <button
+              type="button"
+              className="work-intro__filter"
+              aria-pressed={!activeCategory}
+              onClick={() => choose(null)}
             >
+              All
+            </button>
+            {categories.map((term) => (
               <button
+                key={term.id}
                 type="button"
                 className="work-intro__filter"
-                aria-pressed={!activeCategory}
-                onClick={() => choose(null)}
+                aria-pressed={activeCategory?.id === term.id}
+                onClick={() => choose(term.slug)}
               >
-                All
+                {decodeHtml(term.name)}
               </button>
-              {categories.map((term) => (
-                <button
-                  key={term.id}
-                  type="button"
-                  className="work-intro__filter"
-                  aria-pressed={activeCategory?.id === term.id}
-                  onClick={() => choose(term.slug)}
-                >
-                  {decodeHtml(term.name)}
-                </button>
-              ))}
-            </div>
-          )}
+            ))}
+          </div>
 
           {/* Screen readers hear how many projects the filter shows */}
           <p className="visually-hidden" role="status">
@@ -104,7 +103,10 @@ function WorkPage() {
         </div>
       </section>
 
-      <section className="work-list" aria-label="Projects">
+      <section
+        className={isLoaded ? "work-list" : "work-list work-list--loading"}
+        aria-label="Projects"
+      >
         {/* Always on the page, so screen readers announce loading, errors and empty results */}
         <div className="work-list__status content-width" role="status">
           {!isLoaded && <Loader code="fetching(work)…" label="Loading work…" />}

@@ -57,7 +57,7 @@
   gap: 0.375rem;
 }
 
-// "unlock potentials": a soft green blink so people know there's more to open
+// "unlock potentials": blinks from lavender to green so people know there's more to open
 .core-competencies__hint {
   font-size: $fs-xs;
   font-weight: $fw-medium;
@@ -74,16 +74,15 @@
 @keyframes hint-blink {
   0%,
   100% {
-    opacity: 0.45;
+    color: $color-text-subdued;
     text-shadow: none;
   }
 
   50% {
-    opacity: 1;
+    color: $color-accent;
     text-shadow: 0 0 8px color-mix(in srgb, $color-glow-accent 60%, transparent);
   }
 }
-
 .core-competencies__lock {
   flex-shrink: 0;
   width: 1.125rem; // 18px

@@ -27,7 +27,14 @@ function WorkDetailPage() {
       <>
         <PageMeta title="The Build | Frances Calulo" />
         {/* Always on the page, so screen readers announce loading and errors */}
-        <div className="work-detail__status content-width" role="status">
+        <div
+          className={
+            isLoaded
+              ? "work-detail__status content-width"
+              : "work-detail__status work-detail__status--loading content-width"
+          }
+          role="status"
+        >
           {!isLoaded && (
             <Loader code="fetching(project)…" label="Loading project…" />
           )}
@@ -89,6 +96,7 @@ function WorkDetailPage() {
       <SitePreview
         image={project.acf?.site_preview_image}
         embedUrl={project.acf?.site_preview_embed_url}
+        embedWidth={project.acf?.site_preview_embed_width}
         liveUrl={project.acf?.live_site_url}
         repoUrl={project.acf?.repo_url}
         title={title}
