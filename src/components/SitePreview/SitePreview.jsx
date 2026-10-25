@@ -33,6 +33,7 @@ function SitePreview({ image, embedUrl, embedWidth, liveUrl, repoUrl, title }) {
     observer.observe(screen);
     return () => observer.disconnect();
   }, [siteWidth]);
+
   const live = safeUrl(liveUrl);
   const repo = safeUrl(repoUrl);
   const embed = safeUrl(embedUrl);
