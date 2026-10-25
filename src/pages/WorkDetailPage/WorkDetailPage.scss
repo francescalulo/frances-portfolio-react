@@ -8,6 +8,12 @@
   &:empty {
     padding-block: 0;
   }
+
+  // While the project loads, it fills the screen so the footer starts below it and
+  // doesn't jump down when the project arrives (no layout shift)
+  &--loading {
+    min-height: 100svh;
+  }
 }
 
 .work-detail__error {
