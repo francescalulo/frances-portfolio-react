@@ -9,24 +9,24 @@ $color-surface: #0a0015; // sections, image boxes
 $color-surface-raised: #0d0020; // card bodies, career chapters
 $color-surface-code: #0a1410; // badges, skill tags, outline button
 $color-border: #4a1080; // all dividers (decorative)
+$border: 1px solid $color-border; // every divider line and card border
 
 // Text
 $color-text: #f0fdf4; // Fresh White
 $color-text-white: #ffffff;
-$color-text-mint: #d1fae5; // Pale Mint: small labels (Quick Info)
-$color-muted: #8a8a8a; //
+$color-muted: #8a8a8a; // Grey: line numbers, placeholders, secondary labels
 
 // Accents
 $color-logo: #94f37a; // the {f} logo's green (the preloader matches it)
 $color-accent: #4ade80; // Code Green: links, nav, primary button
 $color-accent-soft: #86efac; // Soft Green
 $color-on-accent: #131313; // text on green buttons
+$border-accent: 1px solid $color-accent; // green outlines: buttons, pills, badges
 
 // Syntax highlights (code-style headings and labels)
 $color-syntax-blue: #53afd8;
 $color-syntax-yellow: #ffca70;
 $color-syntax-pink: #fd8eff;
-$color-syntax-code-yellow: #c3c44c;
 
 // Status messages
 $color-error: #f07869; // Coral Red, only for errors

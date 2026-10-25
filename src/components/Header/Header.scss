@@ -4,7 +4,7 @@
 .header {
   @include rails($top-marker: false);
   background-color: $color-canvas;
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
 }
 
 .header__inner {
@@ -52,6 +52,14 @@
   .header__logo-text {
     text-shadow: 0 0 0.5em color-mix(in srgb, #{$color-accent} 45%, transparent);
   }
+}
+
+// Hover, focus or tap (HeaderLogo): the {f} mark splits pink and blue and jolts, like
+// the About photo
+.header__logo.is-glitching .header__logo-mark {
+  animation: glitch-jolt 0.45s steps(1, end);
+  filter: drop-shadow(-2px 0 $color-syntax-pink)
+    drop-shadow(2px 0 $color-syntax-blue);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -107,7 +115,7 @@
   width: 2.75rem; // 44px tap target
   height: 2.75rem;
   padding: 0;
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: 50%;
   background-color: $color-surface-code;
   cursor: pointer;

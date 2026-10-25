@@ -2,7 +2,7 @@
 
 // Loading / error for the WordPress parts (Core Competencies, FAQs)
 .about-page__status {
-  padding-block: 2rem;
+  padding-block: $space-md;
 
   &:empty {
     padding-block: 0;

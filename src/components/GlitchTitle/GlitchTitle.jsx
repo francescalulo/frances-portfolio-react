@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import useScramble from "../../hooks/useScramble";
 import ScrambleText from "../ScrambleText/ScrambleText";
 import { whenIntroDone } from "../../utilities/Utilities";
-import "./GlitchTitle.scss";
 
 // A page title that shuffles in with the RGB-split glitch (like the nav and the About
 // photo) when the page opens, and again on hover. Screen readers get the plain title.
@@ -28,7 +27,7 @@ function GlitchTitle({ title, id, className }) {
     <h1
       id={id}
       className={
-        "glitch-title " + className + (isScrambling ? " is-glitching" : "")
+        "glitch-text " + className + (isScrambling ? " is-glitching" : "")
       }
       onMouseEnter={scramble}
     >

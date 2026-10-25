@@ -15,7 +15,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
+  gap: $space-sm;
 }
 
 .next-up__label,
@@ -53,7 +53,7 @@
 
 .next-up__title {
   font-size: $fs-h1; // a step below "Need I say more?", so long titles still fit
-  line-height: 1.05;
+  line-height: $lh-tight;
   letter-spacing: $tracking-tight;
   text-transform: uppercase;
   color: $color-text;

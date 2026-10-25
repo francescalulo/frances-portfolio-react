@@ -7,7 +7,7 @@
   ); // "⊥" where the rails stop (Featured Work has none)
   background-color: $color-canvas;
   background-image: $gradient-hero;
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
 }
 
 // The hero fills the first screen (minus the header) with the content centred, at every size.
@@ -40,7 +40,7 @@
   gap: 0.375rem; // 6px on phones
   margin: 0;
   padding: 0.25rem 0.75rem; // 4px 12px on phones
-  border: 1px solid $color-accent;
+  border: $border-accent;
   border-radius: $radius-pill;
   background-color: $color-surface-code;
   box-shadow: 0 0 6px rgba(8, 13, 10, 0.35);
@@ -70,7 +70,7 @@
 
 .hero__code {
   width: 100%; // stay full width inside the flex column (phones)
-  padding-top: 2rem;
+  padding-top: $space-md;
   font-family: $font-display;
   line-height: $lh-tight;
 

@@ -14,8 +14,11 @@ function AppRouter() {
   return (
     <div className="wrapper">
       <ScrollToTop />
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
       <Header />
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/work" element={<WorkPage />} />

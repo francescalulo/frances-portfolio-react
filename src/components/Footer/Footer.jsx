@@ -9,8 +9,10 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer__inner content-width">
+        {/* Each sentence wraps as a whole, never mid-sentence */}
         <p className="footer__copyright">
-          © {year} Frances Calulo. All rights reserved.
+          <span className="footer__phrase">© {year} Frances Calulo.</span>{" "}
+          <span className="footer__phrase">All rights reserved.</span>
         </p>
 
         {socialLinks.length > 0 && (
