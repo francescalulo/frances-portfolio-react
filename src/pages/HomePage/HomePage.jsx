@@ -3,7 +3,6 @@ import FeaturedWork from "../../components/FeaturedWork/FeaturedWork";
 import AboutSnippet from "../../components/AboutSnippet/AboutSnippet";
 import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import PageMeta from "../../components/PageMeta/PageMeta";
-import "./HomePage.scss";
 
 function HomePage() {
   return (

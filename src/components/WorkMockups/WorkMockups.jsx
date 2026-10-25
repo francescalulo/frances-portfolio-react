@@ -44,7 +44,7 @@ function WorkMockups({ mockups, title }) {
               sizes={
                 rows.length > 1
                   ? "(min-width: 48em) 45vw, 100vw"
-                  : "(min-width: 90rem) 80rem, 100vw"
+                  : "(min-width: 90em) 80rem, 100vw"
               }
               fallbackAlt={
                 title + " on " + (BREAKPOINTS[row.breakpoint] ?? row.breakpoint)

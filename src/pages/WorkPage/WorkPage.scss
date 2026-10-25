@@ -92,10 +92,17 @@
   }
 }
 
-// While the projects load, the list fills the screen so the CTA and footer start below
-// it and don't jump down when the projects arrive (no layout shift)
-.work-list--loading {
+// While the projects load (or if they can't), the list fills the screen so the CTA and
+// footer start below it and don't jump down when the projects arrive (no layout shift)
+.work-list--loading,
+.work-list:has(.work-list__error) {
   min-height: 100svh;
+
+  // The loader or error message sits centred in the space below the intro
+  .work-list__status {
+    padding-top: 20svh;
+    text-align: center;
+  }
 }
 
 .work-list__items {
@@ -115,11 +122,13 @@
   }
 
   p {
-    margin: 0;
+    margin-block: 0;
   }
 }
 
 // Error text in #F07869 the empty-category note stays grey
 .work-list__error {
+  max-width: 40rem;
+  margin-inline: auto;
   color: $color-error;
 }
