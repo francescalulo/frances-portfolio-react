@@ -87,7 +87,10 @@
 
   .about-intro__decode {
     width: 100%;
-    margin-bottom: 1.5rem; // keeps clear of the button
+
+    @include tablet {
+      margin-bottom: 1.5rem; // keeps clear of the button
+    }
   }
 
   // Code: lines a little apart. Decoded: the four lines sit together. Both start at the top.
@@ -98,8 +101,15 @@
     align-self: start;
   }
 
+  // Decoded: starts level with the name line ("Frances Calulo ( ) {"), one small code
+  // line (1.5 line height) plus the gap below "function"
   .decode__layer:last-child {
     gap: 0;
+    padding-top: calc(#{$fs-sm} * 1.5 + 0.75rem);
+
+    @include tablet {
+      padding-top: calc(#{$fs-md} * 1.5 + 0.75rem);
+    }
   }
 
   // The switch: top right, level with "function" / "Hi I'm"
@@ -115,7 +125,7 @@
 // Payroll Please: level with the bottom of the photo (tablet up)
 .about-intro__button {
   @include button-outline;
-  margin-top: $space-md;
+  margin-top: 1.5rem; // phones: close under the text
 
   @include tablet {
     margin-top: auto;

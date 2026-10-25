@@ -2,11 +2,14 @@ import { toCodeSegments } from "../../utilities/Utilities";
 import DecodeText from "../DecodeText/DecodeText";
 import "./KeyTakeaway.scss";
 
-// Work Detail "Key Takeaway": the ACF key_takeaway text, decoded by default; hovering /
-// tapping, or the Code / Decode switch, types the key_takeaway_coded version.
-// Plain text (no switch) if there's no coded version.
+// Work Detail "Key Takeaway": the ACF key_takeaway text, decoded by default, each sentence
+// on its own line; hovering / tapping, or the Code / Decode switch, types the
+// key_takeaway_coded version. Plain text (no switch) if there's no coded version.
 function KeyTakeaway({ text, coded }) {
   if (!text) return null;
+
+  // Each sentence starts its own line
+  const sentences = text.trim().split(/(?<=[.!?])\s+/);
 
   // One code line per line typed in WordPress; lines that start with spaces are indented
   const codedLines = (coded || "")
@@ -33,16 +36,21 @@ function KeyTakeaway({ text, coded }) {
             <DecodeText
               className="key-takeaway__decode"
               coded={codedLines}
-              decoded={[
-                { className: "key-takeaway__text", segments: [{ text }] },
-              ]}
+              decoded={sentences.map((sentence) => ({
+                className: "key-takeaway__text",
+                segments: [{ text: sentence }],
+              }))}
               startDecoded
               colorShuffle
               toggle
             />
           </>
         ) : (
-          <p className="key-takeaway__text">{text}</p>
+          sentences.map((sentence, index) => (
+            <p key={index} className="key-takeaway__text">
+              {sentence}
+            </p>
+          ))
         )}
       </div>
     </section>
