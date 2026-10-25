@@ -1,8 +1,6 @@
 import GlitchImage from "../GlitchImage/GlitchImage";
+import { getFeaturedMedia, mediaSrcSet } from "../../utilities/Utilities";
 import "./ProjectImage.scss";
-
-// Image sizes WordPress makes, smallest first (used to build srcSet)
-const IMAGE_SIZES = ["medium", "medium_large", "large", "full"];
 
 // A project's featured image (from ?_embed=wp:featuredmedia), or a placeholder until it
 // has one. Shared by WorkCard (Home) and WorkRow (Work archive); the parent sets the
@@ -18,12 +16,8 @@ function ProjectImage({
   className = "",
   ref,
 }) {
-  const media = project._embedded?.["wp:featuredmedia"]?.[0];
-  const mediaSizes = media?.media_details?.sizes ?? {};
-  const srcSet = IMAGE_SIZES.map((name) => mediaSizes[name])
-    .filter(Boolean)
-    .map((size) => size.source_url + " " + size.width + "w")
-    .join(", ");
+  const media = getFeaturedMedia(project);
+  const srcSet = mediaSrcSet(media);
 
   const imageProps = {
     srcSet: srcSet || undefined,

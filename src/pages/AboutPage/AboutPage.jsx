@@ -1,4 +1,5 @@
 import useAboutPage from "../../hooks/useAboutPage";
+import { getFeaturedMedia } from "../../utilities/Utilities";
 import PageMeta from "../../components/PageMeta/PageMeta";
 import AboutIntro from "../../components/AboutIntro/AboutIntro";
 import CoreCompetencies from "../../components/CoreCompetencies/CoreCompetencies";
@@ -22,7 +23,7 @@ function AboutPage() {
         }
       />
 
-      <AboutIntro />
+      <AboutIntro photo={getFeaturedMedia(about)} isLoaded={isLoaded} />
 
       <CoreCompetencies items={about?.acf?.core_competencies} />
       {/* Always on the page, so screen readers announce loading and errors */}
