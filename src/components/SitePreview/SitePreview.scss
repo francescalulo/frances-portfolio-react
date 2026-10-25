@@ -89,7 +89,8 @@
 // Scaled embed (ACF Embed Width): drawn at the site's own width, then shrunk to fit the
 // frame. The height grows by the same amount, so it still fills the frame.
 .site-preview__embed--scaled {
-  width: max(100%, var(--embed-width));
+  width: var(--embed-width);
+  min-width: 100%; // never narrower than the frame
   height: calc(100% / var(--embed-scale));
   transform: scale(var(--embed-scale));
   transform-origin: 0 0;
