@@ -68,7 +68,8 @@
   @include blinking-caret;
 }
 
-// One soft glow when the decoded message finishes typing (each word glows in its own colour).
+// One soft glow when the decoded message finishes typing (each word glows in its own
+// colour; in white in light mode).
 // Brightens gently, then dims like a light: quick at first, then a long faint tail,
 // spreading softer as it fades so it melts away instead of switching off.
 .decode__layer.is-landed p > span {
@@ -81,32 +82,37 @@
 
 @keyframes decode-glow {
   0% {
-    text-shadow: 0 0 0.25em color-mix(in srgb, currentColor 0%, transparent);
+    text-shadow: 0 0 0.25em color-mix(in srgb, $color-glow 0%, transparent);
     animation-timing-function: ease-in-out; // gentle rise
   }
 
   16% {
-    text-shadow: 0 0 0.25em color-mix(in srgb, currentColor 45%, transparent); // peak
+    text-shadow: 0 0 0.25em
+      color-mix(in srgb, $color-glow calc(45% * $glow-boost), transparent); // peak
   }
 
   35% {
-    text-shadow: 0 0 0.35em color-mix(in srgb, currentColor 28%, transparent);
+    text-shadow: 0 0 0.35em
+      color-mix(in srgb, $color-glow calc(28% * $glow-boost), transparent);
   }
 
   55% {
-    text-shadow: 0 0 0.45em color-mix(in srgb, currentColor 15%, transparent);
+    text-shadow: 0 0 0.45em
+      color-mix(in srgb, $color-glow calc(15% * $glow-boost), transparent);
   }
 
   75% {
-    text-shadow: 0 0 0.55em color-mix(in srgb, currentColor 6%, transparent);
+    text-shadow: 0 0 0.55em
+      color-mix(in srgb, $color-glow calc(6% * $glow-boost), transparent);
   }
 
   90% {
-    text-shadow: 0 0 0.6em color-mix(in srgb, currentColor 2%, transparent); // faint tail
+    text-shadow: 0 0 0.6em
+      color-mix(in srgb, $color-glow calc(2% * $glow-boost), transparent); // faint tail
   }
 
   100% {
-    text-shadow: 0 0 0.6em color-mix(in srgb, currentColor 0%, transparent);
+    text-shadow: 0 0 0.6em color-mix(in srgb, $color-glow 0%, transparent);
   }
 }
 

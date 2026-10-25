@@ -69,6 +69,11 @@
   }
 }
 
+// Tablet up: the nav and the theme toggle sit together on the right
+.header__nav {
+  margin-left: auto;
+}
+
 .header__list {
   @include flex($gap: $space-sm);
   flex-wrap: wrap;
@@ -126,10 +131,5 @@
 }
 
 .header__menu-icon {
-  width: 1rem;
-  height: 1rem;
-  fill: none;
-  stroke: $color-accent;
-  stroke-width: 2.25;
-  stroke-linecap: round;
+  @include icon-button-icon;
 }

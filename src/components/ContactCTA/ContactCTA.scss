@@ -157,6 +157,6 @@ $split-gutter: max(
   }
 
   .contact-cta__emphasis {
-    text-shadow: 0 0 40px rgba($color-accent, 0.4); // soft green glow on "more?"
+    text-shadow: 0 0 40px color-mix(in srgb, $color-accent 40%, transparent); // soft green glow on "more?"
   }
 }

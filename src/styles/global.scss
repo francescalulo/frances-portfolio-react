@@ -1,5 +1,16 @@
 @use "variables" as *;
 @use "mixins" as *;
+@use "themes" as *;
+
+// Dark first; light when the visitor picks it with the toggle (ThemeToggle)
+:root {
+  @include theme-dark;
+}
+
+:root[data-theme="light"] {
+  @include theme-light;
+  @include theme-light-sections;
+}
 
 // Always reserve the scrollbar's space, so nothing shifts when the mobile menu locks scrolling
 html {

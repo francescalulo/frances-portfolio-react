@@ -1,0 +1,329 @@
+// Colour themes. Every colour token in _variables.scss reads one of these custom
+// properties, so the whole site switches theme by swapping this list.
+// Dark is the designed (hi-fi) theme and always the first one visitors see; the header
+// toggle switches to light (saved, and set as data-theme on <html> before the page draws).
+
+@mixin theme-dark {
+  color-scheme: dark; // dark scrollbars and form controls
+
+  --color-footer: #04000c;
+  --color-canvas: #06000f;
+  --color-canvas-deep: #08001a;
+  --color-surface: #0a0015;
+  --color-surface-raised: #0d0020;
+  --color-surface-code: #0a1410;
+  --color-border: #4a1080;
+  --color-rail-marker: #946ab8;
+
+  --color-text: #f0fdf4;
+  --color-text-white: #ffffff;
+  --color-text-subdued: #c4b2e2;
+  --color-muted: #8a8a8a;
+
+  --color-logo: #94f37a;
+  --color-accent: #4ade80;
+  --color-accent-soft: #86efac;
+  --color-on-accent: #131313;
+
+  --color-syntax-blue: #53afd8;
+  --color-syntax-yellow: #ffca70;
+  --color-syntax-pink: #fd8eff;
+  --color-error: #f07869;
+
+  --gradient-hero:
+    radial-gradient(
+      54% 75% at 15% 0,
+      rgba(204, 0, 170, 0.4),
+      rgba(105, 0, 93, 0.2) 50%,
+      rgba(6, 0, 15, 0)
+    ),
+    radial-gradient(
+      103% 103% at 50% 0,
+      rgba(102, 0, 204, 0.8),
+      rgba(78, 0, 157, 0.6) 25%,
+      rgba(54, 0, 110, 0.4) 50%,
+      rgba(6, 0, 15, 0)
+    );
+  --gradient-cta:
+    radial-gradient(
+      28% 17% at 0 0,
+      rgba(85, 0, 187, 0.47),
+      rgba(46, 0, 101, 0.23) 50%,
+      rgba(6, 0, 15, 0)
+    ),
+    radial-gradient(
+      178% 142% at 100% 0,
+      rgba(136, 0, 204, 0.73),
+      rgba(104, 0, 157, 0.55) 25%,
+      rgba(71, 0, 110, 0.37) 50%,
+      rgba(6, 0, 15, 0)
+    );
+  --gradient-cta-aside: radial-gradient(
+    413% 248% at 0 92%,
+    rgba(85, 0, 187, 0.47),
+    rgba(46, 0, 101, 0.23) 50%,
+    rgba(6, 0, 15, 0)
+  );
+  --gradient-cta-split: radial-gradient(
+    178% 142% at 100% 0,
+    rgba(136, 0, 204, 0.73),
+    rgba(104, 0, 157, 0.55) 25%,
+    rgba(71, 0, 110, 0.37) 50%,
+    rgba(6, 0, 15, 0)
+  );
+  --gradient-about:
+    radial-gradient(
+      39% 58% at 97% 0,
+      rgba(85, 0, 153, 0.53),
+      rgba(47, 0, 90, 0.27) 50%,
+      rgba(8, 0, 26, 0)
+    ),
+    radial-gradient(
+      15% 22% at 100% 1%,
+      rgba(170, 0, 119, 0.4),
+      rgba(89, 0, 73, 0.2) 50%,
+      rgba(8, 0, 26, 0)
+    );
+  --shadow-card: 0 0 24px rgba(61, 0, 136, 0.4);
+}
+
+// Light (the light-mode home page in Figma, Folio-2): soft grey surfaces with white
+// highlights, darker grey shading and a fine grain; text, borders and accents are darker
+// versions of the dark theme's colours, so every text colour passes 4.5:1. A few sections
+// get their own light values: see theme-light-sections.
+
+// A fine grain over the grey backgrounds (an inline SVG noise tile: no extra request)
+$light-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+// Hero glows in grey: white highlights, then darker shading in the lower corners and the
+// dark theme's two glows (same places and sizes), now grey and white
+$light-hero:
+  $light-grain,
+  radial-gradient(
+    28% 55% at 72% 35%,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0)
+  ),
+  radial-gradient(
+    35% 60% at 12% 15%,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0)
+  ),
+  linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02)),
+  radial-gradient(
+    35% 70% at 0 100%,
+    rgba(210, 210, 210, 0.3),
+    rgba(210, 210, 210, 0)
+  ),
+  radial-gradient(
+    60% 110% at 100% 100%,
+    rgba(196, 196, 196, 0.38),
+    rgba(196, 196, 196, 0)
+  ),
+  radial-gradient(
+    54% 75% at 15% 0,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0)
+  ),
+  radial-gradient(
+    103% 103% at 50% 0,
+    rgba(224, 224, 224, 0.5),
+    rgba(224, 224, 224, 0)
+  );
+
+// About teaser (Home): the same idea, spread down the taller section
+$light-about:
+  $light-grain,
+  radial-gradient(
+    30% 15% at 60% 82%,
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0)
+  ),
+  radial-gradient(
+    35% 18% at 15% 42%,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0)
+  ),
+  radial-gradient(
+    30% 15% at 85% 12%,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  ),
+  linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02)),
+  radial-gradient(
+    40% 25% at 100% 55%,
+    rgba(212, 212, 212, 0.45),
+    rgba(212, 212, 212, 0)
+  ),
+  radial-gradient(
+    50% 35% at 0 100%,
+    rgba(204, 204, 204, 0.5),
+    rgba(204, 204, 204, 0)
+  ),
+  radial-gradient(
+    39% 58% at 97% 0,
+    rgba(224, 224, 224, 0.32),
+    rgba(224, 224, 224, 0)
+  ),
+  radial-gradient(
+    15% 22% at 100% 1%,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0)
+  );
+
+// Grey sections (Featured Work, the Work list, the About bio, Key Takeaway): white
+// highlights only, as the grey is already as dark as the green text allows
+$light-grey-texture:
+  $light-grain,
+  radial-gradient(
+    30% 35% at 30% 75%,
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0)
+  ),
+  radial-gradient(
+    30% 35% at 62% 8%,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0)
+  ),
+  radial-gradient(
+    45% 60% at 0 0,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0)
+  );
+
+@mixin theme-light {
+  color-scheme: light;
+
+  --color-footer: #f4f4f4;
+  --color-canvas: #f4f4f4;
+  --color-canvas-deep: #f4f4f4;
+  --color-surface: #f4f4f4;
+  --color-surface-raised: #ffffff;
+  --color-surface-code: #ffffff;
+  --color-border: #c4b0e0;
+  --color-rail-marker: #7d5aa8;
+
+  --color-text: #401685;
+  --color-text-white: #2b1650;
+  --color-text-subdued: #4f3d6e;
+  --color-muted: #646464;
+
+  --color-logo: #137539;
+  --color-accent: #137539;
+  --color-accent-soft: #166534;
+  --color-on-accent: #ffffff;
+
+  --color-syntax-blue: #0b6496;
+  --color-syntax-yellow: #c41f0a; // red in light mode
+  --color-syntax-pink: #a3169b;
+  --color-error: #b42318;
+
+  --color-glow: #ffffff; // text glows light up in white
+  --glow-boost: 2;
+
+  --gradient-hero: #{$light-hero};
+  --gradient-about: #{$light-about};
+  --gradient-cta: none;
+  --gradient-cta-aside: none;
+  --gradient-cta-split: none;
+  --shadow-card: 0 0 24px rgba(0, 0, 0, 0.08);
+}
+
+// Light theme's purple sections (header, mobile menu, Contact CTA, window top bars):
+// the dark theme's bright colours on deep purple (all 5:1 or more)
+@mixin theme-light-purple {
+  --color-canvas: #401685;
+  --color-surface-code: #401685;
+  --color-border: #7a4fc0;
+  --color-rail-marker: #b39ddf; // lighter purple: rail markers, theme toggle icon
+  --color-text: #ffffff;
+  --color-text-white: #ffffff;
+  --color-text-subdued: #c4b2e2;
+  --color-muted: #c4b2e2;
+  --color-logo: #4ade80;
+  --color-accent: #4ade80;
+  --color-accent-soft: #ffffff;
+  --color-on-accent: #131313;
+  --color-syntax-blue: #53afd8;
+  --color-syntax-yellow: #ffca70;
+  --color-syntax-pink: #eb90e6;
+  --color-glow: initial; // back to the text's own colour, as in dark mode
+  --glow-boost: initial;
+  --gradient-hero: none;
+
+  // Contact CTA: the dark theme's glows, in lighter purple and magenta, kept subtle
+  --gradient-cta:
+    radial-gradient(
+      28% 17% at 0 0,
+      rgba(204, 0, 170, 0.22),
+      rgba(204, 0, 170, 0.08) 50%,
+      rgba(64, 22, 133, 0)
+    ),
+    radial-gradient(
+      178% 142% at 100% 0,
+      rgba(150, 90, 235, 0.4),
+      rgba(130, 70, 220, 0.25) 25%,
+      rgba(110, 50, 200, 0.12) 50%,
+      rgba(64, 22, 133, 0)
+    );
+  --gradient-cta-split: radial-gradient(
+    178% 142% at 100% 0,
+    rgba(150, 90, 235, 0.4),
+    rgba(130, 70, 220, 0.25) 25%,
+    rgba(110, 50, 200, 0.12) 50%,
+    rgba(64, 22, 133, 0)
+  );
+
+  // For the parts with no background of their own (the split CTA half, the bio bar)
+  background-color: var(--color-canvas);
+}
+
+// The same tokens with different light values in a few sections (custom properties
+// cascade, so each section's children pick these up)
+$light-grey: #ebebeb; // grey sections and cards (every text colour still passes 4.5:1)
+
+@mixin theme-light-sections {
+  .header,
+  .mobile-menu,
+  .contact-cta--primary,
+  .contact-cta--about .contact-cta__inner,
+  .browser-frame__bar {
+    @include theme-light-purple;
+  }
+
+  // Grey with texture: Featured Work, the Work list, the About bio, Key Takeaway
+  .featured-work {
+    --color-canvas: #{$light-grey};
+  }
+
+  .about-bio,
+  .key-takeaway {
+    --color-surface: #{$light-grey};
+  }
+
+  .featured-work,
+  .work-list,
+  .about-bio,
+  .key-takeaway {
+    background-image: $light-grey-texture;
+  }
+
+  .work-list {
+    background-color: $light-grey; // it has no background of its own
+  }
+
+  // Grey: the split CTA's left half, and the career chapter and FAQ cards
+  .contact-cta--about {
+    --color-canvas: #{$light-grey};
+  }
+
+  .experience-item,
+  .faq-list__item {
+    --color-surface-raised: #{$light-grey};
+  }
+
+  // White: inside the bio window
+  .about-bio__window {
+    --color-surface: #ffffff;
+  }
+}

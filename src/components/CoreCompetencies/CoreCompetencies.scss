@@ -80,7 +80,7 @@
 
   50% {
     opacity: 1;
-    text-shadow: 0 0 8px rgba($color-accent, 0.6);
+    text-shadow: 0 0 8px color-mix(in srgb, $color-glow-accent 60%, transparent);
   }
 }
 

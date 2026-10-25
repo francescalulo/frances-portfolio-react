@@ -254,15 +254,15 @@
 
   @media (hover: hover) {
     &:hover {
-      background-color: rgba($color-accent, 0.12);
+      background-color: color-mix(in srgb, $color-accent 12%, transparent);
     }
   }
 
   // A softer split, so the green label stays readable on the dark button
   &:active {
     text-shadow:
-      -1px 0 rgba($color-syntax-pink, 0.6),
-      1px 0 rgba($color-syntax-blue, 0.6);
+      -1px 0 color-mix(in srgb, $color-syntax-pink 60%, transparent),
+      1px 0 color-mix(in srgb, $color-syntax-blue 60%, transparent);
   }
 }
 
@@ -414,4 +414,15 @@
   @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
+}
+
+// Line icon in a header button (the phone menu / close button, the theme toggle)
+@mixin icon-button-icon {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: $color-accent;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

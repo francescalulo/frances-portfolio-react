@@ -26,6 +26,18 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#06000f" />
 
+    <!-- Light mode (ThemeToggle): apply the saved choice before the page draws, so a
+         light-mode visitor never sees a flash of the dark theme -->
+    <script>
+      try {
+        if (localStorage.getItem("fc-theme") === "light") {
+          document.documentElement.dataset.theme = "light";
+        }
+      } catch {
+        // Storage blocked: stay on the default dark theme
+      }
+    </script>
+
     <!-- Site-wide defaults. Each page sets its own title, description and canonical link
          (PageMeta). Share previews use these, because social sites don't run JavaScript. -->
     <meta name="author" content="Frances Calulo" />
