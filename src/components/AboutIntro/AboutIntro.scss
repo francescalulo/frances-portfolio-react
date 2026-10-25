@@ -335,7 +335,7 @@
 
 // The "return" line, highlighted across the whole window (gutter included)
 .about-intro__code--highlight {
-  $tint: rgba($color-accent, 0.1);
+  $tint: color-mix(in srgb, $color-accent 10%, transparent);
   background-color: $tint;
   box-shadow:
     -3.25rem 0 0 $tint,
