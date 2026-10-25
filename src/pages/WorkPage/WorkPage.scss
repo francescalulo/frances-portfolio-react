@@ -92,6 +92,12 @@
   }
 }
 
+// While the projects load, the list fills the screen so the CTA and footer start below
+// it and don't jump down when the projects arrive (no layout shift)
+.work-list--loading {
+  min-height: 100svh;
+}
+
 .work-list__items {
   margin: 0;
   padding: 0;
