@@ -124,6 +124,11 @@ $fs-code-lg: clamp(
 // Hero on phones only (tablet+ uses $fs-display): sized so the widest code line fills the screen
 $fs-hero-code: clamp(1.75rem, 12vw - 0.25rem, 2.75rem); // 28 → 44px
 $fs-hero-title: clamp(2rem, 0.75rem + 6vw, 2.75rem); // 32 → 44px
+// Hero, tablet up: $fs-display up to 1440px, then it keeps growing with the screen (5vw)
+// to fill wide screens: the decoded title to 96px, the coded lines to 88px (where
+// "roles: ['designer', 'developer']," still fits the 1280px content width)
+$fs-hero-title-wide: min(max(#{$fs-display}, 5vw), 6rem);
+$fs-hero-code-wide: min(max(#{$fs-display}, 5vw), 5.5rem);
 
 $lh-tight: 1.05;
 $lh-body: 1.6;

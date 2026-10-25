@@ -68,14 +68,29 @@
   }
 }
 
+// Tablet up: more room above and below the title, growing a little with the screen
+// (about 40px at 768px, 52px at 1440px, 64px max)
+$hero-gap: clamp(2.5rem, 1rem + 2.5vw, $space-lg);
+
 .hero__code {
   width: 100%; // stay full width inside the flex column (phones)
   padding-top: $space-md;
   font-family: $font-display;
   line-height: $lh-tight;
 
+  @include tablet {
+    padding-top: $hero-gap;
+  }
+
   @include desktop {
     padding-bottom: 1.0625rem; // the empty line after "};" in the hi-fi
+  }
+
+  // The Code / Decode switch under the title
+  .decode__toggle {
+    @include tablet {
+      margin-top: $hero-gap;
+    }
   }
 }
 
@@ -102,7 +117,7 @@
   letter-spacing: $tracking-tight;
 
   @include tablet {
-    font-size: $fs-display; // back to the shared display size (about 43px at 768px, 72px max)
+    font-size: $fs-hero-code-wide; // about 43px at 768px, 72px at 1440px, 88px max
   }
 
   @include desktop {
@@ -118,7 +133,7 @@
   line-height: 1.1;
 
   @include tablet {
-    font-size: $fs-display;
+    font-size: $fs-hero-title-wide;
   }
 
   @include desktop {
@@ -142,6 +157,7 @@
 
   @include tablet {
     font-size: $fs-md;
+    margin-top: 1.75rem;
   }
 }
 
@@ -181,12 +197,9 @@
   max-width: 22.375rem;
   padding-top: 1.5rem; // 24px on phones
 
-  @include desktop {
-    padding-top: 2.25rem;
-  }
-
   @include tablet {
     max-width: none; // natural-width buttons from tablet up
+    padding-top: $hero-gap;
   }
 }
 
