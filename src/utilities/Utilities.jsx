@@ -34,6 +34,23 @@ export function shareRequest(request) {
 export const SITE_SETTINGS_PAGE_ID = 41;
 export const ABOUT_PAGE_ID = 52;
 
+// Image sizes WordPress makes, smallest first (srcSet for featured images)
+const MEDIA_SIZES = ["medium", "medium_large", "large", "full"];
+
+// A post's or page's featured image, from ?_embed=wp:featuredmedia (null if it has none)
+export function getFeaturedMedia(post) {
+  return post?._embedded?.["wp:featuredmedia"]?.[0] ?? null;
+}
+
+// srcSet for a featured image: one file per size WordPress made ("" if there are none)
+export function mediaSrcSet(media) {
+  const sizes = media?.media_details?.sizes ?? {};
+  return MEDIA_SIZES.map((name) => sizes[name])
+    .filter(Boolean)
+    .map((size) => size.source_url + " " + size.width + "w")
+    .join(", ");
+}
+
 // ACF social_links platform value → display label (Footer, QuickInfo)
 export const PLATFORM_LABELS = {
   linkedin: "LinkedIn",
