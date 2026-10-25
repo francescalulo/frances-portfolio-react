@@ -81,6 +81,17 @@
   }
 }
 
+// Each part stays whole. Phones: every part on its own line ("Chaos wrangler" /
+// "by necessity,"); tablet up: the two parts share a line
+.about-snippet__phrase {
+  display: block;
+  white-space: nowrap;
+
+  @include tablet {
+    display: inline;
+  }
+}
+
 .about-snippet__statement--twist {
   color: $color-text;
 }
