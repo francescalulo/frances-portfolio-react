@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { scrambleText } from "../utilities/Utilities";
 
 // Scrambles a small band of letters that sweeps left to right across `text`,
-// using the word's own letters (case matched) so it feels like the word rearranging itself.
-// Brackets, slashes and spaces stay fixed. Does nothing if the user prefers reduced motion.
+// using the text's own letters (case and width matched) so it feels like the word
+// rearranging itself. Brackets, slashes and spaces stay fixed.
+// isScrambling is true while it runs. Does nothing if the user prefers reduced motion.
 function useScramble(text, { duration = 900, frameRate = 60, band = 3 } = {}) {
   const [display, setDisplay] = useState(text);
+  const [isScrambling, setIsScrambling] = useState(false);
   const timer = useRef(null);
 
   const stop = useCallback(() => {
@@ -16,37 +19,26 @@ function useScramble(text, { duration = 900, frameRate = 60, band = 3 } = {}) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     stop();
-    const pool = text.replace(/[^a-z0-9]/gi, ""); // "<TheLounge/>" → "TheLounge"
+    setIsScrambling(true);
     const start = performance.now();
 
     timer.current = setInterval(() => {
       const progress = Math.min((performance.now() - start) / duration, 1);
       // Front edge of the band; it runs past the end so the last letters settle too
       const head = Math.floor(progress * (text.length + band));
+      setDisplay(scrambleText(text, head - band, head));
 
-      setDisplay(
-        text
-          .split("")
-          .map((char, index) => {
-            const inBand = index < head && index >= head - band;
-            if (!inBand || !/[a-z0-9]/i.test(char)) return char;
-
-            const pick = pool[Math.floor(Math.random() * pool.length)];
-            return char === char.toUpperCase()
-              ? pick.toUpperCase()
-              : pick.toLowerCase();
-          })
-          .join(""),
-      );
-
-      if (progress === 1) stop();
+      if (progress === 1) {
+        stop();
+        setIsScrambling(false);
+      }
     }, frameRate);
   }, [text, duration, frameRate, band, stop]);
 
   // Clear the timer if the component unmounts mid-scramble
   useEffect(() => stop, [stop]);
 
-  return { display, scramble };
+  return { display, scramble, isScrambling };
 }
 
 export default useScramble;

@@ -1,43 +1,17 @@
-import { useEffect, useState } from "react";
-import { restBase } from "../utilities/Utilities";
+import useRestData from "./useRestData";
+import { fetchJson, restBase } from "../utilities/Utilities";
 
 // The career chapters (Experience CPT) in the WordPress "Order", with only the fields
 // the About teaser uses.
 const EXPERIENCE_URL =
-  `${restBase}experience` +
-  "?orderby=menu_order&order=asc&acf_format=standard&_fields=id,title,acf";
+  restBase +
+  "experience?orderby=menu_order&order=asc&acf_format=standard&_fields=id,title,acf";
+
+const loadExperience = () => fetchJson(EXPERIENCE_URL);
 
 function useExperience() {
-  const [chapters, setChapters] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    let isActive = true; // ignore the result if the component unmounts first
-
-    fetch(EXPERIENCE_URL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Experience request failed (${response.status})`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (isActive) setChapters(data);
-      })
-      .catch(() => {
-        if (isActive) setHasError(true);
-      })
-      .finally(() => {
-        if (isActive) setIsLoaded(true);
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, []);
-
-  return { chapters, isLoaded, hasError };
+  const { data, isLoaded, hasError } = useRestData(loadExperience, []);
+  return { chapters: data, isLoaded, hasError };
 }
 
 export default useExperience;

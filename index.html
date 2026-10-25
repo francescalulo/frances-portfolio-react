@@ -11,6 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400&family=Space+Grotesk:wght@300..700&display=swap"
       rel="stylesheet"
     />
+    <!-- Preloader only: the logo's font, just the letters it uses (a few kB) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@1,800&text=%7B%7DfrancesCalulo&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -20,6 +25,18 @@
     <meta name="apple-mobile-web-app-title" content="Frances Calulo" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#06000f" />
+
+    <!-- Light mode (ThemeToggle): apply the saved choice before the page draws, so a
+         light-mode visitor never sees a flash of the dark theme -->
+    <script>
+      try {
+        if (localStorage.getItem("fc-theme") === "light") {
+          document.documentElement.dataset.theme = "light";
+        }
+      } catch {
+        // Storage blocked: stay on the default dark theme
+      }
+    </script>
 
     <!-- Site-wide defaults. Each page sets its own title, description and canonical link
          (PageMeta). Share previews use these, because social sites don't run JavaScript. -->

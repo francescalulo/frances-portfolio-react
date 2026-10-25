@@ -4,11 +4,11 @@
 // Phones: a card (image, number + tags, title, excerpt, meta, Live Site).
 // Tablet up: a full-width row with a divider (hi-fi); desktop: three columns.
 .work-row {
-  padding-block: 0.5rem; // gap between the phone cards
+  padding-block: $space-xs; // gap between the phone cards
 
   @include tablet {
     padding-block: 0;
-    border-bottom: 1px solid $color-border; // full-bleed divider, like the hi-fi
+    border-bottom: $border; // full-bleed divider, like the hi-fi
   }
 }
 
@@ -16,7 +16,7 @@
   @include corner-brackets; // phones: brackets on the card's corners (like WorkCard)
   display: flex; // (corner-brackets also makes this position: relative for the title link)
   flex-direction: column;
-  border: 1px solid $color-border;
+  border: $border;
   background-color: $color-surface-raised;
   transition: border-color 0.2s ease;
 
@@ -36,8 +36,8 @@
       "intro media"
       "info media";
     grid-template-rows: auto 1fr; // the info sits right under the title; the image spans both
-    gap: 1rem 2rem;
-    padding-block: 2rem; // 32px, as in the hi-fi
+    gap: $space-sm $space-md;
+    padding-block: $space-md; // 32px, as in the hi-fi
     border: 0;
     background-color: transparent;
 
@@ -63,8 +63,8 @@
 .work-row__intro {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem 1rem 0;
+  gap: $space-xs;
+  padding: $space-sm $space-sm 0;
 
   @include tablet {
     grid-area: intro;
@@ -76,7 +76,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: $space-xs;
 }
 
 .work-row__number {
@@ -89,7 +89,7 @@
 .work-row__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: $space-xs;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -97,7 +97,7 @@
 
 .work-row__tag {
   padding: 0.1875rem 0.5rem; // 3px 8px
-  border: 1px solid $color-accent;
+  border: $border-accent;
   border-radius: $radius-tag;
   background-color: $color-surface-code;
   font-family: $font-body;
@@ -129,6 +129,12 @@
   }
 }
 
+// The glitch jolt (a transform) goes on this inner box, not the h2: a transformed parent
+// would shrink the link's ::after to the title and the rest of the row wouldn't click
+.work-row__title-text {
+  display: inline-block; // transforms don't apply to inline text
+}
+
 // Keyboard focus: ring around the whole row instead of just the title
 @supports selector(:has(*)) {
   .work-row__body:has(.work-row__link:focus-visible) {
@@ -145,7 +151,7 @@
 .work-row__info {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: $space-sm;
   padding: 0.75rem 1rem 1rem;
 
   @include tablet {
@@ -203,14 +209,14 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.5rem;
+    gap: $space-xs;
   }
 }
 
 .work-row__image {
   order: -1;
-  aspect-ratio: 9 / 4; // 358 × 160 on phones
-  border-bottom: 1px solid $color-border;
+  aspect-ratio: 16 / 10;
+  border-bottom: $border;
 
   // Tablet up: its own framed box with corner brackets, like the Home cards.
   // The frame (::after) and brackets (::before) sit inside the box, on top of the image,
@@ -219,7 +225,6 @@
     @include corner-brackets;
     order: 0;
     width: 100%;
-    aspect-ratio: 21 / 16;
     border-bottom: 0;
 
     &::before {
@@ -232,7 +237,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      border: 1px solid $color-border;
+      border: $border;
       pointer-events: none;
       transition: border-color 0.2s ease;
     }

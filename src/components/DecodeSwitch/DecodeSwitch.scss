@@ -9,7 +9,7 @@
   min-height: 1.5rem; // 24px, the minimum tap target (WCAG 2.5.8)
   margin-top: 1.5rem; // 24px gap below the code block
   padding: 0;
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: $radius-pill;
   background-color: $color-surface-code;
   font-family: $font-display;

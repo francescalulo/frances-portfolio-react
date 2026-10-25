@@ -6,10 +6,15 @@ import GlitchImage from "../GlitchImage/GlitchImage";
 import PayrollLink from "../PayrollLink/PayrollLink";
 import BrowserFrame from "../BrowserFrame/BrowserFrame";
 import portrait from "../../assets/frances-portrait.webp";
-import { toCodeLines } from "../../utilities/Utilities";
+import { mediaSrcSet, toCodeLines } from "../../utilities/Utilities";
 import "./AboutIntro.scss";
 
 const NBSP = "\u00A0";
+
+const PORTRAIT_ALT = "Portrait of Frances Calulo"; // when the Media Library alt is empty
+// The card is 17.5rem wide on phones, 13rem on tablets, 18.5rem on desktop
+const PORTRAIT_SIZES =
+  "(min-width: 64em) 18.5rem, (min-width: 48em) 13rem, 17.5rem";
 
 // The bio as code: two spaces = one indent step, "" = an empty line between groups
 const BIO_CODE = [
@@ -61,9 +66,37 @@ const CODED = toCodeLines([...BIO_CODE, "}"], "about-intro").map((line) =>
     : line,
 );
 
+// Readable bio: key phrases in the syntax colours (each phrase → its colour)
+const BIO_HIGHLIGHTS = {
+  designer: "pink",
+  developer: "green",
+  "Figma, React, JavaScript, HTML, CSS, WordPress, and Git": "green",
+  "TypeScript and accessibility": "yellow",
+  memoized: "blue",
+  "still shipping": "green",
+  "K-drama and true crime": "pink",
+  "Everest-sized pile of laundry": "yellow",
+  "the why behind the how": "pink",
+  "coffee-and-cake": "yellow",
+};
+const HIGHLIGHT_PATTERN = new RegExp(
+  "(" + Object.keys(BIO_HIGHLIGHTS).join("|") + ")",
+);
+
 const DECODED = BIO.map((text) => ({
   className: "about-intro__prose",
-  segments: [{ text }],
+  segments: text
+    .split(HIGHLIGHT_PATTERN)
+    .filter(Boolean)
+    .map((part) =>
+      BIO_HIGHLIGHTS[part]
+        ? {
+            text: part,
+            className:
+              "about-intro__mark about-intro__mark--" + BIO_HIGHLIGHTS[part],
+          }
+        : { text: part },
+    ),
 }));
 
 // Beside the photo: small framing lines + large meaning lines (like the About snippet)
@@ -134,23 +167,44 @@ const HELLO_DECODED = [
 // About intro + bio: the portrait card with the name lines beside it, and the rest of the
 // bio in an editor window in its own section below. The intro types like the Home hero
 // (and the photo glitches each time it switches); the bio has its own switch.
-function AboutIntro() {
+// photo: the About page's featured image in WordPress. While the page loads the card keeps
+// its shape; if WordPress has no image (or can't be reached) the built-in portrait shows.
+function AboutIntro({ photo, isLoaded }) {
   const [isBioDecoded, setIsBioDecoded] = useState(false);
   const photoRef = useRef(null);
+
+  const srcSet = mediaSrcSet(photo);
+  let image = null;
+  if (photo?.source_url) {
+    image = {
+      src: photo.source_url,
+      alt: photo.alt_text || PORTRAIT_ALT,
+      width: photo.media_details?.width,
+      height: photo.media_details?.height,
+    };
+  } else if (isLoaded) {
+    image = { src: portrait, alt: PORTRAIT_ALT, width: 720, height: 1016 };
+  }
 
   return (
     <>
       <section className="about-intro" aria-labelledby="about-heading">
         <div className="about-intro__inner content-width">
           <div className="about-intro__card">
-            <GlitchImage
-              ref={photoRef}
-              src={portrait}
-              alt="Portrait of Frances Calulo"
-              width="720"
-              height="1016"
-              className="about-intro__photo"
-            />
+            {image ? (
+              <GlitchImage
+                ref={photoRef}
+                {...image}
+                className="about-intro__photo"
+                imageProps={{
+                  srcSet: srcSet || undefined,
+                  sizes: srcSet ? PORTRAIT_SIZES : undefined,
+                  decoding: "async",
+                }}
+              />
+            ) : (
+              <div className="about-intro__photo" aria-hidden="true" />
+            )}
             <div className="about-intro__card-bar" aria-hidden="true">
               frances_calulo.jsx
               <span className="about-intro__card-dot" />

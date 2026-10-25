@@ -1,5 +1,16 @@
 @use "variables" as *;
 @use "mixins" as *;
+@use "themes" as *;
+
+// Dark first; light when the visitor picks it with the toggle (ThemeToggle)
+:root {
+  @include theme-dark;
+}
+
+:root[data-theme="light"] {
+  @include theme-light;
+  @include theme-light-sections;
+}
 
 // Always reserve the scrollbar's space, so nothing shifts when the mobile menu locks scrolling
 html {
@@ -48,8 +59,9 @@ a {
   outline-offset: 3px;
 }
 
-// Sections that receive focus from the scroll cue / in-page links aren't controls,
-// so they don't need a focus ring (focus just moves there for keyboard users)
+// Main and the sections that receive focus from the skip link / scroll cue / in-page links
+// aren't controls, so they don't need a focus ring (focus just moves there for keyboard users)
+main[tabindex="-1"]:focus,
 main section[tabindex="-1"]:focus {
   outline: none;
 }
@@ -72,11 +84,31 @@ main section[tabindex="-1"]:focus {
   border: 0;
 }
 
+// "Skip to content": the first stop for keyboard users, hidden until it's focused
+.skip-link {
+  position: absolute;
+  top: $space-xs;
+  left: $space-xs;
+  z-index: 300; // above the preloader (200)
+  padding: $space-xs $space-sm;
+  border-radius: $radius-button;
+  background-color: $color-accent;
+  color: $color-on-accent;
+  font-family: $font-display;
+  font-weight: $fw-medium;
+  text-decoration: none;
+  transform: translateY(-200%);
+
+  &:focus {
+    transform: none;
+  }
+}
+
 // Sticky-footer layout: footer stays at the bottom on short pages
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100svh; // the visible screen height on phones (100vh is taller there)
 }
 
 .wrapper main {
@@ -98,4 +130,101 @@ main section[tabindex="-1"]:focus {
   50% {
     opacity: 0;
   }
+}
+
+// RGB-split glitch (GlitchImage, Preloader): the pink and blue copies jump sideways in
+// slices, then snap back
+@keyframes glitch-jolt {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  25% {
+    transform: translateX(2px);
+  }
+
+  60% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes glitch-split-pink {
+  0% {
+    opacity: 0.9;
+    transform: translateX(-6px);
+    clip-path: inset(8% 0 62% 0);
+  }
+
+  20% {
+    transform: translateX(5px);
+    clip-path: inset(48% 0 30% 0);
+  }
+
+  40% {
+    transform: translateX(-4px);
+    clip-path: inset(20% 0 55% 0);
+  }
+
+  60% {
+    transform: translateX(3px);
+    clip-path: inset(70% 0 8% 0);
+  }
+
+  80% {
+    opacity: 0.6;
+    transform: translateX(-2px);
+    clip-path: inset(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes glitch-split-blue {
+  0% {
+    opacity: 0.9;
+    transform: translateX(6px);
+    clip-path: inset(55% 0 20% 0);
+  }
+
+  20% {
+    transform: translateX(-5px);
+    clip-path: inset(12% 0 70% 0);
+  }
+
+  40% {
+    transform: translateX(4px);
+    clip-path: inset(62% 0 12% 0);
+  }
+
+  60% {
+    transform: translateX(-3px);
+    clip-path: inset(30% 0 45% 0);
+  }
+
+  80% {
+    opacity: 0.6;
+    transform: translateX(2px);
+    clip-path: inset(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: none;
+    clip-path: inset(0);
+  }
+}
+
+// Text that glitches while it shuffles (Work Detail and Work archive titles):
+// pink and blue edges and a small jolt, like the About photo. Components add
+// is-glitching while the text shuffles (never with reduced motion).
+.glitch-text.is-glitching {
+  animation: glitch-jolt 0.45s steps(1, end) infinite;
+  text-shadow:
+    -2px 0 $color-syntax-pink,
+    2px 0 $color-syntax-blue;
 }

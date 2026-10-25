@@ -4,7 +4,7 @@
 // Phones / tablets: thicker border on hover and while open (desktop has no button)
 .experience-item {
   @include accordion-highlight(".experience-item__toggle");
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: $radius-card;
   background-color: $color-surface-raised;
 }
@@ -20,7 +20,7 @@
   align-items: center;
   gap: 0.75rem;
   width: 100%;
-  padding: 1rem;
+  padding: $space-sm;
 
   @include tablet {
     padding: 1rem 1.25rem;
@@ -77,8 +77,8 @@
 .experience-item__body {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 0 1rem 1rem;
+  gap: $space-sm;
+  padding: 0 $space-sm $space-sm;
 
   @include tablet {
     padding: 0 1.25rem 1.25rem;
@@ -125,7 +125,7 @@
 .experience-item__skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: $space-xs;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -133,7 +133,7 @@
 
 .experience-item__skill {
   padding: 0.3125rem 0.625rem; // 5px 10px
-  border: 1px solid $color-accent;
+  border: $border-accent;
   border-radius: $radius-tag;
   background-color: $color-surface-code;
   font-size: $fs-xs;

@@ -1,5 +1,5 @@
 import useSiteSettings from "../../hooks/useSiteSettings";
-import { PLATFORM_LABELS } from "../../utilities/Utilities";
+import SocialLink from "../SocialLink/SocialLink";
 import "./Footer.scss";
 
 function Footer() {
@@ -9,22 +9,17 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer__inner content-width">
+        {/* Each sentence wraps as a whole, never mid-sentence */}
         <p className="footer__copyright">
-          © {year} Frances Calulo. All rights reserved.
+          <span className="footer__phrase">© {year} Frances Calulo.</span>{" "}
+          <span className="footer__phrase">All rights reserved.</span>
         </p>
 
         {socialLinks.length > 0 && (
           <ul className="footer__social">
             {socialLinks.map((link) => (
               <li key={link.platform}>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer__social-link"
-                >
-                  {PLATFORM_LABELS[link.platform] ?? link.platform}
-                </a>
+                <SocialLink link={link} className="footer__social-link" />
               </li>
             ))}
           </ul>

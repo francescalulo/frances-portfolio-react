@@ -3,7 +3,7 @@
 
 .contact-cta {
   @include rails;
-  border-top: 1px solid $color-border;
+  border-top: $border;
   background-color: $color-canvas;
   background-image: $gradient-cta;
 
@@ -13,23 +13,12 @@
   }
 }
 
-// Covers the whole CTA and clips only the logo, so the section itself never needs overflow/clip.
-// Shown at every size (smaller on phones), always in the CTA's lower-right corner.
-.contact-cta__mark {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  mix-blend-mode: plus-lighter; // glows against the purple
-  pointer-events: none;
-}
-
-// Both logo copies sit in the same spot; the masks blend them into the progressive blur
+// The faded {f} (GhostLogo): shown at every size (smaller on phones), always in the
+// CTA's lower-right corner
 .contact-cta__mark-layer {
-  position: absolute;
   right: $gutter-mobile; // phones: on the content edge
   bottom: -1.5rem;
   width: min(30rem, 85%);
-  height: auto;
 
   // Desktop: hi-fi size, on the content edge of wide screens too
   @include desktop {
@@ -37,19 +26,6 @@
     bottom: -4rem; // the blurred lower part sinks past the bottom edge
     width: 38rem; // 608px
   }
-}
-
-// Sharp copy: fully visible top-left, fading out toward the bottom-right
-.contact-cta__mark-layer--sharp {
-  -webkit-mask-image: linear-gradient(145deg, #000 33%, transparent 60%);
-  mask-image: linear-gradient(145deg, #000 33%, transparent 60%);
-}
-
-// Blurred copy: fades in where the sharp one fades out
-.contact-cta__mark-layer--blur {
-  filter: blur(7.5px);
-  -webkit-mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
-  mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
 }
 
 .contact-cta__inner {
@@ -78,10 +54,25 @@
   line-height: 1.1; // roomier at 28px on phones
   letter-spacing: -0.055em; // -4px at 72px
   color: $color-accent;
+  transition: text-shadow 0.6s ease;
 
   @include desktop {
     line-height: 0.95; // as in the hi-fi
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Hovering or keyboard-focusing "Payroll Please": the heading glows softly, like the
+// header logo (each line in its own colour)
+.contact-cta__inner:has(
+    .contact-cta__button:hover,
+    .contact-cta__button:focus-visible
+  )
+  .contact-cta__heading {
+  text-shadow: 0 0 0.5em color-mix(in srgb, currentColor 45%, transparent);
 }
 
 .contact-cta__line {
@@ -98,7 +89,7 @@
   font-family: $font-display;
   font-size: $fs-lg;
   font-weight: $fw-medium;
-  line-height: 1.05;
+  line-height: $lh-tight;
   color: $color-syntax-pink;
 }
 
@@ -128,7 +119,7 @@ $split-gutter: max(
     @include page-gutter;
     padding-block: 3rem;
     background-image: $gradient-cta-aside;
-    border-bottom: 1px solid $color-border;
+    border-bottom: $border;
 
     @include desktop {
       display: flex;
@@ -137,7 +128,7 @@ $split-gutter: max(
       padding-block: $space-xl;
       padding-left: $split-gutter;
       border-bottom: 0;
-      border-right: 1px solid $color-border;
+      border-right: $border;
     }
   }
 
@@ -166,6 +157,6 @@ $split-gutter: max(
   }
 
   .contact-cta__emphasis {
-    text-shadow: 0 0 40px rgba(69, 196, 112, 0.4); // soft green glow on "more?"
+    text-shadow: 0 0 40px color-mix(in srgb, $color-accent 40%, transparent); // soft green glow on "more?"
   }
 }

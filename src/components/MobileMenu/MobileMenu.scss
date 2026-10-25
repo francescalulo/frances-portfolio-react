@@ -78,13 +78,14 @@ $menu-button-center: calc(100% - clamp(1rem, 4vw, 2.5rem) - 1.375rem) 2.25rem;
 // Full-width line like the header's; the inner row lines up with the header content
 .mobile-menu__top {
   position: relative;
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
 }
 
 .mobile-menu__top-inner {
   display: flex;
   align-items: center;
-  justify-content: flex-end; // only the close button now
+  justify-content: flex-end; // theme toggle + close button, on the right
+  gap: $space-sm;
   min-height: 4.5rem;
   padding-block: $space-xs;
   padding-inline: clamp(
@@ -195,32 +196,10 @@ $menu-button-center: calc(100% - clamp(1rem, 4vw, 2.5rem) - 1.375rem) 2.25rem;
   }
 }
 
-// Big faded {f} behind the links (same look as the CTA)
-.mobile-menu__mark {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  mix-blend-mode: plus-lighter;
-  pointer-events: none;
-}
-
+// The faded {f} (GhostLogo) behind the links, bigger than the screen
 .mobile-menu__mark-layer {
-  position: absolute;
   right: -15%;
   bottom: 5rem;
   width: 115%;
   max-width: 38rem; // never bigger than the desktop CTA logo
-  height: auto;
-}
-
-// Sharp top-left, blurring toward the bottom-right (progressive blur)
-.mobile-menu__mark-layer--sharp {
-  -webkit-mask-image: linear-gradient(145deg, #000 33%, transparent 60%);
-  mask-image: linear-gradient(145deg, #000 33%, transparent 60%);
-}
-
-.mobile-menu__mark-layer--blur {
-  filter: blur(7.5px);
-  -webkit-mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
-  mask-image: linear-gradient(145deg, transparent 33%, #000 60%);
 }

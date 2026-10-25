@@ -4,7 +4,7 @@
 .header {
   @include rails($top-marker: false);
   background-color: $color-canvas;
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
 }
 
 .header__inner {
@@ -54,11 +54,24 @@
   }
 }
 
+// Hover, focus or tap (HeaderLogo): the {f} mark splits pink and blue and jolts, like
+// the About photo
+.header__logo.is-glitching .header__logo-mark {
+  animation: glitch-jolt 0.45s steps(1, end);
+  filter: drop-shadow(-2px 0 $color-syntax-pink)
+    drop-shadow(2px 0 $color-syntax-blue);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .header__logo-mark,
   .header__logo-text {
     transition: none;
   }
+}
+
+// Tablet up: the nav and the theme toggle sit together on the right
+.header__nav {
+  margin-left: auto;
 }
 
 .header__list {
@@ -107,7 +120,7 @@
   width: 2.75rem; // 44px tap target
   height: 2.75rem;
   padding: 0;
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: 50%;
   background-color: $color-surface-code;
   cursor: pointer;
@@ -118,10 +131,5 @@
 }
 
 .header__menu-icon {
-  width: 1rem;
-  height: 1rem;
-  fill: none;
-  stroke: $color-accent;
-  stroke-width: 2.25;
-  stroke-linecap: round;
+  @include icon-button-icon;
 }

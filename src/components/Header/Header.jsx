@@ -1,9 +1,11 @@
 import { useCallback, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../assets/frances-logo.svg";
+import useGlitch from "../../hooks/useGlitch";
 import useScramble from "../../hooks/useScramble";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import LogoMark from "../LogoMark/LogoMark";
 import ScrambleText from "../ScrambleText/ScrambleText";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import { scrollToSection, TABLET_QUERY } from "../../utilities/Utilities";
 import "./Header.scss";
@@ -65,6 +67,25 @@ function NavItem({ number, label, srLabel, to, onClick }) {
   );
 }
 
+// The {f} logo + name, home link. Hover, keyboard focus or a tap: the {f} mark glitches
+// (RGB split, like the About photo). One tap fires several events; glitch() plays once.
+function HeaderLogo() {
+  const { isGlitching, glitch } = useGlitch();
+
+  return (
+    <Link
+      to="/"
+      className={"header__logo" + (isGlitching ? " is-glitching" : "")}
+      aria-label="Frances Calulo, home"
+      onPointerEnter={() => glitch()}
+      onFocus={() => glitch()}
+    >
+      <LogoMark className="header__logo-mark" width="44" height="44" />
+      <span className="header__logo-text">Frances Calulo</span>
+    </Link>
+  );
+}
+
 function Header() {
   const isTablet = useMediaQuery(TABLET_QUERY);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -94,35 +115,29 @@ function Header() {
   return (
     <header className="header">
       <div className="header__inner content-width">
-        <Link to="/" className="header__logo" aria-label="Frances Calulo, home">
-          <img
-            src={logo}
-            alt=""
-            className="header__logo-mark"
-            width="44"
-            height="44"
-          />
-          <span className="header__logo-text">Frances Calulo</span>
-        </Link>
+        <HeaderLogo />
 
         {isTablet ? (
-          <nav className="header__nav" aria-label="Primary">
-            <ul className="header__list">
-              {navItems.map((item) => (
-                <li key={item.to} className="header__item">
-                  <NavItem {...item} />
+          <>
+            <nav className="header__nav" aria-label="Primary">
+              <ul className="header__list">
+                {navItems.map((item) => (
+                  <li key={item.to} className="header__item">
+                    <NavItem {...item} />
+                  </li>
+                ))}
+                <li className="header__item">
+                  <NavItem
+                    number="04"
+                    label="<Contact/>"
+                    srLabel="Contact"
+                    onClick={scrollToContact}
+                  />
                 </li>
-              ))}
-              <li className="header__item">
-                <NavItem
-                  number="04"
-                  label="<Contact/>"
-                  srLabel="Contact"
-                  onClick={scrollToContact}
-                />
-              </li>
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+            <ThemeToggle />
+          </>
         ) : (
           <>
             <button

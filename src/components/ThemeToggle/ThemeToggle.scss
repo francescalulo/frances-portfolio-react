@@ -1,0 +1,36 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// Just the icon, no circle, in a lighter shade of the header's purple (the rail marker
+// colour), so it stays quiet next to the green nav; green on hover. The button is still
+// 44px, so it's easy to tap; keyboard focus gets the site's green ring.
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.75rem; // 44px tap target
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover .theme-toggle__icon {
+      stroke: $color-accent;
+    }
+  }
+}
+
+.theme-toggle__icon {
+  @include icon-button-icon;
+  stroke: $color-rail-marker; // 4.9:1 on the dark header, 5.3:1 on the light one
+  width: 1.125rem; // 18px: a touch bigger than the menu icon, as it stands alone
+  height: 1.125rem;
+  transition: stroke 0.2s ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

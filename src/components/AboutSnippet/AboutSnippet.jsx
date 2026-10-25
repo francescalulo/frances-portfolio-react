@@ -13,16 +13,21 @@ const NBSP = "\u00A0";
 
 // About statement: decoded by default; hover / tap types the code.
 // Small lines frame the code, large lines carry the meaning (same idea as the hero).
-const STATEMENT = [
-  {
-    className: "about-snippet__statement",
-    segments: [{ text: "Chaos wrangler by necessity, meticulous by design," }],
-  },
-  {
-    className: "about-snippet__statement",
-    segments: [{ text: "expert over-thinker by default." }],
-  },
+// One line per phrase, each in two parts that never split inside; phones put each part on
+// its own line ("Chaos wrangler / by necessity,"), see .about-snippet__phrase
+const PHRASES = [
+  ["Chaos wrangler", "by necessity,"],
+  ["meticulous", "by design,"],
+  ["expert over-thinker", "by default."],
 ];
+const STATEMENT = PHRASES.map(([first, second]) => ({
+  className: "about-snippet__statement",
+  segments: [
+    { text: first, className: "about-snippet__phrase" },
+    { text: " " },
+    { text: second, className: "about-snippet__phrase" },
+  ],
+}));
 
 // Wrap points on phones: only after "{ " / "; " / "= " (normal spaces); every other space
 // is NBSP so the code never splits in an odd place

@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { scrambleText, standIn } from "../../utilities/Utilities";
+import {
+  scrambleText,
+  standIn,
+  whenIntroDone,
+} from "../../utilities/Utilities";
 import DecodeSwitch from "../DecodeSwitch/DecodeSwitch";
 import "./DecodeText.scss";
 
@@ -639,14 +643,22 @@ function DecodeText({
 
   // Scroll (every device): type when mostly on screen, quietly reset when it leaves.
   // Only text that rests as code types itself on scroll; large copies stay readable.
+  // Text that types itself waits for the intro (preloader) to finish first.
   useEffect(() => {
     const element = stageRef.current;
+    let isInView = false;
+    let isActive = true;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        isInView = entry.isIntersecting;
         if (isManual.current) return;
         if (entry.isIntersecting) {
-          if (restingState === "coded") play(awayState);
+          if (restingState === "coded") {
+            whenIntroDone().then(() => {
+              if (isActive && isInView && !isManual.current) play(awayState);
+            });
+          }
         } else {
           stop();
           switchTo(restingState);
@@ -663,7 +675,10 @@ function DecodeText({
     );
 
     observer.observe(element);
-    return () => observer.disconnect();
+    return () => {
+      isActive = false;
+      observer.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [play, restingState]);
 

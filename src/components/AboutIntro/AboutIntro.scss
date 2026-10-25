@@ -9,7 +9,7 @@
   @include code-lines; // .about-intro__code, __indent-1 / -2, __nowrap
   background-color: $color-canvas;
   background-image: $gradient-hero;
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
 }
 
 // Phones: photo (centred) then the text. Tablet up: side by side; the text column is as
@@ -19,7 +19,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: 2rem;
+  gap: $space-md;
   padding-block: 2rem 3rem;
 
   @include tablet {
@@ -41,7 +41,7 @@
   width: 100%;
   max-width: 17.5rem; // 280px on phones
   margin-inline: auto; // phones: centred
-  border: 1px solid $color-border;
+  border: $border;
   border-radius: $radius-card;
   background-color: $color-surface-raised;
   box-shadow: $shadow-card;
@@ -62,7 +62,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.25rem; // 12px 20px
-  border-top: 1px solid $color-border;
+  border-top: $border;
   font-family: $font-display;
   font-size: $fs-2xs;
   letter-spacing: 0.04em;
@@ -87,7 +87,10 @@
 
   .about-intro__decode {
     width: 100%;
-    margin-bottom: 1.5rem; // keeps clear of the button
+
+    @include tablet {
+      margin-bottom: 1.5rem; // keeps clear of the button
+    }
   }
 
   // Code: lines a little apart. Decoded: the four lines sit together. Both start at the top.
@@ -98,8 +101,15 @@
     align-self: start;
   }
 
+  // Decoded: starts level with the name line ("Frances Calulo ( ) {"), one small code
+  // line (1.5 line height) plus the gap below "function"
   .decode__layer:last-child {
     gap: 0;
+    padding-top: calc(#{$fs-sm} * 1.5 + 0.75rem);
+
+    @include tablet {
+      padding-top: calc(#{$fs-md} * 1.5 + 0.75rem);
+    }
   }
 
   // The switch: top right, level with "function" / "Hi I'm"
@@ -115,7 +125,7 @@
 // Payroll Please: level with the bottom of the photo (tablet up)
 .about-intro__button {
   @include button-outline;
-  margin-top: 2rem;
+  margin-top: 1.5rem; // phones: close under the text
 
   @include tablet {
     margin-top: auto;
@@ -176,7 +186,7 @@
   margin-left: 1.5rem;
 
   @include tablet {
-    margin-left: 2rem;
+    margin-left: $space-md;
   }
 }
 
@@ -184,7 +194,7 @@
   margin-left: 3rem;
 
   @include tablet {
-    margin-left: 4rem;
+    margin-left: $space-lg;
   }
 }
 
@@ -210,7 +220,7 @@
 // ---------- Bio section: the rest of the bio in an editor window ----------
 // No rails, the window centred (like the Work mockups)
 .about-bio {
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
   background-color: $color-surface;
 }
 
@@ -264,7 +274,6 @@
   text-align: right;
   white-space: pre;
   color: $color-muted;
-  opacity: 0.7;
 
   @include tablet {
     font-size: $fs-sm;
@@ -301,6 +310,27 @@
   }
 }
 
+// Readable bio: key phrases in the syntax colours
+.about-intro__mark {
+  font-weight: $fw-medium;
+}
+
+.about-intro__mark--pink {
+  color: $color-syntax-pink;
+}
+
+.about-intro__mark--green {
+  color: $color-accent;
+}
+
+.about-intro__mark--yellow {
+  color: $color-syntax-yellow;
+}
+
+.about-intro__mark--blue {
+  color: $color-syntax-blue;
+}
+
 // Readable bio: one number per paragraph, in the same gutter
 .about-intro__prose::before {
   counter-increment: line;
@@ -311,12 +341,11 @@
   text-align: right;
   text-indent: 0;
   color: $color-muted;
-  opacity: 0.7;
 }
 
 // The "return" line, highlighted across the whole window (gutter included)
 .about-intro__code--highlight {
-  $tint: rgba(74, 222, 128, 0.1);
+  $tint: color-mix(in srgb, $color-accent 10%, transparent);
   background-color: $tint;
   box-shadow:
     -3.25rem 0 0 $tint,

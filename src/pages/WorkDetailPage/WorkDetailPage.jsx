@@ -10,6 +10,7 @@ import KeyTakeaway from "../../components/KeyTakeaway/KeyTakeaway";
 import SitePreview from "../../components/SitePreview/SitePreview";
 import NextUp from "../../components/NextUp/NextUp";
 import ContactCTA from "../../components/ContactCTA/ContactCTA";
+import GlitchTitle from "../../components/GlitchTitle/GlitchTitle";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { decodeHtml } from "../../utilities/Utilities";
 import "./WorkDetailPage.scss";
@@ -66,9 +67,12 @@ function WorkDetailPage() {
               {projectType} case study
             </p>
           )}
-          <h1 id="work-title" className="work-detail__title">
-            {title}
-          </h1>
+          <GlitchTitle
+            key={title}
+            title={title}
+            id="work-title"
+            className="work-detail__title"
+          />
         </div>
 
         <WorkMeta project={project} className="work-detail__meta" />

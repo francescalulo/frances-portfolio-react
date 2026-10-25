@@ -3,13 +3,13 @@
 
 // No rails here (like Featured Work), so the mockup gets the full width
 .work-mockups {
-  border-bottom: 1px solid $color-border;
+  border-bottom: $border;
   background-color: $color-surface;
 }
 
 .work-mockups__inner {
   display: grid;
-  gap: 2rem;
+  gap: $space-md;
   padding-block: 3rem;
 
   // Desktop: one screen tall; the card is as big as fits, keeping 16:9

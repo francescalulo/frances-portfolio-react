@@ -3,9 +3,53 @@ export const SITE_URL = "https://francescalulo.com";
 
 export const restBase = "https://francescalulo.com/fc-cms-1212/wp-json/wp/v2/";
 
+// Gets JSON from the WordPress REST API. A failed request (404, 500…) throws, so each
+// hook can show its own error message.
+export function fetchJson(url) {
+  return fetch(url).then((response) => {
+    if (!response.ok) {
+      throw new Error("Request failed (" + response.status + "): " + url);
+    }
+    return response.json();
+  });
+}
+
+// Wraps a request so it only runs once: every component that asks gets the same promise,
+// so the page makes one request however many components need the data. A failed
+// request can be tried again.
+export function shareRequest(request) {
+  let promise = null;
+  return () => {
+    if (!promise) {
+      promise = request().catch((error) => {
+        promise = null; // allow a retry next time
+        throw error;
+      });
+    }
+    return promise;
+  };
+}
+
 // WordPress page IDs used by the app
 export const SITE_SETTINGS_PAGE_ID = 41;
 export const ABOUT_PAGE_ID = 52;
+
+// Image sizes WordPress makes, smallest first (srcSet for featured images)
+const MEDIA_SIZES = ["medium", "medium_large", "large", "full"];
+
+// A post's or page's featured image, from ?_embed=wp:featuredmedia (null if it has none)
+export function getFeaturedMedia(post) {
+  return post?._embedded?.["wp:featuredmedia"]?.[0] ?? null;
+}
+
+// srcSet for a featured image: one file per size WordPress made ("" if there are none)
+export function mediaSrcSet(media) {
+  const sizes = media?.media_details?.sizes ?? {};
+  return MEDIA_SIZES.map((name) => sizes[name])
+    .filter(Boolean)
+    .map((size) => size.source_url + " " + size.width + "w")
+    .join(", ");
+}
 
 // ACF social_links platform value → display label (Footer, QuickInfo)
 export const PLATFORM_LABELS = {
@@ -91,6 +135,15 @@ const WIDTH_GROUPS = [
   "w",
   "MWm",
 ];
+
+// The intro (Preloader): animations that should start after it (the hero) wait for
+// whenIntroDone(); the Preloader calls finishIntro() when it ends or doesn't play.
+let resolveIntro;
+const introDone = new Promise((resolve) => {
+  resolveIntro = resolve;
+});
+export const whenIntroDone = () => introDone;
+export const finishIntro = () => resolveIntro();
 
 // A random stand-in for char: same width group, from the text's own letters when it has
 // some (pool is an array of letters), and the same case when possible

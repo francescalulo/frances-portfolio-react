@@ -1,0 +1,177 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+// Full-screen overlay above everything (the page renders underneath)
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200; // above the scroll cue (50) and the mobile menu (100)
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none; // clicks are caught on window (skip), not blocked here
+
+  // The background: its own layer, so it can fade while the logo flies on top
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: $color-canvas;
+    background-image: $gradient-hero;
+    transition: opacity 0.5s ease;
+  }
+
+  &.is-fly::before,
+  &.is-skip::before {
+    opacity: 0;
+  }
+
+  &.is-skip {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+}
+
+// The name and the logo share one spot in the middle, at one font size, so the
+// logo (sized in em) lines up with the typed braces
+.preloader__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  font-size: clamp(2.5rem, 1.25rem + 5vw, 4.5rem);
+}
+
+// The real line and its two glitch copies, stacked in one spot
+.preloader__line {
+  grid-area: 1 / 1;
+  display: grid;
+  isolation: isolate; // the copies only blend with the line
+  transition: opacity 0.25s ease;
+
+  .is-mark &,
+  .is-fly & {
+    opacity: 0;
+  }
+}
+
+// Set in the logo's font (Inter ExtraBold Italic)
+.preloader__text {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: baseline;
+  margin: 0;
+  font-family: $font-logo;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 800; // ExtraBold, like the logo
+  letter-spacing: $tracking-tight;
+  white-space: nowrap;
+  color: $color-text;
+}
+
+// Glitch copies: the whole line in one colour, lightened onto the real line (screen),
+// so they only show where they're pushed out of line (like the About photo)
+.preloader__text--pink,
+.preloader__text--blue {
+  opacity: 0;
+  mix-blend-mode: screen;
+
+  .preloader__brace,
+  .preloader__char {
+    color: inherit;
+  }
+
+  .preloader__caret {
+    visibility: hidden;
+  }
+}
+
+.preloader__text--pink {
+  color: $color-syntax-pink;
+
+  .is-glitching > & {
+    animation: glitch-split-pink 0.45s steps(1, end);
+  }
+}
+
+.preloader__text--blue {
+  color: $color-syntax-blue;
+
+  .is-glitching > & {
+    animation: glitch-split-blue 0.45s steps(1, end);
+  }
+}
+
+.is-glitching
+  > .preloader__text:not(.preloader__text--pink, .preloader__text--blue) {
+  animation: glitch-jolt 0.45s steps(1, end);
+}
+
+// Braces in the logo's green, so "{f}" turns into the logo without a jump
+.preloader__brace {
+  color: $color-logo;
+}
+
+// The cursor and wrong letters: a zero-width box, so they overlap the space the next
+// letters will fill instead of pushing the line (like the hero)
+.preloader__cursor {
+  display: inline-block;
+  width: 0;
+  white-space: nowrap;
+
+  .preloader:not(.is-type) & {
+    display: none;
+  }
+}
+
+.preloader__typo {
+  opacity: 0.85;
+}
+
+// Blinking cursor while the name is typed (same cursor as the hero)
+.preloader__caret {
+  @include blinking-caret;
+}
+
+// A letter folding away: it fades and its space closes, so the brackets close in (and
+// open again when it comes back)
+.preloader__char {
+  display: inline-block;
+  // Just wider than the widest letter in the name (the C), so a letter starts folding
+  // the moment it's deleted and the brace keeps up with the cursor
+  max-width: 0.75em;
+  transition:
+    max-width 0.1s ease-out,
+    opacity 0.2s ease,
+    color 0.3s ease;
+
+  // Not typed yet: keeps its space, invisible
+  &.is-pending {
+    visibility: hidden;
+  }
+
+  &.is-gone {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  &.is-logo-f {
+    color: $color-logo;
+  }
+}
+
+// The {f} logo: appears as the last letter leaves, then flies to the header logo
+.preloader__mark {
+  grid-area: 1 / 1;
+  width: 1.35em; // its braces match the typed braces' height
+  height: auto;
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+
+  .is-mark &,
+  .is-fly & {
+    opacity: 1;
+  }
+}
