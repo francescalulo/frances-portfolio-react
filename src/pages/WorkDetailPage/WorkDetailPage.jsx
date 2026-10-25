@@ -96,6 +96,7 @@ function WorkDetailPage() {
       <SitePreview
         image={project.acf?.site_preview_image}
         embedUrl={project.acf?.site_preview_embed_url}
+        embedWidth={project.acf?.site_preview_embed_width}
         liveUrl={project.acf?.live_site_url}
         repoUrl={project.acf?.repo_url}
         title={title}

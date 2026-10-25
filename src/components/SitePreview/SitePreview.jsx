@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import BrowserFrame from "../BrowserFrame/BrowserFrame";
 import ACFImage from "../../utilities/ACFImage";
 import { safeUrl } from "../../utilities/Utilities";
@@ -14,7 +15,24 @@ function shortAddress(url) {
 // site. The screenshot's address bar links to the repo, the embed's to the live site.
 // The embed only loads https pages (my own sites, so no sandbox: they need their scripts
 // and storage, and sandbox with both allowed would add no protection).
-function SitePreview({ image, embedUrl, liveUrl, repoUrl, title }) {
+// embedWidth (ACF, optional): for a site not built for small screens (e.g. a game), the
+// width it needs. It's drawn at that width and scaled down to fit the frame.
+function SitePreview({ image, embedUrl, embedWidth, liveUrl, repoUrl, title }) {
+  const embedRef = useRef(null);
+  const [scale, setScale] = useState(1);
+  const siteWidth = Number(embedWidth) || 0;
+
+  // Scaled embed: fits the site's width into the frame, and refits when the frame resizes
+  useEffect(() => {
+    const screen = embedRef.current?.parentElement;
+    if (!siteWidth || !screen) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      setScale(Math.min(1, entry.contentRect.width / siteWidth));
+    });
+    observer.observe(screen);
+    return () => observer.disconnect();
+  }, [siteWidth]);
   const live = safeUrl(liveUrl);
   const repo = safeUrl(repoUrl);
   const embed = safeUrl(embedUrl);
@@ -63,9 +81,22 @@ function SitePreview({ image, embedUrl, liveUrl, repoUrl, title }) {
             linkLabel="Live site:"
           >
             <iframe
+              ref={embedRef}
               src={embed}
               title={"Live preview of " + title + " (scrollable)"}
-              className="site-preview__embed"
+              className={
+                siteWidth
+                  ? "site-preview__embed site-preview__embed--scaled"
+                  : "site-preview__embed"
+              }
+              style={
+                siteWidth
+                  ? {
+                      "--embed-width": siteWidth + "px",
+                      "--embed-scale": scale,
+                    }
+                  : undefined
+              }
               loading="lazy"
               referrerPolicy="no-referrer"
             />
